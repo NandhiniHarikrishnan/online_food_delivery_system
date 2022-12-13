@@ -31,17 +31,17 @@ public class Address {
     @NotNull
     private String streetName;
     @NotNull
-    private String cityName;
+    private String city;
     @NotNull
-    private String districtName;
+    private String district;
     @NotNull
-    private String stateName;
+    private String state;
     @NotNull
-    private String pinCode;
+    private int pinCode;
     @NotNull
-    private String phoneNumber;
-    @NotNull
+    private long phoneNumber;
+//    @NotNull
     private LocalDateTime createdAt;
-    @NotNull
-    private LocalDateTime modifiedAt;
+//    @NotNull
+    private LocalDateTime updatedAt;
 }

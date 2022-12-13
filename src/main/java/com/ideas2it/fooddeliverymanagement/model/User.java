@@ -35,11 +35,9 @@ public class User {
     @JoinColumn(name = "user_id" ,referencedColumnName = "id")
     private List<Address> addresses;
     @NotNull
-    private boolean isDeletedStatus;
-    @NotNull
     private LocalDateTime createdAt;
     @NotNull
-    private LocalDateTime modifiedAt;
+    private LocalDateTime updatedAt;
 
     @ManyToMany(fetch = FetchType.EAGER, targetEntity = Role.class, cascade = CascadeType.ALL)
     @JoinTable(name = "user_roles",
