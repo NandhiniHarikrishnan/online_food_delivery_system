@@ -20,11 +20,12 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 public class UserDTO {
-    private int userId;
+    private int id;
     @NotBlank(message = "User name should be mentioned")
     private String name;
     @NotBlank(message = "email should be mentioned")
     @Email(message = "invalid format")
     private String email;
     private List<AddressDTO> addresses;
+    private List<RoleDTO> roles;
 }
