@@ -1,31 +1,25 @@
 package com.ideas2it.fooddeliverymanagement.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 
 @Entity
-@Table(name = "restaurant")
-public class Restaurant {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+public class Restaurant extends BaseModel {
 
-    @Column(nullable = false)
+    @NotNull
     private String name;
 
-    @OneToMany(mappedBy = "restaurant")
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
     private List<RestaurantFood> restaurantFoods;
 
+    @NotNull
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "restaurant_id", referencedColumnName = "id")
+    private List<Address> addresses;
+
     public Restaurant() {
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -34,5 +28,21 @@ public class Restaurant {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<RestaurantFood> getRestaurantFoods() {
+        return restaurantFoods;
+    }
+
+    public void setRestaurantFoods(List<RestaurantFood> restaurantFoods) {
+        this.restaurantFoods = restaurantFoods;
+    }
+
+    public List<Address> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(List<Address> addresses) {
+        this.addresses = addresses;
     }
 }
