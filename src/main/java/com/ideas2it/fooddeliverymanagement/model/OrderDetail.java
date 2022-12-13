@@ -1,6 +1,5 @@
 package com.ideas2it.fooddeliverymanagement.model;
 
-
 import lombok.Getter;
 import lombok.Setter;
 

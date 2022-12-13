@@ -6,7 +6,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +29,6 @@ public class User extends BaseModel {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id" ,referencedColumnName = "id")
     private List<Address> addresses;
-
     @ManyToMany(fetch = FetchType.EAGER, targetEntity = Role.class, cascade = CascadeType.ALL)
     @JoinTable(name = "user_roles",
     joinColumns = { @JoinColumn(name = "user_id")},

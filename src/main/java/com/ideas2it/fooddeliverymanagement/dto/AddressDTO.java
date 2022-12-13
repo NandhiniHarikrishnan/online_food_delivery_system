@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
 
 /**
  * It's a DTO class that contains all the fields of the Address entity
@@ -29,8 +28,8 @@ public class AddressDTO {
 
     private String stateName;
 
-    private String pinCode;
+    private long pinCode;
 
-    private String phoneNumber;
+    private long phoneNumber;
 
 }

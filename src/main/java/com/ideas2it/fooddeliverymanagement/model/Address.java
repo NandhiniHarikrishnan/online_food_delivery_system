@@ -5,11 +5,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
+
 
 /**
  * The Address class is an entity class that has a primary key field named addressId.
@@ -33,6 +30,7 @@ public class Address extends BaseModel{
     @NotNull
     private String city;
 
+
     @NotNull
     private String district;
 
@@ -44,4 +42,5 @@ public class Address extends BaseModel{
 
     @NotNull
     private long phoneNumber;
+
 }
