@@ -3,6 +3,7 @@ package com.ideas2it.fooddeliverymanagement.model;
 import javax.persistence.*;
 import java.util.List;
 
+
 @Entity
 @Table(name = "restaurant")
 public class Restaurant {
