@@ -1,6 +1,7 @@
 package com.ideas2it.fooddeliverymanagement.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,13 +13,13 @@ import java.util.List;
  * @since - 2022-12-10
  */
 @Entity
-public class Role {
-    @Id
-    @GeneratedValue(strategy= GenerationType. IDENTITY)
-    private int id;
+public class Role extends BaseModel {
 
+    @NotNull
     private String name;
 
+    @NotNull
+    @Column(columnDefinition="varchar(20) unique")
     private String code;
 
     @ManyToMany(fetch = FetchType.EAGER, mappedBy = "roles", cascade=CascadeType.ALL)

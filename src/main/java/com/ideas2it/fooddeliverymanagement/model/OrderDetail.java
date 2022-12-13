@@ -1,16 +1,18 @@
 package com.ideas2it.fooddeliverymanagement.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+
 import lombok.Getter;
 import lombok.Setter;
+
+import javax.persistence.Entity;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Getter
 @Setter
-public class OrderDetail {
-    @Id
-    private int id;
+public class OrderDetail extends BaseModel {
+    @NotNull
     private float price;
-    private String quantity;
+    @NotNull
+    private int quantity;
 }
