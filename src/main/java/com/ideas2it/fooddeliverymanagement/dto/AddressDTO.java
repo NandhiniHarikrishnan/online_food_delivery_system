@@ -28,8 +28,8 @@ public class AddressDTO {
 
     private String stateName;
 
-    private String pinCode;
+    private long pinCode;
 
-    private String phoneNumber;
+    private long phoneNumber;
 
 }

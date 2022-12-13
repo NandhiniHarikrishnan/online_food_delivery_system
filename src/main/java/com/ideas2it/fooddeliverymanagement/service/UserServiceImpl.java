@@ -21,8 +21,6 @@ public class UserServiceImpl implements UserService{
     public Optional<UserDTO> addUser(UserDTO userDTO) {
 
         User user = userMapper.convertUser(userDTO);
-        user.setCreatedAt(LocalDateTime.now());
-        user.setUpdatedAt(LocalDateTime.now());
 
         return Optional.ofNullable(userMapper.convertUserDTO(userRepository.save(user)));
     }
