@@ -1,19 +1,16 @@
 package com.ideas2it.fooddeliverymanagement.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
-@Table(name = "category")
-public class Category {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
-    @Column(columnDefinition="varchar(20) unique", nullable = false)
+public class Category extends BaseModel {
+    @NotNull
+    @Column(columnDefinition = "varchar(20) unique")
     private String code;
 
-    @Column(nullable = false)
+    @NotNull
     private String name;
 
     @OneToMany(cascade = CascadeType.ALL)
@@ -21,14 +18,6 @@ public class Category {
     private List<Food> foods;
 
     public Category() {
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getCode() {

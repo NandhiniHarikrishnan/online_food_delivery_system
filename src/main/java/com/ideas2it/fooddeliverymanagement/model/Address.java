@@ -22,26 +22,26 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Address {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int addressId;
+public class Address extends BaseModel{
+
     @NotNull
     private String plotNumber;
+
     @NotNull
     private String streetName;
+
     @NotNull
-    private String cityName;
+    private String city;
+
     @NotNull
-    private String districtName;
+    private String district;
+
     @NotNull
-    private String stateName;
+    private String state;
+
     @NotNull
-    private String pinCode;
+    private long pinCode;
+
     @NotNull
-    private String phoneNumber;
-    @NotNull
-    private LocalDateTime createdAt;
-    @NotNull
-    private LocalDateTime modifiedAt;
+    private long phoneNumber;
 }
