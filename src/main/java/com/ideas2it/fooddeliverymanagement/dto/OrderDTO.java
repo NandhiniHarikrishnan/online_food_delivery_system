@@ -13,5 +13,5 @@ public class OrderDTO {
     private int id;
     private String status;
     private LocalDate dateOfOrder;
-    private List<OrderDetail> orderDetail;
+    private List<OrderDetailDTO> orderDetail;
 }
