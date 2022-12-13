@@ -1,14 +1,11 @@
 package com.ideas2it.fooddeliverymanagement.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "restaurant_food")
-public class RestaurantFood {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+public class RestaurantFood extends BaseModel {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Restaurant restaurant;
@@ -16,16 +13,8 @@ public class RestaurantFood {
     @ManyToOne(fetch = FetchType.LAZY)
     private Food food;
 
-    @Column(nullable = false)
+    @NotNull
     private float price;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public Restaurant getRestaurant() {
         return restaurant;

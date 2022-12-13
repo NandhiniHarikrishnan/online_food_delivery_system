@@ -21,11 +21,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-
-public class User {
-    @Id
-    @GeneratedValue(strategy= GenerationType. IDENTITY)
-    private int id;
+public class User extends BaseModel {
     @NotNull
     private String name;
     @NotNull
@@ -34,17 +30,10 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id" ,referencedColumnName = "id")
     private List<Address> addresses;
-    @NotNull
-    private boolean isDeletedStatus;
-    @NotNull
-    private LocalDateTime createdAt;
-    @NotNull
-    private LocalDateTime modifiedAt;
 
     @ManyToMany(fetch = FetchType.EAGER, targetEntity = Role.class, cascade = CascadeType.ALL)
     @JoinTable(name = "user_roles",
     joinColumns = { @JoinColumn(name = "user_id")},
-    inverseJoinColumns = { @JoinColumn(name = "role_id")}, uniqueConstraints =
-    @UniqueConstraint(columnNames={"user_id", "role_id"}))
+    inverseJoinColumns = { @JoinColumn(name = "role_id")})
     private List<Role> roles = new ArrayList<>();
 }
