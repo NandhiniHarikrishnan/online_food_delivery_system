@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
+
 @Entity
 public class Restaurant extends BaseModel {
 
