@@ -19,10 +19,10 @@ import java.util.stream.Collectors;
  * @author Naganandhini
  * @version 1.0 13-DEC-2022
  */
-@Component
+
 public class CategoryMapper {
-    @Autowired
-    private FoodMapper foodMapper;
+
+    private FoodMapper foodMapper = new FoodMapper();
 
     /**
      * <p>
