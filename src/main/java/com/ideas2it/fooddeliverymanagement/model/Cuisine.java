@@ -36,5 +36,13 @@ public class Cuisine extends BaseModel {
     public void setName(String name) {
         this.name = name;
     }
+
+    public List<Restaurant> getRestaurants() {
+        return restaurants;
+    }
+
+    public void setRestaurants(List<Restaurant> restaurants) {
+        this.restaurants = restaurants;
+    }
 }
 
