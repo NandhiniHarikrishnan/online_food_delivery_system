@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -17,14 +16,14 @@ import java.util.List;
 @AllArgsConstructor
 @Table(name = "food_order")
 public class Order extends BaseModel {
-    @NotNull
+
     private String status;
 
-    @NotNull
+
     private LocalDate dateOfOrder;
 
     @OneToMany(targetEntity = OrderDetail.class, cascade = CascadeType.ALL)
-    @JoinColumn(name = "order_id",referencedColumnName = "id")
+    @JoinColumn(name = "order_id")
     private List<OrderDetail> orderDetails;
 }
 
