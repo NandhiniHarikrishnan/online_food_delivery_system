@@ -3,6 +3,7 @@ package com.ideas2it.fooddeliverymanagement.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.SQLDelete;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -21,14 +22,17 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 public class User extends BaseModel {
+
     @NotNull
     private String name;
+
     @NotNull
     private String email;
-    @NotNull
+
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id" ,referencedColumnName = "id")
+    @JoinColumn(name = "user_id")
     private List<Address> addresses;
+
     @ManyToMany(fetch = FetchType.EAGER, targetEntity = Role.class, cascade = CascadeType.ALL)
     @JoinTable(name = "user_roles",
     joinColumns = { @JoinColumn(name = "user_id")},

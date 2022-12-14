@@ -20,6 +20,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 public class UserDTO {
+
     private int id;
     @NotBlank(message = "User name should be mentioned")
     private String name;

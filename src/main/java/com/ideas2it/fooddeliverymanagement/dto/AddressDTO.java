@@ -20,13 +20,13 @@ public class AddressDTO {
 
     private String plotNumber;
 
-    private String streetName;
+    private String street;
 
-    private String cityName;
+    private String city;
 
-    private String districtName;
+    private String district;
 
-    private String stateName;
+    private String state;
 
     private long pinCode;
 

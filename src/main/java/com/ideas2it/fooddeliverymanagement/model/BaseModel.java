@@ -18,12 +18,10 @@ public class BaseModel {
     @Column(name = "is_deleted", columnDefinition="tinyint(1) default false")
     private boolean isDeleted;
 
-    @NotNull
     @Column(name = "created_at", updatable = false)
     @CreationTimestamp
     private Date createdAt;
 
-    @NotNull
     @Column(name = "updated_at")
     @UpdateTimestamp
     private Date updatedAt;

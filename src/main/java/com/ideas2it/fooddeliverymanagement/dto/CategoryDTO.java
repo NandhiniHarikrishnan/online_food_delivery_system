@@ -1,6 +1,6 @@
 package com.ideas2it.fooddeliverymanagement.dto;
 
-import com.ideas2it.fooddeliverymanagement.model.Restaurant;
+import com.ideas2it.fooddeliverymanagement.model.Food;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,9 +10,10 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class CuisineDTO {
+public class CategoryDTO {
+
     private int id;
     private String code;
     private String name;
-    private List<RestaurantDTO> restaurantDTOs;
+    private List<FoodDTO> foods;
 }

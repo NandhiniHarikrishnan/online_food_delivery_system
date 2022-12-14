@@ -18,6 +18,7 @@ public class RestaurantController {
 
     @PostMapping("/")
     public ResponseEntity<RestaurantDTO> addRestaurant(@RequestBody RestaurantDTO restaurantDTO) {
+       System.out.println(restaurantDTO);
         return new ResponseEntity<>(restaurantService.createRestaurant(restaurantDTO), HttpStatus.CREATED);
     }
 }

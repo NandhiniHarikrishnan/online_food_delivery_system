@@ -23,7 +23,7 @@ public class UserMapper {
                 addresses.add(convertAddress(userAddress));
             }
         }
-
+        user.setId(userDTO.getId());
         user.setName(userDTO.getName());
         user.setEmail(userDTO.getEmail());
         user.setAddresses(addresses);
@@ -34,12 +34,13 @@ public class UserMapper {
     public Address convertAddress(AddressDTO addressDTO) {
         Address address = new Address();
 
-        address.setCity(addressDTO.getCityName());
+        address.setId(addressDTO.getAddressId());
+        address.setCity(addressDTO.getCity());
         address.setPinCode(addressDTO.getPinCode());
-        address.setDistrict(addressDTO.getDistrictName());
+        address.setDistrict(addressDTO.getDistrict());
         address.setPlotNumber(addressDTO.getPlotNumber());
-        address.setStreetName(addressDTO.getStreetName());
-        address.setState(addressDTO.getStateName());
+        address.setStreet(addressDTO.getStreet());
+        address.setState(addressDTO.getState());
         address.setPhoneNumber(addressDTO.getPhoneNumber());
 
         return address;
@@ -56,6 +57,7 @@ public class UserMapper {
             }
         }
 
+        userDTO.setId(user.getId());
         userDTO.setName(user.getName());
         userDTO.setEmail(user.getEmail());
         userDTO.setAddresses(addresses);
@@ -66,13 +68,14 @@ public class UserMapper {
     public AddressDTO convertAddressDTO(Address address){
         AddressDTO addressDTO = new AddressDTO();
 
-        addressDTO.setCityName(address.getCity());
-        addressDTO.setDistrictName(address.getDistrict());
+        addressDTO.setAddressId(address.getId());
+        addressDTO.setCity(address.getCity());
+        addressDTO.setDistrict(address.getDistrict());
         addressDTO.setPlotNumber(address.getPlotNumber());
         addressDTO.setPinCode(address.getPinCode());
         addressDTO.setPhoneNumber(address.getPhoneNumber());
-        addressDTO.setStateName(address.getState());
-        addressDTO.setStreetName(address.getStreetName());
+        addressDTO.setState(address.getState());
+        addressDTO.setStreet(address.getStreet());
 
         return addressDTO;
     }
