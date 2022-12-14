@@ -11,13 +11,15 @@ public class Restaurant extends BaseModel {
     @NotNull
     private String name;
 
-    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     private List<RestaurantFood> restaurantFoods;
 
-    @NotNull
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "restaurant_id", referencedColumnName = "id")
     private List<Address> addresses;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Cuisine cuisine;
 
     public Restaurant() {
     }
@@ -44,5 +46,13 @@ public class Restaurant extends BaseModel {
 
     public void setAddresses(List<Address> addresses) {
         this.addresses = addresses;
+    }
+
+    public Cuisine getCuisine() {
+        return cuisine;
+    }
+
+    public void setCuisine(Cuisine cuisine) {
+        this.cuisine = cuisine;
     }
 }
