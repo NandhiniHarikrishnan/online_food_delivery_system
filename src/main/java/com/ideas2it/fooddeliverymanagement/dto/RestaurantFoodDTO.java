@@ -12,7 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class RestaurantFoodDTO {
     private int id;
-    private Restaurant restaurant;
-    private Food food;
+    private RestaurantDTO restaurantDTO;
+    private FoodDTO foodDTO;
     private float price;
 }

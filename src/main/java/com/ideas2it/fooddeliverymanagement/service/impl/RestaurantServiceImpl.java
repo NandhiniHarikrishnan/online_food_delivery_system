@@ -14,6 +14,6 @@ public class RestaurantServiceImpl implements RestaurantService {
     RestaurantRepository restaurantRepository;
     RestaurantMapper restaurantMapper;
     public RestaurantDTO createRestaurant(RestaurantDTO restaurantDTO) {
-        return restaurantMapper.entityToDTO(restaurantRepository.save(restaurantMapper.DTOToEntity(restaurantDTO)));
+        return restaurantMapper.entityToDTO(restaurantRepository.save(restaurantMapper.dTOToEntity((restaurantDTO))));
     }
 }
