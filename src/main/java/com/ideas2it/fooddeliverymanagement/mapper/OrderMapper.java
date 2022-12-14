@@ -4,13 +4,16 @@ import com.ideas2it.fooddeliverymanagement.dto.OrderDTO;
 import com.ideas2it.fooddeliverymanagement.dto.OrderDetailDTO;
 import com.ideas2it.fooddeliverymanagement.model.Order;
 import com.ideas2it.fooddeliverymanagement.model.OrderDetail;
+import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class OrderMapper {
     public Order convertOrder(OrderDTO orderDTO) {
         Order order = new Order();
-        List<OrderDetail> orderDetails = null;
+        List<OrderDetail> orderDetails = new ArrayList<>();
         List<OrderDetailDTO> orders = orderDTO.getOrderDetail();
 
         if (!orders.isEmpty()) {
@@ -37,7 +40,7 @@ public class OrderMapper {
 
     public OrderDTO convertOrderDTO(Order order) {
         OrderDTO orderDTO = new OrderDTO();
-        List<OrderDetailDTO> orderDetailDTO = null;
+        List<OrderDetailDTO> orderDetailDTO = new ArrayList<>();
         List<OrderDetail> orderDetail = order.getOrderDetails();
 
         if (!orderDetail.isEmpty()) {
