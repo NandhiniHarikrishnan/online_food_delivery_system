@@ -23,7 +23,7 @@ public class UserMapper {
                 addresses.add(convertAddress(userAddress));
             }
         }
-
+        user.setId(userDTO.getId());
         user.setName(userDTO.getName());
         user.setEmail(userDTO.getEmail());
         user.setAddresses(addresses);
@@ -34,6 +34,7 @@ public class UserMapper {
     public Address convertAddress(AddressDTO addressDTO) {
         Address address = new Address();
 
+        address.setId(addressDTO.getAddressId());
         address.setCity(addressDTO.getCityName());
         address.setPinCode(addressDTO.getPinCode());
         address.setDistrict(addressDTO.getDistrictName());
@@ -56,6 +57,7 @@ public class UserMapper {
             }
         }
 
+        userDTO.setId(user.getId());
         userDTO.setName(user.getName());
         userDTO.setEmail(user.getEmail());
         userDTO.setAddresses(addresses);
@@ -66,6 +68,7 @@ public class UserMapper {
     public AddressDTO convertAddressDTO(Address address){
         AddressDTO addressDTO = new AddressDTO();
 
+        addressDTO.setAddressId(address.getId());
         addressDTO.setCityName(address.getCity());
         addressDTO.setDistrictName(address.getDistrict());
         addressDTO.setPlotNumber(address.getPlotNumber());
