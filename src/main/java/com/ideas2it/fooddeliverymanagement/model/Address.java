@@ -27,7 +27,7 @@ public class Address extends BaseModel{
     private String plotNumber;
 
     @NotNull
-    private String streetName;
+    private String street;
 
     @NotNull
     private String city;

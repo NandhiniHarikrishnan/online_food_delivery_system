@@ -37,8 +37,6 @@ public class UserServiceImpl implements UserService {
             return Optional.ofNullable((userMapper.convertUserDTO(user)));
         }
         return Optional.empty();
-
-
     }
 
     @Override

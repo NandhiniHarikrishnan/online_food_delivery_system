@@ -35,12 +35,12 @@ public class UserMapper {
         Address address = new Address();
 
         address.setId(addressDTO.getAddressId());
-        address.setCity(addressDTO.getCityName());
+        address.setCity(addressDTO.getCity());
         address.setPinCode(addressDTO.getPinCode());
-        address.setDistrict(addressDTO.getDistrictName());
+        address.setDistrict(addressDTO.getDistrict());
         address.setPlotNumber(addressDTO.getPlotNumber());
-        address.setStreetName(addressDTO.getStreetName());
-        address.setState(addressDTO.getStateName());
+        address.setStreet(addressDTO.getStreet());
+        address.setState(addressDTO.getState());
         address.setPhoneNumber(addressDTO.getPhoneNumber());
 
         return address;
@@ -69,13 +69,13 @@ public class UserMapper {
         AddressDTO addressDTO = new AddressDTO();
 
         addressDTO.setAddressId(address.getId());
-        addressDTO.setCityName(address.getCity());
-        addressDTO.setDistrictName(address.getDistrict());
+        addressDTO.setCity(address.getCity());
+        addressDTO.setDistrict(address.getDistrict());
         addressDTO.setPlotNumber(address.getPlotNumber());
         addressDTO.setPinCode(address.getPinCode());
         addressDTO.setPhoneNumber(address.getPhoneNumber());
-        addressDTO.setStateName(address.getState());
-        addressDTO.setStreetName(address.getStreetName());
+        addressDTO.setState(address.getState());
+        addressDTO.setStreet(address.getStreet());
 
         return addressDTO;
     }
