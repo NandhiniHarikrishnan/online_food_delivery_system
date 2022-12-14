@@ -5,5 +5,5 @@ import com.ideas2it.fooddeliverymanagement.model.Food;
 
 public interface FoodService {
 
-    Food saveFood(Food food);
+    Food addFood(Food food);
 }

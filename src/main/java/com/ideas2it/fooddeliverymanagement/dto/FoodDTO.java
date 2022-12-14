@@ -1,5 +1,7 @@
 package com.ideas2it.fooddeliverymanagement.dto;
 
+import com.ideas2it.fooddeliverymanagement.model.Category;
+import com.ideas2it.fooddeliverymanagement.model.OrderDetail;
 import com.ideas2it.fooddeliverymanagement.model.RestaurantFood;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,6 +17,8 @@ public class FoodDTO {
     private String name;
     private String description;
     private boolean isAvailable;
-    private float weight;
-    private List<RestaurantFood> restaurantFoods;
+    private String weight;
+    private List<RestaurantFoodDTO> restaurantFoods;
+    private List<OrderDetail> orderDetails;
+    private CategoryDTO category;
 }

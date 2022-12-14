@@ -13,13 +13,17 @@ public class Food extends BaseModel {
     private String description;
 
     @NotNull
-    @Column(name = "is_available", columnDefinition = "tinyint(1) default false")
+    @Column(name = "is_available", columnDefinition = "tinyint(1) default true")
     private boolean isAvailable;
 
     @NotNull
-    private float weight;
+    private String weight;
 
-    @OneToMany(mappedBy = "food", cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Category category;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "food_id", referencedColumnName = "id")
     private List<RestaurantFood> restaurantFoods;
 
     @OneToMany(cascade = CascadeType.ALL)
@@ -50,14 +54,14 @@ public class Food extends BaseModel {
     }
 
     public void setAvailable(boolean available) {
-        isAvailable = available;
+        this.isAvailable = available;
     }
 
-    public float getWeight() {
+    public String getWeight() {
         return weight;
     }
 
-    public void setWeight(float weight) {
+    public void setWeight(String weight) {
         this.weight = weight;
     }
 
@@ -65,8 +69,25 @@ public class Food extends BaseModel {
         return restaurantFoods;
     }
 
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public List<OrderDetail> getOrderDetails() {
+        return orderDetails;
+    }
+
+    public void setOrderDetails(List<OrderDetail> orderDetails) {
+        this.orderDetails = orderDetails;
+    }
+
     public void setRestaurantFoods(List<RestaurantFood> restaurantFoods) {
         this.restaurantFoods = restaurantFoods;
     }
+
 
 }
