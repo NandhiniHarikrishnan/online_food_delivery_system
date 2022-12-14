@@ -4,8 +4,6 @@ import com.ideas2it.fooddeliverymanagement.dto.CategoryDTO;
 import com.ideas2it.fooddeliverymanagement.dto.FoodDTO;
 import com.ideas2it.fooddeliverymanagement.model.Category;
 import com.ideas2it.fooddeliverymanagement.model.Food;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.function.Function;
