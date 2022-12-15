@@ -8,6 +8,7 @@ import com.ideas2it.fooddeliverymanagement.model.Address;
 import com.ideas2it.fooddeliverymanagement.model.Cuisine;
 import com.ideas2it.fooddeliverymanagement.model.Restaurant;
 import com.ideas2it.fooddeliverymanagement.model.RestaurantFood;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,25 +21,26 @@ import java.util.List;
  * @author Jeevanantham
  * @version 1.0 13-DEC-2022
  */
+
+@Component
 public class RestaurantMapper {
     private UserMapper userMapper = new UserMapper();
     private CuisineMapper cuisineMapper = new CuisineMapper();
 
-    public RestaurantDTO entityToDTO(Restaurant restaurant) {
+    public RestaurantDTO convertRestaurantDTO(Restaurant restaurant) {
         RestaurantDTO restaurantDTO = null;
-        List<Address> addresses = null;
+        List<Address> addresses;
         List<AddressDTO> addressDTOs = null;
-        List<RestaurantFood> restaurantFoods = null;
+        List<RestaurantFood> restaurantFoods;
         List<RestaurantFoodDTO> restaurantFoodDTOs = null;
-        Cuisine cuisine = null;
+        Cuisine cuisine;
         if (null != restaurant) {
             restaurantDTO = new RestaurantDTO();
             restaurantDTO.setId(restaurant.getId());
             restaurantDTO.setName(restaurant.getName());
             cuisine = restaurant.getCuisine();
             if (null != cuisine) {
-                cuisine.setRestaurants(null);
-                restaurantDTO.setCuisineDTO(cuisineMapper.entityToDTO(cuisine));
+                restaurantDTO.setCuisineDTO(cuisineMapper.convertCusineDTO(cuisine));
 
             }
             addresses = restaurant.getAddresses();
@@ -50,7 +52,7 @@ public class RestaurantMapper {
             restaurantFoods = restaurant.getRestaurantFoods();
             if (null != restaurantFoods) {
                 for (RestaurantFood restaurantFood : restaurantFoods) {
-                    restaurantFoodDTOs.add(convertEntityDTO(restaurantFood));
+                    restaurantFoodDTOs.add(convertRestaurantFoodDTO(restaurantFood));
                 }
             }
 
@@ -58,13 +60,13 @@ public class RestaurantMapper {
         return restaurantDTO;
     }
 
-    public Restaurant dTOToEntity(RestaurantDTO restaurantDTO) {
+    public Restaurant convertRestaurant(RestaurantDTO restaurantDTO) {
         Restaurant restaurant = null;
         List<Address> addresses = null;
-        List<AddressDTO> addressDTOs = null;
+        List<AddressDTO> addressDTOs;
         List<RestaurantFood> restaurantFoods = null;
-        List<RestaurantFoodDTO> restaurantFoodDTOs = null;
-        CuisineDTO cuisineDTO = null;
+        List<RestaurantFoodDTO> restaurantFoodDTOs;
+        CuisineDTO cuisineDTO;
         if (null != restaurantDTO) {
             restaurant = new Restaurant();
             restaurant.setId(restaurantDTO.getId());
@@ -72,8 +74,7 @@ public class RestaurantMapper {
 
             cuisineDTO = restaurantDTO.getCuisineDTO();
             if (null != cuisineDTO) {
-                cuisineDTO.setRestaurantDTOs(null);
-                restaurant.setCuisine(cuisineMapper.dtoToEntity(cuisineDTO));
+                restaurant.setCuisine(cuisineMapper.convertCuisine(cuisineDTO));
 
             }
 
@@ -86,31 +87,32 @@ public class RestaurantMapper {
             restaurantFoodDTOs = restaurantDTO.getRestaurantFoodDTOs();
             if (null != restaurantFoodDTOs) {
                 for (RestaurantFoodDTO restaurantFoodDTO : restaurantFoodDTOs) {
-                    restaurantFoods.add(convertEntity(restaurantFoodDTO));
+                    restaurantFoods.add(convertRestaurantFood(restaurantFoodDTO));
                 }
             }
         }
         return restaurant;
     }
 
-    public List<RestaurantDTO> convertIntoRestaurantsDTO(List<Restaurant> restaurants) {
-        List<RestaurantDTO> restaurantDto = new ArrayList<>();
-        for (Restaurant restaurant : restaurants) {
-            restaurantDto.add(entityToDTO(restaurant));
-        }
-        return restaurantDto;
-    }
-
-    public RestaurantFoodDTO convertEntityDTO(RestaurantFood restaurantFood) {
+    public RestaurantFoodDTO convertRestaurantFoodDTO(RestaurantFood restaurantFood) {
         RestaurantFoodDTO restaurantFoodDTO = new RestaurantFoodDTO();
+
         restaurantFoodDTO.setPrice(restaurantFood.getPrice());
         return restaurantFoodDTO;
     }
 
-    public RestaurantFood convertEntity(RestaurantFoodDTO restaurantFoodDTO) {
+    public RestaurantFood convertRestaurantFood(RestaurantFoodDTO restaurantFoodDTO) {
         RestaurantFood restaurantFood = new RestaurantFood();
         restaurantFood.setPrice(restaurantFoodDTO.getPrice());
         return restaurantFood;
+    }
+
+    public List<RestaurantDTO> convertIntoRestaurantsDTO(List<Restaurant> restaurants) {
+        List<RestaurantDTO> restaurantDto = new ArrayList<>();
+        for (Restaurant restaurant : restaurants) {
+            restaurantDto.add(convertRestaurantDTO(restaurant));
+        }
+        return restaurantDto;
     }
 }
 
@@ -125,16 +127,3 @@ public class RestaurantMapper {
 
 
 
-
-    /*private List<Restaurant> convertDTOToEntity(List<RestaurantDTO> restaurantDTOList) {
-        List<Restaurant> restaurants = new ArrayList<>();
-
-        for (RestaurantDTO restaurantDTO : restaurantDTOList) {
-            Restaurant restaurant = new Restaurant();
-            restaurant.setId(restaurantDTO.getId());
-            restaurant.setName(restaurantDTO.getName());
-            restaurant.setAddresses(restaurantDTO.getAddresses());
-            restaurant.setRestaurantFoods(restaurantDTO.getRestaurantFoods());
-        }
-        return restaurants;
-    }*/
