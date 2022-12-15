@@ -27,6 +27,9 @@ public class RestaurantMapper {
     private UserMapper userMapper = new UserMapper();
     private CuisineMapper cuisineMapper = new CuisineMapper();
 
+    private RestaurantFoodMapper restaurantFoodMapper = new RestaurantFoodMapper();
+
+
     public RestaurantDTO convertRestaurantDTO(Restaurant restaurant) {
         RestaurantDTO restaurantDTO = null;
         List<Address> addresses;
@@ -40,19 +43,22 @@ public class RestaurantMapper {
             restaurantDTO.setName(restaurant.getName());
             cuisine = restaurant.getCuisine();
             if (null != cuisine) {
+                cuisine.setRestaurants(null);
                 restaurantDTO.setCuisineDTO(cuisineMapper.convertCusineDTO(cuisine));
 
             }
             addresses = restaurant.getAddresses();
             if (null != addresses) {
                 for (Address address : addresses) {
+                    address.setRestaurant(null);
                     addressDTOs.add(userMapper.convertAddressDTO(address));
                 }
             }
             restaurantFoods = restaurant.getRestaurantFoods();
             if (null != restaurantFoods) {
                 for (RestaurantFood restaurantFood : restaurantFoods) {
-                    restaurantFoodDTOs.add(convertRestaurantFoodDTO(restaurantFood));
+                    restaurantFood.setRestaurant(null);
+                    restaurantFoodDTOs.add(restaurantFoodMapper.convertIntoDTO(restaurantFood));
                 }
             }
 
@@ -74,6 +80,7 @@ public class RestaurantMapper {
 
             cuisineDTO = restaurantDTO.getCuisineDTO();
             if (null != cuisineDTO) {
+                cuisineDTO.setRestaurantDTOs(null);
                 restaurant.setCuisine(cuisineMapper.convertCuisine(cuisineDTO));
 
             }
@@ -87,24 +94,12 @@ public class RestaurantMapper {
             restaurantFoodDTOs = restaurantDTO.getRestaurantFoodDTOs();
             if (null != restaurantFoodDTOs) {
                 for (RestaurantFoodDTO restaurantFoodDTO : restaurantFoodDTOs) {
-                    restaurantFoods.add(convertRestaurantFood(restaurantFoodDTO));
+                    restaurantFoodDTO.setRestaurantDTO(null);
+                    restaurantFoods.add(restaurantFoodMapper.convertIntoEntity(restaurantFoodDTO));
                 }
             }
         }
         return restaurant;
-    }
-
-    public RestaurantFoodDTO convertRestaurantFoodDTO(RestaurantFood restaurantFood) {
-        RestaurantFoodDTO restaurantFoodDTO = new RestaurantFoodDTO();
-
-        restaurantFoodDTO.setPrice(restaurantFood.getPrice());
-        return restaurantFoodDTO;
-    }
-
-    public RestaurantFood convertRestaurantFood(RestaurantFoodDTO restaurantFoodDTO) {
-        RestaurantFood restaurantFood = new RestaurantFood();
-        restaurantFood.setPrice(restaurantFoodDTO.getPrice());
-        return restaurantFood;
     }
 
     public List<RestaurantDTO> convertIntoRestaurantsDTO(List<Restaurant> restaurants) {

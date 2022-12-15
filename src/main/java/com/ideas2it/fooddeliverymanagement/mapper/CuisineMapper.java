@@ -6,6 +6,7 @@ import com.ideas2it.fooddeliverymanagement.model.Cuisine;
 import com.ideas2it.fooddeliverymanagement.model.Restaurant;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -69,6 +70,14 @@ public class CuisineMapper {
         }
 
         return cuisine;
+    }
+
+    public List<CuisineDTO> convertCuisinesDTO(List<Cuisine> cuisines) {
+        List<CuisineDTO> cuisinesDTO = new ArrayList<>();
+        for (Cuisine cuisine  : cuisines) {
+            cuisinesDTO.add(convertCusineDTO(cuisine));
+        }
+        return cuisinesDTO;
     }
 }
 
