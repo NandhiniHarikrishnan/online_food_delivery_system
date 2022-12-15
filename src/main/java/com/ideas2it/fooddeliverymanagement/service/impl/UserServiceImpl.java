@@ -1,5 +1,6 @@
 package com.ideas2it.fooddeliverymanagement.service.impl;
 
+import com.ideas2it.fooddeliverymanagement.dto.AddressDTO;
 import com.ideas2it.fooddeliverymanagement.dto.UserDTO;
 import com.ideas2it.fooddeliverymanagement.mapper.UserMapper;
 import com.ideas2it.fooddeliverymanagement.model.Address;
@@ -9,9 +10,8 @@ import com.ideas2it.fooddeliverymanagement.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,7 +19,6 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
-
     private final UserMapper userMapper = new UserMapper();
 
     @Override
@@ -30,24 +29,30 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<UserDTO> getUser(int userID) {
-        User user = userRepository.getUserById(userID);
+    public UserDTO getUser(int userID) {
+       Optional<User> user = userRepository.findById(userID);
 
-        if(user != null) {
-            return Optional.ofNullable((userMapper.convertUserDTO(user)));
+        if(user.isPresent()) {
+            return (userMapper.convertUserDTO(user.get()));
         }
-        return Optional.empty();
+        return null;
     }
 
     @Override
-    public void deleteUser(int userId) {
-        userRepository.deleteUserById(userId);
+    public Optional<UserDTO> deleteUser(int userId) {
+
+        if(userRepository.existsById(userId)) {
+                Optional<User> user = userRepository.findById(userId);
+                user.get().setDelete(true);
+                return Optional.ofNullable(userMapper.convertUserDTO(userRepository.save(user.get())));
+        }
+        return null;
     }
 
     @Override
     public List<UserDTO> getAllUsers() {
         List<UserDTO> userDTOS = new ArrayList<>();
-        List<User> users = userRepository.findAllActiveUsers();
+        List<User> users = userRepository.findAll();
 
         if (!users.isEmpty()) {
             users.forEach(user -> userDTOS.add(userMapper.convertUserDTO(user)));
@@ -57,8 +62,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateUser(UserDTO userDTO) {
-        userRepository.save(userMapper.convertUser(userDTO));
+    public Optional<UserDTO> updateUser(UserDTO userDTO)  {
+        List<Address> addresses = new ArrayList<>();
+        User user = userMapper.convertToUser(userDTO);
+
+        for (AddressDTO addressDTO : userDTO.getAddresses()) {
+            Address address = userMapper.convertAddress(addressDTO);
+            address.setUser(user);
+            addresses.add(address);
+        }
+        user.setAddresses(addresses);
+       return Optional.ofNullable(userMapper.convertUserDTO(userRepository.save(user)));
+
     }
 
     @Override
