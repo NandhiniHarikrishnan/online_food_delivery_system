@@ -1,7 +1,10 @@
 package com.ideas2it.fooddeliverymanagement.controller;
 
+import com.ideas2it.fooddeliverymanagement.dto.AddressDTO;
 import com.ideas2it.fooddeliverymanagement.dto.UserDTO;
+import com.ideas2it.fooddeliverymanagement.service.AddressService;
 import com.ideas2it.fooddeliverymanagement.service.UserService;
+import org.apache.tomcat.util.buf.UDecoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +20,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    AddressService addressService;
+
     @PostMapping("/")
     public ResponseEntity<String> addUser(@RequestBody UserDTO userDTO) {
         Optional<UserDTO> savedUser= userService.addUser(userDTO);
@@ -29,8 +35,8 @@ public class UserController {
 
     @GetMapping("/{userId}")
     public ResponseEntity<Object> getUser(@PathVariable("userId") int userId) {
-        Optional<UserDTO> user = userService.getUser(userId);
-        if (user.isPresent()) {
+        UserDTO user = userService.getUser(userId);
+        if (user != null) {
             return new ResponseEntity<>(user,HttpStatus.OK);
         }
         return new ResponseEntity<>("User Not Found",HttpStatus.NOT_FOUND);
@@ -41,8 +47,10 @@ public class UserController {
     public ResponseEntity<String> deleteUser(@PathVariable("userId") int userId) {
 
         if (userService.isExist(userId)) {
-            userService.deleteUser(userId);
-            return new ResponseEntity<>("ID" +userId + " deleted successfully",HttpStatus.OK);
+            Optional<UserDTO> userDTO = userService.deleteUser(userId);
+            if (userDTO.isPresent()) {
+                return new ResponseEntity<>("ID" + userId + " deleted successfully", HttpStatus.OK);
+            }
         }
         return new ResponseEntity<>("User Not found",HttpStatus.NOT_FOUND);
 
@@ -60,12 +68,33 @@ public class UserController {
 
     @PutMapping("/")
     public ResponseEntity<String> updateUser(@RequestBody UserDTO userDTO) {
+        Optional<UserDTO> updatedUser = userService.updateUser(userDTO);
 
-        if (userService.isExist(userDTO.getId())) {
-            userService.updateUser(userDTO);
+        if (updatedUser.isPresent()) {
             return new ResponseEntity<>("Updated successfully",HttpStatus.OK);
         } else {
             return new ResponseEntity<>("User Not Found", HttpStatus.NOT_FOUND);
         }
+    }
+
+    @PostMapping("/addAddress/{userId}")
+    public ResponseEntity<String> addAddress(@PathVariable int userId, @RequestBody AddressDTO addressDTO) {
+        Optional<AddressDTO> savedAddress = addressService.addAddress(addressDTO, userId);
+
+        if (savedAddress.isPresent()) {
+            return new ResponseEntity<>("Address Added Successfully", HttpStatus.OK);
+        }
+        return new ResponseEntity<>("Address Not Added",HttpStatus.UNPROCESSABLE_ENTITY);
+    }
+
+    @DeleteMapping("/deleteAddress/{userId}/{addressId}")
+    public ResponseEntity<String> deleteAddress(@PathVariable int userId, @PathVariable int addressId) {
+        Optional<AddressDTO> deletedAddress= addressService.deleteAddress(userId, addressId);
+
+        if (deletedAddress.isPresent()) {
+            return new ResponseEntity<>("Address deleted Successfully",HttpStatus.OK);
+        }
+        return new ResponseEntity<>("Address not found",HttpStatus.NOT_FOUND);
+
     }
 }

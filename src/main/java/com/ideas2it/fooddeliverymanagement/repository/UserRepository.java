@@ -13,16 +13,16 @@ import java.util.List;
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
 
-    @Modifying
-    @Transactional
-    @Query("update User set isDeleted = true where id = ?1")
-    void deleteUserById(@Param("userId") int userId);
+//    @Modifying
+//    @Transactional
+ //   @Query("update User set isDeleted = true where id = ?1")
+//    void deleteUserById(@Param("userId") int userId);
 
-    @Query("SELECT user FROM User user WHERE user.isDeleted = false")
-    List<User> findAllActiveUsers();
+   // @Query("SELECT user FROM User user WHERE user.isDeleted = false")
+//    List<User> findAllActiveUsers();
 
-    @Query("select user from User user where user.isDeleted = false and user.id = ?1")
-    User getUserById(@Param("userId") int userId);
+ //   @Query("select user from User user where user.isDeleted = false and user.id = ?1")
+//    User getUserById(@Param("userId") int userId);
 
 /*    @Query("select user from User user where user.isDeleted = false and user.id = ?1")
     boolean existsById(@Param("userId") int userId);*/

@@ -3,7 +3,11 @@ package com.ideas2it.fooddeliverymanagement.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -21,7 +25,8 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class User extends BaseModel {
+@Where(clause = "is_deleted = false")
+public class User extends BaseModel{
 
     @NotNull
     private String name;
@@ -30,7 +35,8 @@ public class User extends BaseModel {
     private String email;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id")
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @JoinColumn(name = "user_id" ,referencedColumnName = "id")
     private List<Address> addresses;
 
     @ManyToMany(fetch = FetchType.EAGER, targetEntity = Role.class, cascade = CascadeType.ALL)
@@ -38,4 +44,10 @@ public class User extends BaseModel {
     joinColumns = { @JoinColumn(name = "user_id")},
     inverseJoinColumns = { @JoinColumn(name = "role_id")})
     private List<Role> roles = new ArrayList<>();
+
+    @OneToMany
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @JoinColumn(name = "customer_Id", referencedColumnName ="id")
+    private List<Order> orders;
+
 }

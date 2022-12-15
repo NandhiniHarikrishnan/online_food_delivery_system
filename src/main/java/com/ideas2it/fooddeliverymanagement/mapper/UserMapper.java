@@ -11,6 +11,7 @@ import java.util.List;
 public class UserMapper {
 
     public User convertUser(UserDTO userDTO) {
+        System.out.println(userDTO);
         User user = new User();
         List<Address> addresses = new ArrayList<>();
 //        List<Role> userRole = null;
@@ -23,28 +24,15 @@ public class UserMapper {
                 addresses.add(convertAddress(userAddress));
             }
         }
+
         user.setId(userDTO.getId());
         user.setName(userDTO.getName());
         user.setEmail(userDTO.getEmail());
         user.setAddresses(addresses);
-
         return user;
     }
 
-    public Address convertAddress(AddressDTO addressDTO) {
-        Address address = new Address();
 
-        address.setId(addressDTO.getAddressId());
-        address.setCity(addressDTO.getCity());
-        address.setPinCode(addressDTO.getPinCode());
-        address.setDistrict(addressDTO.getDistrict());
-        address.setPlotNumber(addressDTO.getPlotNumber());
-        address.setStreet(addressDTO.getStreet());
-        address.setState(addressDTO.getState());
-        address.setPhoneNumber(addressDTO.getPhoneNumber());
-
-        return address;
-    }
 
     public UserDTO convertUserDTO(User user) {
         UserDTO userDTO = new UserDTO();
@@ -65,10 +53,10 @@ public class UserMapper {
         return userDTO;
     }
 
-    public AddressDTO convertAddressDTO(Address address){
+    public AddressDTO convertAddressDTO(Address address) {
         AddressDTO addressDTO = new AddressDTO();
 
-        addressDTO.setAddressId(address.getId());
+        addressDTO.setId(address.getId());
         addressDTO.setCity(address.getCity());
         addressDTO.setDistrict(address.getDistrict());
         addressDTO.setPlotNumber(address.getPlotNumber());
@@ -76,8 +64,33 @@ public class UserMapper {
         addressDTO.setPhoneNumber(address.getPhoneNumber());
         addressDTO.setState(address.getState());
         addressDTO.setStreet(address.getStreet());
-
         return addressDTO;
+    }
+
+    public User convertToUser(UserDTO userDTO) {
+        User user = new User();
+
+        if (user != null) {
+            user.setId(userDTO.getId());
+            user.setName(userDTO.getName());
+            user.setEmail(userDTO.getEmail());
+        }
+        return user;
+    }
+    public Address convertAddress(AddressDTO addressDTO) {
+        Address address = new Address();
+
+        if (addressDTO != null) {
+            address.setId(addressDTO.getId());
+            address.setCity(addressDTO.getCity());
+            address.setPinCode(addressDTO.getPinCode());
+            address.setDistrict(addressDTO.getDistrict());
+            address.setPlotNumber(addressDTO.getPlotNumber());
+            address.setStreet(addressDTO.getStreet());
+            address.setState(addressDTO.getState());
+            address.setPhoneNumber(addressDTO.getPhoneNumber());
+        }
+        return address;
     }
 }
 

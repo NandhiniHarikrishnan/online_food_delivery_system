@@ -9,14 +9,14 @@ public interface UserService {
 
     Optional<UserDTO> addUser(UserDTO userDTO);
 
-   Optional<UserDTO> getUser(int userID);
+   UserDTO getUser(int userID);
 
    boolean isExist(int userId);
 
-   void deleteUser(int userId);
+   Optional<UserDTO> deleteUser(int userId);
 
    List<UserDTO> getAllUsers();
 
-   void updateUser(UserDTO userDTO);
+   Optional<UserDTO> updateUser(UserDTO userDTO);
 
 }
