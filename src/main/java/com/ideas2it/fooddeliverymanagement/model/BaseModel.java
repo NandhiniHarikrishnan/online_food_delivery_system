@@ -14,7 +14,8 @@ public class BaseModel {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
-
+    
+    @NotNull
     private boolean isDeleted;
 
     @Column(name = "created_at", updatable = false)
