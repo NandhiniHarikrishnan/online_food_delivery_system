@@ -4,6 +4,7 @@ import com.ideas2it.fooddeliverymanagement.dto.CategoryDTO;
 import com.ideas2it.fooddeliverymanagement.dto.FoodDTO;
 import com.ideas2it.fooddeliverymanagement.model.Category;
 import com.ideas2it.fooddeliverymanagement.model.Food;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.function.Function;
@@ -20,7 +21,7 @@ import java.util.stream.Collectors;
 
 public class CategoryMapper {
 
-    private FoodMapper foodMapper = new FoodMapper();
+    private FoodMapper foodMapper;
 
     /**
      * <p>

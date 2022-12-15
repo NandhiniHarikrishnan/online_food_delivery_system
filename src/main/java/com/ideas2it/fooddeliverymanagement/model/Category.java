@@ -1,20 +1,23 @@
 package com.ideas2it.fooddeliverymanagement.model;
 
+import lombok.ToString;
+import org.hibernate.annotations.Where;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
+@Where(clause = "is_deleted = false")
 public class Category extends BaseModel {
-    @NotNull
-    @Column(columnDefinition = "varchar(20) unique")
+
+    @Column(columnDefinition = "varchar(20) unique", nullable = false)
     private String code;
 
     @NotNull
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "category_id", referencedColumnName = "id")
+    @OneToMany(mappedBy = "category",cascade = CascadeType.ALL)
     private List<Food> foods;
 
     public Category() {
@@ -43,4 +46,5 @@ public class Category extends BaseModel {
     public void setFoods(List<Food> foods) {
         this.foods = foods;
     }
+
 }

@@ -4,6 +4,7 @@ import com.ideas2it.fooddeliverymanagement.model.Food;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.List;
 
@@ -11,7 +12,6 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 public class CategoryDTO {
-
     private int id;
     private String code;
     private String name;
