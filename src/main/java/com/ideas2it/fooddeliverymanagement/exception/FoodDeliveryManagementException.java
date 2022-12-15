@@ -14,7 +14,7 @@ public class FoodDeliveryManagementException extends Exception {
 
     private HttpStatus status;
 
-    public FoodDeliveryManagementException(String message, String code, HttpStatus status) {
+    public FoodDeliveryManagementException(String message, HttpStatus status) {
         super(message);
         this.status = status;
     }
