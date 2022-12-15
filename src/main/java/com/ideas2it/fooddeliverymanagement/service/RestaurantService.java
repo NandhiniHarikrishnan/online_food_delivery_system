@@ -2,9 +2,11 @@ package com.ideas2it.fooddeliverymanagement.service;
 
 import com.ideas2it.fooddeliverymanagement.dto.CuisineDTO;
 import com.ideas2it.fooddeliverymanagement.dto.RestaurantDTO;
+
 import com.ideas2it.fooddeliverymanagement.exception.FoodDeliveryManagementException;
 
 import java.util.List;
+
 
 public interface RestaurantService {
      RestaurantDTO createRestaurant(RestaurantDTO restaurantDTO);

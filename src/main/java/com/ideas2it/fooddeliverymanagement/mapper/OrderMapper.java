@@ -25,43 +25,45 @@ public class OrderMapper {
         order.setStatus(orderDTO.getStatus());
         order.setDateOfOrder(orderDTO.getDateOfOrder());
         order.setOrderDetails(orderDetails);
-
         return order;
     }
 
     public OrderDetail convertOrderDetail(OrderDetailDTO orderDetailDTO) {
         OrderDetail orderDetail = new OrderDetail();
-
         orderDetail.setPrice(orderDetailDTO.getPrice());
         orderDetail.setQuantity(orderDetailDTO.getQuantity());
-
+        orderDetail.setFood(orderDetailDTO.getFood());
         return orderDetail;
     }
 
     public OrderDTO convertOrderDTO(Order order) {
         OrderDTO orderDTO = new OrderDTO();
-        List<OrderDetailDTO> orderDetailDTO = new ArrayList<>();
+        List<OrderDetailDTO> orderDetailDTOS = new ArrayList<>();
         List<OrderDetail> orderDetail = order.getOrderDetails();
 
         if (!orderDetail.isEmpty()) {
             for (OrderDetail orders : orderDetail) {
-                orderDetailDTO.add(convertOrderDetailDTO(orders));
+                orderDetailDTOS.add(convertOrderDetailDTO(orders));
             }
         }
-
+        orderDTO.setId(order.getId());
+        orderDTO.setCreatedAt(order.getCreatedAt());
+        orderDTO.setUpdatedAt(order.getUpdatedAt());
+        orderDTO.setDelete(order.isDeleted());
         orderDTO.setStatus(order.getStatus());
         orderDTO.setDateOfOrder(order.getDateOfOrder());
-        orderDTO.setOrderDetail(orderDetailDTO);
-
+        orderDTO.setOrderDetail(orderDetailDTOS);
         return orderDTO;
     }
 
-    public OrderDetailDTO convertOrderDetailDTO(OrderDetail orderDetail){
+    public OrderDetailDTO convertOrderDetailDTO(OrderDetail orderDetail) {
         OrderDetailDTO orderDetailDTO = new OrderDetailDTO();
-
+        orderDetailDTO.setId((orderDetail.getId()));
+        orderDetailDTO.setCreatedAt(orderDetail.getCreatedAt());
+        orderDetailDTO.setUpdatedAt(orderDetail.getUpdatedAt());
+        orderDetailDTO.setDelete(orderDetail.isDeleted());
         orderDetailDTO.setPrice(orderDetail.getPrice());
         orderDetailDTO.setQuantity(orderDetail.getQuantity());
-
         return orderDetailDTO;
     }
 }

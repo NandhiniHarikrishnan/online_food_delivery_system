@@ -1,6 +1,12 @@
 package com.ideas2it.fooddeliverymanagement.service;
 
 import com.ideas2it.fooddeliverymanagement.dto.OrderDTO;
+
+public interface OrderService {
+    public void assignOrder(OrderDTO orderDTO);
+    public OrderDTO DisplayOrderDetailsById(int orderId);
+}
+
 import com.ideas2it.fooddeliverymanagement.mapper.OrderMapper;
 import com.ideas2it.fooddeliverymanagement.repository.OrderRepository;
 import com.ideas2it.fooddeliverymanagement.repository.UserRepository;
