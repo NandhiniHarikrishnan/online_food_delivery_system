@@ -15,10 +15,6 @@ public class BaseModel {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
 
-<<<<<<< Updated upstream
-=======
-    @NotNull
->>>>>>> Stashed changes
     private boolean isDeleted;
 
     @Column(name = "created_at", updatable = false)
