@@ -4,6 +4,7 @@ import com.ideas2it.fooddeliverymanagement.dto.CuisineDTO;
 import com.ideas2it.fooddeliverymanagement.dto.RestaurantDTO;
 import com.ideas2it.fooddeliverymanagement.model.Cuisine;
 import com.ideas2it.fooddeliverymanagement.model.Restaurant;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.function.Function;
@@ -17,9 +18,10 @@ import java.util.stream.Collectors;
  * @author Jeevanantham
  * @version 1.0 14-DEC-2022
  */
+@Component
 public class CuisineMapper {
 
-    private RestaurantMapper restaurantMapper = new RestaurantMapper();
+    private RestaurantMapper restaurantMapper;
 
     /**
      * <p>
@@ -29,7 +31,7 @@ public class CuisineMapper {
      * @param cuisine - a category entity to be converted into DTO.
      * @return - a cuisine DTO.
      */
-    public CuisineDTO entityToDTO(Cuisine cuisine) {
+    public CuisineDTO convertCusineDTO(Cuisine cuisine) {
         List<Restaurant> restuarants = null;
         List<RestaurantDTO> restaurantsDTO = null;
         CuisineDTO cuisineDTO = new CuisineDTO();
@@ -41,7 +43,7 @@ public class CuisineMapper {
             if (null != restuarants) {
                 restaurantsDTO = restuarants.stream().map((Function<Restaurant, RestaurantDTO>) r -> {
                     r.setCuisine(null);
-                    return restaurantMapper.entityToDTO(r);
+                    return restaurantMapper.convertRestaurantDTO(r);
                 }).collect(Collectors.toList());
             }
             cuisineDTO.setRestaurantDTOs(restaurantsDTO);
@@ -49,7 +51,7 @@ public class CuisineMapper {
         return cuisineDTO;
     }
 
-    public Cuisine dtoToEntity(CuisineDTO cuisineDTO) {
+    public Cuisine convertCuisine(CuisineDTO cuisineDTO) {
         List<RestaurantDTO> restaurantsDTO = null;
         List<Restaurant> restuarants = null;
         Cuisine cuisine = new Cuisine();
@@ -60,7 +62,7 @@ public class CuisineMapper {
             if (null != restaurantsDTO) {
                 restuarants = restaurantsDTO.stream().map(r -> {
                     r.setCuisineDTO(null);
-                    return restaurantMapper.dTOToEntity(r);
+                    return restaurantMapper.convertRestaurant(r);
                 }).collect(Collectors.toList());
             }
             cuisine.setRestaurants(restuarants);

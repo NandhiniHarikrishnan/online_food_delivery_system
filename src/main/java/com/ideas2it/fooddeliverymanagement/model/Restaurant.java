@@ -12,6 +12,7 @@ public class Restaurant extends BaseModel {
     private String name;
 
     @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "restaurant_id", referencedColumnName = "id")
     private List<RestaurantFood> restaurantFoods;
 
     @OneToMany(cascade = CascadeType.ALL)

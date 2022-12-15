@@ -22,4 +22,10 @@ public class OrderServiceImpl implements OrderService {
         return orderMapper.convertOrderDTO(orderRepository.findById(orderId)
                 .orElse(null));
     }
+
+import java.util.List;
+
+public interface OrderServiceImpl {
+    public void assignOrder(OrderDTO orderDTO);
+    public OrderDTO DisplayOrderDetailsById(int orderId);
 }

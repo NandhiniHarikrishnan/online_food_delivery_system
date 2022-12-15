@@ -3,6 +3,7 @@ package com.ideas2it.fooddeliverymanagement.dto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 
 /**
@@ -16,7 +17,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class AddressDTO {
-    private int addressId;
+
+    private int id;
 
     private String plotNumber;
 
@@ -31,5 +33,7 @@ public class AddressDTO {
     private long pinCode;
 
     private long phoneNumber;
+
+    private RestaurantDTO restaurantDTO;
 
 }

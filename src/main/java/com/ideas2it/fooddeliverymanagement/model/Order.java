@@ -20,7 +20,7 @@ import java.util.List;
 public class Order extends BaseModel {
 
     private String status;
-
+    
     private LocalDate dateOfOrder;
 
     @OneToMany(targetEntity = OrderDetail.class, cascade = CascadeType.ALL)

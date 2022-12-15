@@ -3,9 +3,12 @@ package com.ideas2it.fooddeliverymanagement.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
@@ -21,6 +24,7 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 @NoArgsConstructor
+@Where(clause = "is_deleted = false")
 public class Address extends BaseModel{
 
     @NotNull
@@ -44,7 +48,11 @@ public class Address extends BaseModel{
     @NotNull
     private long phoneNumber;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
+    @ManyToOne
+    @JoinColumn(name = "restuarant_id")
+    private Restaurant restaurant;
 }

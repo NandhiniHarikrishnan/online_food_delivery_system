@@ -1,19 +1,19 @@
-package com.ideas2it.fooddeliverymanagement.dto;
+package com.ideas2it.fooddeliverymanagement.model;
 
-import com.ideas2it.fooddeliverymanagement.model.BaseModel;
-import com.ideas2it.fooddeliverymanagement.model.Food;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import javax.persistence.*;
 
+@Entity
 @Getter
 @Setter
 @Component
-public class OrderDetailDTO extends BaseModel {
-    private int id;
+public class OrderDetail extends BaseModel {
+
     private float price;
     private int quantity;
+    @ManyToOne(fetch = FetchType.LAZY)
     private Food food;
 }

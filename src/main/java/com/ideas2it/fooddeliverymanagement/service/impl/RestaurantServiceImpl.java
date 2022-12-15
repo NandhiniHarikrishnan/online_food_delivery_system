@@ -12,8 +12,9 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     @Autowired
     RestaurantRepository restaurantRepository;
+    @Autowired
     RestaurantMapper restaurantMapper;
     public RestaurantDTO createRestaurant(RestaurantDTO restaurantDTO) {
-        return restaurantMapper.entityToDTO(restaurantRepository.save(restaurantMapper.dTOToEntity((restaurantDTO))));
+        return restaurantMapper.convertRestaurantDTO(restaurantRepository.save(restaurantMapper.convertRestaurant((restaurantDTO))));
     }
 }
