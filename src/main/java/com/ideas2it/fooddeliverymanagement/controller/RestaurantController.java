@@ -42,4 +42,7 @@ public class RestaurantController {
     public ResponseEntity<RestaurantDTO> deleteRestaurantById(@PathVariable int id) {
         return new ResponseEntity<>(restaurantService.deleteRestaurantById(id), HttpStatus.OK);
     }
+     public  void search () {
+         System.out.println("hi");
+     }
 }
