@@ -25,7 +25,7 @@ public class Food extends BaseModel {
     @NotNull
     private String weight;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.MERGE)
     private Category category;
 
     @OneToMany(cascade = CascadeType.ALL)
@@ -83,11 +83,11 @@ public class Food extends BaseModel {
         this.category = category;
     }
 
-    public List<OrderDetail> getOrderDetails() {
+    public List<com.ideas2it.fooddeliverymanagement.model.OrderDetail> getOrderDetails() {
         return orderDetails;
     }
 
-    public void setOrderDetails(List<OrderDetail> orderDetails) {
+    public void setOrderDetails(List<com.ideas2it.fooddeliverymanagement.model.OrderDetail> orderDetails) {
         this.orderDetails = orderDetails;
     }
 

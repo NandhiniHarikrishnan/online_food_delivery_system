@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
  * @author Naganandhini
  * @version 1.0 13-DEC-2022
  */
-
+@Component
 public class CategoryMapper {
 
     private FoodMapper foodMapper;
@@ -41,12 +41,12 @@ public class CategoryMapper {
             categoryDTO.setName(category.getName());
             foods = category.getFoods();
             if(null != foods) {
-                foodsDTO = foods.stream().map((Function<Food, FoodDTO>) f -> {
+                foodsDTO = foods.stream().map(f -> {
                     f.setCategory(null);
                     return foodMapper.convertIntoDTO(f);
                 }).collect(Collectors.toList());
+                categoryDTO.setFoods(foodsDTO);
             }
-            categoryDTO.setFoods(foodsDTO);
         }
         return categoryDTO;
     }
@@ -73,8 +73,8 @@ public class CategoryMapper {
                     f.setCategory(null);
                     return foodMapper.convertIntoEntity(f);
                 }).collect(Collectors.toList());
+                category.setFoods(foods);
             }
-            category.setFoods(foods);
         }
         return category;
     }
