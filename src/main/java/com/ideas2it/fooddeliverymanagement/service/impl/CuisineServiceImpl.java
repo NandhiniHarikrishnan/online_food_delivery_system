@@ -1,6 +1,7 @@
 package com.ideas2it.fooddeliverymanagement.service.impl;
 
 import com.ideas2it.fooddeliverymanagement.dto.CuisineDTO;
+import com.ideas2it.fooddeliverymanagement.dto.RestaurantDTO;
 import com.ideas2it.fooddeliverymanagement.exception.FoodDeliveryManagementException;
 import com.ideas2it.fooddeliverymanagement.mapper.CuisineMapper;
 import com.ideas2it.fooddeliverymanagement.model.Cuisine;
@@ -13,6 +14,15 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * <p>
+ * This class is a service that provides access to the `Cuisine` entity
+ * </p>
+ *
+ * @author Jeevanantham
+ * @version 1.0 13-DEC-2022
+ */
+
 @Service
 public class CuisineServiceImpl implements CuisineService {
 
@@ -21,16 +31,27 @@ public class CuisineServiceImpl implements CuisineService {
     @Autowired
     CuisineMapper cuisineMapper;
 
+    /**
+     * {@inheritDoc}
+     */
     public CuisineDTO createCuisine(CuisineDTO cuisineDTO) {
         cuisineDTO.setCode(generateCode());
         return cuisineMapper.convertCuisineDTO(cuisineRepository.save(cuisineMapper.convertCuisine(cuisineDTO)));
     }
 
+    /**
+     * It generates a unique code for a cuisine
+     *
+     * @return A String
+     */
     public String generateCode() {
         long code = cuisineRepository.getCuisineCount();
-        return "CUI-"+ code;
+        return "CUI-"+ (++code);
     }
 
+    /**
+     *  {@inheritDoc}
+     */
     public List<CuisineDTO> getCuisines() throws FoodDeliveryManagementException {
         List<Cuisine> cuisines = cuisineRepository.findAll();
         if(cuisines.isEmpty()) {
@@ -39,6 +60,9 @@ public class CuisineServiceImpl implements CuisineService {
         return cuisineMapper.convertCuisinesDTO(cuisines);
     }
 
+    /**
+     *  {@inheritDoc}
+     */
     public CuisineDTO getCuisineById(int id) throws FoodDeliveryManagementException {
         Optional<Cuisine>  cuisine = cuisineRepository.findById(id);
         if(!cuisine.isPresent()) {
@@ -47,23 +71,30 @@ public class CuisineServiceImpl implements CuisineService {
         return cuisineMapper.convertCuisineDTO(cuisine.get());
     }
 
-    @Override
+    /**
+     *  {@inheritDoc}
+     */
     public CuisineDTO updateCuisineById(CuisineDTO cuisineDTO, int id) throws FoodDeliveryManagementException {
-        CuisineDTO existingCuisineDTO = null;
-        if(cuisineRepository.existsById(id)) {
-            existingCuisineDTO = getCuisineById(id);
-            if(null != existingCuisineDTO) {
-                existingCuisineDTO.setName(cuisineDTO.getName());
-                if (null != existingCuisineDTO.getRestaurantDTOs()) {
 
-                }
-            }
+        if(cuisineRepository.existsById(id)) {
+            CuisineDTO  existingCuisineDTO = getCuisineById(id);
+            existingCuisineDTO.setName(cuisineDTO.getName());
+            return cuisineMapper.convertCuisineDTO(
+                    cuisineRepository.save(cuisineMapper.convertCuisine(existingCuisineDTO)));
         }
-        return null;
+        else {
+            throw new FoodDeliveryManagementException("NOT_FOUND" + id, HttpStatus.NOT_FOUND);
+        }
     }
 
-    @Override
+    /**
+     *  {@inheritDoc}
+     */
     public String deleteCuisineById(int id) throws FoodDeliveryManagementException {
-        return null;
+       if (!cuisineRepository.existsById(id)){
+           throw new FoodDeliveryManagementException("NOT_FOUND"+ id, HttpStatus.NOT_FOUND);
+       }
+        cuisineRepository.deleteById(id);
+        return "SuccessFull Deleted given Id" +id;
     }
 }

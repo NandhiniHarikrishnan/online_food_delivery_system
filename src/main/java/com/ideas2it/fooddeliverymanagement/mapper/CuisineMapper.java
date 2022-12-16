@@ -22,17 +22,15 @@ import java.util.stream.Collectors;
 @Component
 public class CuisineMapper {
 
-    private RestaurantMapper restaurantMapper;
-
     /**
-     * <p>
-     * To convert from entity to DTO for category
-     * </p>
+     * It converts a Cuisine object to a CuisineDTO object.
      *
-     * @param cuisine - a category entity to be converted into DTO.
-     * @return - a cuisine DTO.
+     * @param cuisine The Cuisine object that we want to convert to a CuisineDTO object.
+     * @return A CuisineDTO object
      */
-    public CuisineDTO convertCuisineDTO(Cuisine cuisine) {
+    public static CuisineDTO convertCuisineDTO(Cuisine cuisine) {
+        RestaurantMapper restaurantMapper = new RestaurantMapper();
+
         List<Restaurant> restaurants = null;
         List<RestaurantDTO> restaurantsDTO;
         CuisineDTO cuisineDTO = new CuisineDTO();
@@ -46,7 +44,7 @@ public class CuisineMapper {
                     r.setCuisine(null);
                     return restaurantMapper.convertRestaurantDTO(r);
                 }).collect(Collectors.toList());
-                cuisineDTO.setRestaurantDTOs(restaurantsDTO);
+                cuisineDTO.setRestaurantsDTO(restaurantsDTO);
             }
         }
         return cuisineDTO;
@@ -58,7 +56,9 @@ public class CuisineMapper {
      * @param cuisineDTO The DTO object that we want to convert to a Cuisine object.
      * @return A Cuisine object
      */
-    public Cuisine convertCuisine(CuisineDTO cuisineDTO) {
+    public static Cuisine convertCuisine(CuisineDTO cuisineDTO) {
+        RestaurantMapper restaurantMapper = new RestaurantMapper();
+
         List<RestaurantDTO> restaurantsDTO = null;
         List<Restaurant> restaurants ;
         Cuisine cuisine = new Cuisine();
@@ -83,7 +83,7 @@ public class CuisineMapper {
      * @param cuisines The list of cuisines to be converted.
      * @return A list of CuisineDTO objects.
      */
-    public List<CuisineDTO> convertCuisinesDTO(List<Cuisine> cuisines) {
+    public static List<CuisineDTO> convertCuisinesDTO(List<Cuisine> cuisines) {
         List<CuisineDTO> cuisinesDTO = new ArrayList<>();
         for (Cuisine cuisine  : cuisines) {
             cuisinesDTO.add(convertCuisineDTO(cuisine));

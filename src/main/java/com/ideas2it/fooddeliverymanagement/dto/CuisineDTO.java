@@ -10,9 +10,15 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
+/**
+ * A DTO class for Cuisine.
+ *
+ * @author Jeevanantham
+ * @version 1.0 13-DEC-2022
+ */
 public class CuisineDTO {
     private int id;
     private String code;
     private String name;
-    private List<RestaurantDTO> restaurantDTOs;
+    private List<RestaurantDTO> restaurantsDTO;
 }
