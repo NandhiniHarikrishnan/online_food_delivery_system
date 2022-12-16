@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -15,11 +16,11 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "food_order")
+@Component
 public class Order extends BaseModel {
 
     private String status;
-
-
+    
     private LocalDate dateOfOrder;
 
     @OneToMany(targetEntity = OrderDetail.class, cascade = CascadeType.ALL)

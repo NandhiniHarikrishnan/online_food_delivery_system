@@ -14,13 +14,12 @@ public class UserMapper {
         System.out.println(userDTO);
         User user = new User();
         List<Address> addresses = new ArrayList<>();
-//        List<Role> userRole = null;
-//        List<RoleDTO> roles = userDTO.getRoles();
         List<AddressDTO> userAddresses = userDTO.getAddresses();
 
 
         if (userAddresses != null) {
             for (AddressDTO userAddress : userAddresses) {
+                userAddress.setRestaurantDTO(null);
                 addresses.add(convertAddress(userAddress));
             }
         }
@@ -41,6 +40,7 @@ public class UserMapper {
 
         if (!userAddresses.isEmpty()) {
             for (Address address : userAddresses) {
+                address.setRestaurant(null);
                 addresses.add(convertAddressDTO(address));
             }
         }

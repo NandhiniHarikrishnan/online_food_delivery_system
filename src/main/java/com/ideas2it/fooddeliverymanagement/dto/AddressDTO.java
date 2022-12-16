@@ -34,4 +34,6 @@ public class AddressDTO {
 
     private long phoneNumber;
 
+    private RestaurantDTO restaurantDTO;
+
 }
