@@ -8,6 +8,7 @@ import com.ideas2it.fooddeliverymanagement.model.Address;
 import com.ideas2it.fooddeliverymanagement.model.Cuisine;
 import com.ideas2it.fooddeliverymanagement.model.Restaurant;
 import com.ideas2it.fooddeliverymanagement.model.RestaurantFood;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -25,11 +26,18 @@ import java.util.List;
 @Component
 public class RestaurantMapper {
     private UserMapper userMapper = new UserMapper();
-    private CuisineMapper cuisineMapper = new CuisineMapper();
+   @Autowired
+    private CuisineMapper cuisineMapper;
 
-    private RestaurantFoodMapper restaurantFoodMapper = new RestaurantFoodMapper();
+   @Autowired
+    private RestaurantFoodMapper restaurantFoodMapper;
 
-
+    /**
+     * It converts a Restaurant object into a RestaurantDTO object.
+     *
+     * @param restaurant The restaurant object that needs to be converted into a restaurantDTO object.
+     * @return A RestaurantDTO object
+     */
     public RestaurantDTO convertRestaurantDTO(Restaurant restaurant) {
         RestaurantDTO restaurantDTO = null;
         List<Address> addresses;
@@ -45,7 +53,6 @@ public class RestaurantMapper {
             if (null != cuisine) {
                 cuisine.setRestaurants(null);
                 restaurantDTO.setCuisineDTO(cuisineMapper.convertCusineDTO(cuisine));
-
             }
             addresses = restaurant.getAddresses();
             if (null != addresses) {
@@ -53,6 +60,7 @@ public class RestaurantMapper {
                     address.setRestaurant(null);
                     addressDTOs.add(userMapper.convertAddressDTO(address));
                 }
+                restaurantDTO.setAddressesDTO(addressDTOs);
             }
             restaurantFoods = restaurant.getRestaurantFoods();
             if (null != restaurantFoods) {
@@ -60,12 +68,18 @@ public class RestaurantMapper {
                     restaurantFood.setRestaurant(null);
                     restaurantFoodDTOs.add(restaurantFoodMapper.convertIntoDTO(restaurantFood));
                 }
+                restaurantDTO.setRestaurantFoodDTOs(restaurantFoodDTOs);
             }
-
         }
         return restaurantDTO;
     }
 
+    /**
+     * It converts a RestaurantDTO object into a Restaurant object
+     *
+     * @param restaurantDTO The DTO object that we want to convert into an entity object.
+     * @return A Restaurant object
+     */
     public Restaurant convertRestaurant(RestaurantDTO restaurantDTO) {
         Restaurant restaurant = null;
         List<Address> addresses = null;
@@ -82,14 +96,13 @@ public class RestaurantMapper {
             if (null != cuisineDTO) {
                 cuisineDTO.setRestaurantDTOs(null);
                 restaurant.setCuisine(cuisineMapper.convertCuisine(cuisineDTO));
-
             }
-
             addressDTOs = restaurantDTO.getAddressesDTO();
             if (null != addressDTOs) {
                 for (AddressDTO addressDTO : addressDTOs) {
                     addresses.add(userMapper.convertAddress(addressDTO));
                 }
+                restaurant.setAddresses(addresses);
             }
             restaurantFoodDTOs = restaurantDTO.getRestaurantFoodDTOs();
             if (null != restaurantFoodDTOs) {
@@ -97,11 +110,18 @@ public class RestaurantMapper {
                     restaurantFoodDTO.setRestaurantDTO(null);
                     restaurantFoods.add(restaurantFoodMapper.convertIntoEntity(restaurantFoodDTO));
                 }
+                restaurant.setRestaurantFoods(restaurantFoods);
             }
         }
         return restaurant;
     }
 
+    /**
+     * > This function converts a list of restaurants into a list of restaurant DTOs
+     *
+     * @param restaurants The list of restaurants that we want to convert into a list of RestaurantDTOs.
+     * @return A list of RestaurantDTO objects.
+     */
     public List<RestaurantDTO> convertIntoRestaurantsDTO(List<Restaurant> restaurants) {
         List<RestaurantDTO> restaurantDto = new ArrayList<>();
         for (Restaurant restaurant : restaurants) {
