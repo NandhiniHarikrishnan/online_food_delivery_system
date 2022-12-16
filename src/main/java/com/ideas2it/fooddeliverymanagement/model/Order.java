@@ -13,16 +13,10 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "food_order")
-@Component
 public class Order extends BaseModel {
-
     private String status;
-    
     private LocalDate dateOfOrder;
-
     @OneToMany(targetEntity = OrderDetail.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "order_id")
     private List<OrderDetail> orderDetails;
