@@ -13,18 +13,14 @@ public class OrderServiceImpl implements OrderService {
     private OrderRepository orderRepository;
     @Autowired
     private OrderMapper orderMapper;
+
     @Override
     public void assignOrder(OrderDTO orderDTO) {
-       orderRepository.save(orderMapper.convertOrder(orderDTO));
+        orderRepository.save(orderMapper.convertOrder(orderDTO));
     }
+
     @Override
     public OrderDTO DisplayOrderDetailsById(int orderId) {
         return orderMapper.convertOrderDTO(orderRepository.findById(orderId).get());
     }
-
-import java.util.List;
-
-public interface OrderServiceImpl {
-    public void assignOrder(OrderDTO orderDTO);
-    public OrderDTO DisplayOrderDetailsById(int orderId);
 }
