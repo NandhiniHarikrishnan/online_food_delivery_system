@@ -7,7 +7,7 @@ import lombok.ToString;
 
 
 /**
- * It's a DTO class that contains all the fields of the Address entity
+ * Contains all the fields of the Address entity
  *
  * @author - dilip.n
  * @version - 1.0
@@ -33,6 +33,8 @@ public class AddressDTO {
     private long pinCode;
 
     private long phoneNumber;
+
+    private UserDTO user;
 
     private RestaurantDTO restaurantDTO;
 
