@@ -4,6 +4,7 @@ import com.ideas2it.fooddeliverymanagement.dto.OrderDTO;
 import com.ideas2it.fooddeliverymanagement.dto.OrderDetailDTO;
 import com.ideas2it.fooddeliverymanagement.model.Order;
 import com.ideas2it.fooddeliverymanagement.model.OrderDetail;
+import com.ideas2it.fooddeliverymanagement.model.RestaurantFood;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -30,10 +31,17 @@ public class OrderMapper {
 
     public OrderDetail convertOrderDetail(OrderDetailDTO orderDetailDTO) {
         OrderDetail orderDetail = new OrderDetail();
+        RestaurantFood restaurantFood = new RestaurantFood();
         orderDetail.setPrice(orderDetailDTO.getPrice());
+        getPrice(restaurantFood);
         orderDetail.setQuantity(orderDetailDTO.getQuantity());
         orderDetail.setFood(orderDetailDTO.getFood());
         return orderDetail;
+    }
+
+    public void getPrice(RestaurantFood restaurantFood) {
+        OrderDetail orderDetail = new OrderDetail();
+        orderDetail.setPrice(restaurantFood.getPrice());
     }
 
     public OrderDTO convertOrderDTO(Order order) {
@@ -47,9 +55,6 @@ public class OrderMapper {
             }
         }
         orderDTO.setId(order.getId());
-        orderDTO.setCreatedAt(order.getCreatedAt());
-        orderDTO.setUpdatedAt(order.getUpdatedAt());
-        orderDTO.setDelete(order.isDeleted());
         orderDTO.setStatus(order.getStatus());
         orderDTO.setDateOfOrder(order.getDateOfOrder());
         orderDTO.setOrderDetail(orderDetailDTOS);
@@ -59,9 +64,6 @@ public class OrderMapper {
     public OrderDetailDTO convertOrderDetailDTO(OrderDetail orderDetail) {
         OrderDetailDTO orderDetailDTO = new OrderDetailDTO();
         orderDetailDTO.setId((orderDetail.getId()));
-        orderDetailDTO.setCreatedAt(orderDetail.getCreatedAt());
-        orderDetailDTO.setUpdatedAt(orderDetail.getUpdatedAt());
-        orderDetailDTO.setDelete(orderDetail.isDeleted());
         orderDetailDTO.setPrice(orderDetail.getPrice());
         orderDetailDTO.setQuantity(orderDetail.getQuantity());
         return orderDetailDTO;
