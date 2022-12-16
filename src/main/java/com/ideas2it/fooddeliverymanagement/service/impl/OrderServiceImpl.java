@@ -19,8 +19,7 @@ public class OrderServiceImpl implements OrderService {
     }
     @Override
     public OrderDTO DisplayOrderDetailsById(int orderId) {
-        return orderMapper.convertOrderDTO(orderRepository.findById(orderId)
-                .orElse(null));
+        return orderMapper.convertOrderDTO(orderRepository.findById(orderId).get());
     }
 
 import java.util.List;

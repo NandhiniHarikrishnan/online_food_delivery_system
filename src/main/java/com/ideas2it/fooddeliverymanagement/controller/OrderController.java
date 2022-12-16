@@ -23,9 +23,7 @@ public class OrderController {
     @PutMapping("/assignOrder")
     public ResponseEntity<String> assignOrders(@RequestBody OrderDTO orderDTO) {
         orderServiceImpl.assignOrder(orderDTO);
-        return new ResponseEntity<String>(HttpStatus.CREATED);
-    public void assignOrders(@RequestBody OrderDTO orderDTO) {
-        orderServiceImpl.assignOrder(orderDTO);
+        return new ResponseEntity<String>("order placed!",HttpStatus.CREATED);
     }
 
     @GetMapping("/orderDetails/{id}")
