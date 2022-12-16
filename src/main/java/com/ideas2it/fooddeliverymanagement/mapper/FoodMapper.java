@@ -20,9 +20,13 @@ import java.util.stream.Collectors;
  * @author Naganandhini
  * @version 1.0 13-DEC-2022
  */
+@Component
 public class FoodMapper {
 
+    @Autowired
     private CategoryMapper categoryMapper;
+
+    private RestaurantFoodMapper restaurantFoodMapper;
 
     /**
      * <p>
@@ -46,19 +50,16 @@ public class FoodMapper {
             category = food.getCategory();
             if (null != category) {
                 category.setFoods(null);
+                foodDTO.setCategory(categoryMapper.convertIntoDTO(category));
             }
-            foodDTO.setCategory(categoryMapper.convertIntoDTO(category));
             restaurantFoods = food.getRestaurantFoods();
             if(null != restaurantFoods) {
                 restaurantFoodsDTO = restaurantFoods.stream().map(r -> {
                     r.setFood(null);
-                    RestaurantFoodDTO rDTO = new RestaurantFoodDTO();
-                    //need to add restaurant DTO
-                    rDTO.setPrice(r.getPrice());
-                    return rDTO;
+                    return restaurantFoodMapper.convertIntoDTO(r);
                 }).collect(Collectors.toList());
+                foodDTO.setRestaurantFoods(restaurantFoodsDTO);
             }
-            foodDTO.setRestaurantFoods(restaurantFoodsDTO);
         }
         return foodDTO;
     }
@@ -85,18 +86,16 @@ public class FoodMapper {
             categoryDTO = foodDTO.getCategory();
             if (null != categoryDTO) {
                 categoryDTO.setFoods(null);
+                food.setCategory(categoryMapper.convertIntoEntity(categoryDTO));
             }
-            food.setCategory(categoryMapper.convertIntoEntity(categoryDTO));
             restaurantFoodsDTO = foodDTO.getRestaurantFoods();
             if(null != restaurantFoodsDTO) {
-                restaurantFoods = restaurantFoods.stream().map(rDTO -> {
-                    rDTO.setFood(null);
-                    RestaurantFood r = new RestaurantFood();
-                    r.setPrice(rDTO.getPrice());
-                    return r;
+                restaurantFoods = restaurantFoodsDTO.stream().map(rDTO -> {
+                    rDTO.setFoodDTO(null);
+                    return restaurantFoodMapper.convertIntoEntity(rDTO);
                 }).collect(Collectors.toList());
+                food.setRestaurantFoods(restaurantFoods);
             }
-            food.setRestaurantFoods(restaurantFoods);
         }
         return food;
     }

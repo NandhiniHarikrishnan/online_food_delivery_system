@@ -7,10 +7,10 @@ import javax.validation.constraints.NotNull;
 @Table(name = "restaurant_food")
 public class RestaurantFood extends BaseModel {
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     private Restaurant restaurant;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     private Food food;
 
     @NotNull

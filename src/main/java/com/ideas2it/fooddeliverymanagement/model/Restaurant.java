@@ -4,7 +4,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
-
 @Entity
 public class Restaurant extends BaseModel {
 
@@ -19,7 +18,7 @@ public class Restaurant extends BaseModel {
     @JoinColumn(name = "restaurant_id", referencedColumnName = "id")
     private List<Address> addresses;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     private Cuisine cuisine;
 
     public Restaurant() {

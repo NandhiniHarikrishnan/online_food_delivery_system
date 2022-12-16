@@ -7,6 +7,7 @@ import com.ideas2it.fooddeliverymanagement.model.Category;
 import com.ideas2it.fooddeliverymanagement.model.Food;
 import com.ideas2it.fooddeliverymanagement.model.Restaurant;
 import com.ideas2it.fooddeliverymanagement.model.RestaurantFood;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -17,6 +18,7 @@ public class RestaurantFoodMapper {
 
     private RestaurantMapper restaurantMapper;
 
+    @Autowired
     private FoodMapper foodMapper;
 
     /**
