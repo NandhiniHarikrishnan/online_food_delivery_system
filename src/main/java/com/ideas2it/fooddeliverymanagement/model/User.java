@@ -39,7 +39,7 @@ public class User extends BaseModel{
     @JoinColumn(name = "user_id" ,referencedColumnName = "id")
     private List<Address> addresses;
 
-    @ManyToMany(fetch = FetchType.EAGER, targetEntity = Role.class, cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(name = "user_roles",
     joinColumns = { @JoinColumn(name = "user_id")},
     inverseJoinColumns = { @JoinColumn(name = "role_id")})

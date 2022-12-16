@@ -1,61 +1,73 @@
 package com.ideas2it.fooddeliverymanagement.mapper;
 
 import com.ideas2it.fooddeliverymanagement.dto.AddressDTO;
+import com.ideas2it.fooddeliverymanagement.dto.RoleDTO;
 import com.ideas2it.fooddeliverymanagement.dto.UserDTO;
 import com.ideas2it.fooddeliverymanagement.model.Address;
+import com.ideas2it.fooddeliverymanagement.model.Role;
 import com.ideas2it.fooddeliverymanagement.model.User;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class UserMapper {
-
-    public User convertUser(UserDTO userDTO) {
-        System.out.println(userDTO);
-        User user = new User();
+    public static User convertUser(UserDTO userDTO) {
+        User user = convertToUser(userDTO);
         List<Address> addresses = new ArrayList<>();
-        List<AddressDTO> userAddresses = userDTO.getAddresses();
+        List<Role> roles = new ArrayList<>();
 
-
-        if (userAddresses != null) {
-            for (AddressDTO userAddress : userAddresses) {
+        if (userDTO.getAddresses() != null) {
+            for (AddressDTO userAddress : userDTO.getAddresses()) {
                 userAddress.setRestaurantDTO(null);
                 addresses.add(convertAddress(userAddress));
             }
         }
 
-        user.setId(userDTO.getId());
-        user.setName(userDTO.getName());
-        user.setEmail(userDTO.getEmail());
+        if (userDTO.getRoles() != null) {
+            for (RoleDTO roleDTO : userDTO.getRoles()) {
+                roleDTO.getUserDTOS().clear();
+                roles.add(convertToRole(roleDTO));
+            }
+        }
+        user.setRoles(roles);
         user.setAddresses(addresses);
         return user;
     }
 
-
-
-    public UserDTO convertUserDTO(User user) {
-        UserDTO userDTO = new UserDTO();
+    public static UserDTO convertUserDTO(User user) {
+        UserDTO userDTO = convertToUserDTO(user);
         List<AddressDTO> addresses = new ArrayList<>();
-        List<Address> userAddresses = user.getAddresses();
+        List<RoleDTO> roles = new ArrayList<>();
 
-        if (!userAddresses.isEmpty()) {
-            for (Address address : userAddresses) {
+        if (!user.getAddresses().isEmpty()) {
+            for (Address address : user.getAddresses()) {
                 address.setRestaurant(null);
+                address.setUser(null);
                 addresses.add(convertAddressDTO(address));
             }
         }
 
-        userDTO.setId(user.getId());
-        userDTO.setName(user.getName());
-        userDTO.setEmail(user.getEmail());
+        if (user.getRoles() != null) {
+            for (Role role : user.getRoles()) {
+                role.getUsers().clear();
+                roles.add(convertToRoleDTO(role));
+            }
+        }
+        userDTO.setRoles(roles);
         userDTO.setAddresses(addresses);
-
         return userDTO;
     }
 
-    public AddressDTO convertAddressDTO(Address address) {
+    public static AddressDTO convertAddressDTO(Address address) {
         AddressDTO addressDTO = new AddressDTO();
+        User user = address.getUser();
+        UserDTO userDTO = null;
 
+        if (user != null) {
+            userDTO = convertToUserDTO(user);
+        }
         addressDTO.setId(address.getId());
         addressDTO.setCity(address.getCity());
         addressDTO.setDistrict(address.getDistrict());
@@ -64,20 +76,30 @@ public class UserMapper {
         addressDTO.setPhoneNumber(address.getPhoneNumber());
         addressDTO.setState(address.getState());
         addressDTO.setStreet(address.getStreet());
+        addressDTO.setUser(userDTO);
+
         return addressDTO;
     }
 
-    public User convertToUser(UserDTO userDTO) {
+    public static User convertToUser(UserDTO userDTO) {
         User user = new User();
 
-        if (user != null) {
-            user.setId(userDTO.getId());
-            user.setName(userDTO.getName());
-            user.setEmail(userDTO.getEmail());
-        }
+        userDTO.setId(user.getId());
+        user.setId(userDTO.getId());
+        user.setName(userDTO.getName());
+        user.setEmail(userDTO.getEmail());
         return user;
     }
-    public Address convertAddress(AddressDTO addressDTO) {
+
+    public static UserDTO convertToUserDTO(User user) {
+        UserDTO userDTO = new UserDTO();
+
+        userDTO.setId(user.getId());
+        userDTO.setEmail(user.getEmail());
+        userDTO.setName(user.getName());
+        return userDTO;
+    }
+    public static Address convertAddress(AddressDTO addressDTO) {
         Address address = new Address();
 
         if (addressDTO != null) {
@@ -91,6 +113,32 @@ public class UserMapper {
             address.setPhoneNumber(addressDTO.getPhoneNumber());
         }
         return address;
+    }
+
+    public static Role convertToRole(RoleDTO roleDTO) {
+        Role role = new Role();
+
+        role.setId(roleDTO.getId());
+        role.setName(roleDTO.getName());
+        role.setCode(roleDTO.getCode());
+        return role;
+    }
+
+    public static RoleDTO convertToRoleDTO(Role role) {
+        RoleDTO roleDTO = new RoleDTO();
+        List<UserDTO> userDTOS = new ArrayList<>();
+
+        if (role.getUsers() != null) {
+            for (User user : role.getUsers()) {
+                userDTOS.add(convertToUserDTO(user));
+            }
+        }
+        roleDTO.setId(role.getId());
+        roleDTO.setName(role.getName());
+        roleDTO.setCode(role.getCode());
+        roleDTO.setUserDTOS(userDTOS);
+
+        return roleDTO;
     }
 }
 
