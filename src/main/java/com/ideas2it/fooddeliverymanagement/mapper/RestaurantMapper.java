@@ -52,7 +52,7 @@ public class RestaurantMapper {
             cuisine = restaurant.getCuisine();
             if (null != cuisine) {
                 cuisine.setRestaurants(null);
-                restaurantDTO.setCuisineDTO(cuisineMapper.convertCusineDTO(cuisine));
+                restaurantDTO.setCuisineDTO(cuisineMapper.convertCuisineDTO(cuisine));
             }
             addresses = restaurant.getAddresses();
             if (null != addresses) {
