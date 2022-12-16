@@ -23,7 +23,7 @@ public class CuisineServiceImpl implements CuisineService {
 
     public CuisineDTO createCuisine(CuisineDTO cuisineDTO) {
         cuisineDTO.setCode(generateCode());
-        return cuisineMapper.convertCusineDTO(cuisineRepository.save(cuisineMapper.convertCuisine(cuisineDTO)));
+        return cuisineMapper.convertCuisineDTO(cuisineRepository.save(cuisineMapper.convertCuisine(cuisineDTO)));
     }
 
     public String generateCode() {
@@ -44,7 +44,7 @@ public class CuisineServiceImpl implements CuisineService {
         if(!cuisine.isPresent()) {
             throw new FoodDeliveryManagementException(id + "NOT_FOUND", HttpStatus.NOT_FOUND);
         }
-        return cuisineMapper.convertCusineDTO(cuisine.get());
+        return cuisineMapper.convertCuisineDTO(cuisine.get());
     }
 
     @Override
