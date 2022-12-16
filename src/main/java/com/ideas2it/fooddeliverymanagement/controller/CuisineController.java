@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * > This class is a controller that handles requests for the `/cuisines` endpoint
+ */
 @RestController
 @RequestMapping("/cuisine")
 public class CuisineController {

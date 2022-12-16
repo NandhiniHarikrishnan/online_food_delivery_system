@@ -8,8 +8,6 @@ import com.ideas2it.fooddeliverymanagement.model.Address;
 import com.ideas2it.fooddeliverymanagement.model.Cuisine;
 import com.ideas2it.fooddeliverymanagement.model.Restaurant;
 import com.ideas2it.fooddeliverymanagement.model.RestaurantFood;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,14 +21,7 @@ import java.util.List;
  * @version 1.0 13-DEC-2022
  */
 
-@Component
 public class RestaurantMapper {
-    private UserMapper userMapper = new UserMapper();
-   @Autowired
-    private CuisineMapper cuisineMapper;
-
-   @Autowired
-    private RestaurantFoodMapper restaurantFoodMapper;
 
     /**
      * It converts a Restaurant object into a RestaurantDTO object.
@@ -38,12 +29,15 @@ public class RestaurantMapper {
      * @param restaurant The restaurant object that needs to be converted into a restaurantDTO object.
      * @return A RestaurantDTO object
      */
-    public RestaurantDTO convertRestaurantDTO(Restaurant restaurant) {
+    public static RestaurantDTO convertRestaurantDTO(Restaurant restaurant) {
+        CuisineMapper cuisineMapper = new CuisineMapper();
+        RestaurantFoodMapper restaurantFoodMapper = new RestaurantFoodMapper();
+
         RestaurantDTO restaurantDTO = null;
         List<Address> addresses;
-        List<AddressDTO> addressDTOs = null;
+        List<AddressDTO> addressDTOs = new ArrayList<>();
         List<RestaurantFood> restaurantFoods;
-        List<RestaurantFoodDTO> restaurantFoodDTOs = null;
+        List<RestaurantFoodDTO> restaurantFoodDTOs = new ArrayList<>();
         Cuisine cuisine;
         if (null != restaurant) {
             restaurantDTO = new RestaurantDTO();
@@ -52,13 +46,13 @@ public class RestaurantMapper {
             cuisine = restaurant.getCuisine();
             if (null != cuisine) {
                 cuisine.setRestaurants(null);
-                restaurantDTO.setCuisineDTO(cuisineMapper.convertCuisineDTO(cuisine));
+                restaurantDTO.setCuisineDTO(CuisineMapper.convertCuisineDTO(cuisine));
             }
             addresses = restaurant.getAddresses();
             if (null != addresses) {
                 for (Address address : addresses) {
                     address.setRestaurant(null);
-                    addressDTOs.add(userMapper.convertAddressDTO(address));
+                    addressDTOs.add(AddressMapper.convertAddressDTO(address));
                 }
                 restaurantDTO.setAddressesDTO(addressDTOs);
             }
@@ -80,13 +74,16 @@ public class RestaurantMapper {
      * @param restaurantDTO The DTO object that we want to convert into an entity object.
      * @return A Restaurant object
      */
-    public Restaurant convertRestaurant(RestaurantDTO restaurantDTO) {
+    public static Restaurant convertRestaurant(RestaurantDTO restaurantDTO) {
+        UserMapper userMapper = new UserMapper();
+        CuisineMapper cuisineMapper = new CuisineMapper();
+        RestaurantFoodMapper restaurantFoodMapper = new RestaurantFoodMapper();
         Restaurant restaurant = null;
-        List<Address> addresses = null;
         List<AddressDTO> addressDTOs;
-        List<RestaurantFood> restaurantFoods = null;
         List<RestaurantFoodDTO> restaurantFoodDTOs;
         CuisineDTO cuisineDTO;
+        List<Address> addresses = new ArrayList<>();
+        List<RestaurantFood> restaurantFoods = new ArrayList<>();
         if (null != restaurantDTO) {
             restaurant = new Restaurant();
             restaurant.setId(restaurantDTO.getId());
@@ -94,13 +91,13 @@ public class RestaurantMapper {
 
             cuisineDTO = restaurantDTO.getCuisineDTO();
             if (null != cuisineDTO) {
-                cuisineDTO.setRestaurantDTOs(null);
-                restaurant.setCuisine(cuisineMapper.convertCuisine(cuisineDTO));
+                cuisineDTO.setRestaurantsDTO(null);
+                restaurant.setCuisine(CuisineMapper.convertCuisine(cuisineDTO));
             }
             addressDTOs = restaurantDTO.getAddressesDTO();
             if (null != addressDTOs) {
                 for (AddressDTO addressDTO : addressDTOs) {
-                    addresses.add(userMapper.convertAddress(addressDTO));
+                    addresses.add(AddressMapper.convertAddress(addressDTO));
                 }
                 restaurant.setAddresses(addresses);
             }
@@ -122,7 +119,7 @@ public class RestaurantMapper {
      * @param restaurants The list of restaurants that we want to convert into a list of RestaurantDTOs.
      * @return A list of RestaurantDTO objects.
      */
-    public List<RestaurantDTO> convertIntoRestaurantsDTO(List<Restaurant> restaurants) {
+    public static List<RestaurantDTO> convertIntoRestaurantsDTO(List<Restaurant> restaurants) {
         List<RestaurantDTO> restaurantDto = new ArrayList<>();
         for (Restaurant restaurant : restaurants) {
             restaurantDto.add(convertRestaurantDTO(restaurant));
