@@ -1,10 +1,16 @@
 package com.ideas2it.fooddeliverymanagement.model;
 
+import lombok.ToString;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.Where;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
+@Where(clause = "is_deleted = false")
+@ToString
 public class Restaurant extends BaseModel {
 
     @NotNull
@@ -18,7 +24,8 @@ public class Restaurant extends BaseModel {
     @JoinColumn(name = "restaurant_id", referencedColumnName = "id")
     private List<Address> addresses;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Cuisine cuisine;
 
     public Restaurant() {

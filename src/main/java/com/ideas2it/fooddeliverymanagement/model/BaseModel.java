@@ -1,12 +1,9 @@
 package com.ideas2it.fooddeliverymanagement.model;
 
-import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 @MappedSuperclass
@@ -15,6 +12,7 @@ public class BaseModel {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
 
+    @Column(columnDefinition = "tinyint(1) default false")
     private boolean isDeleted;
 
     @Column(name = "created_at", updatable = false)

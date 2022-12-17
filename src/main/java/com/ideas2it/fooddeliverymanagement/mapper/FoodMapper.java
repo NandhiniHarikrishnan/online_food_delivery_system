@@ -23,11 +23,6 @@ import java.util.stream.Collectors;
 @Component
 public class FoodMapper {
 
-    @Autowired
-    private CategoryMapper categoryMapper;
-
-    private RestaurantFoodMapper restaurantFoodMapper;
-
     /**
      * <p>
      * To convert from entity to DTO for food
@@ -36,7 +31,7 @@ public class FoodMapper {
      * @param food - a food entity to be converted into DTO.
      * @return   - a food DTO.
      */
-    public FoodDTO convertIntoDTO(Food food) {
+    public static FoodDTO convertIntoDTO(Food food) {
         Category category;
         List<RestaurantFood> restaurantFoods;
         List<RestaurantFoodDTO> restaurantFoodsDTO = null;
@@ -50,13 +45,13 @@ public class FoodMapper {
             category = food.getCategory();
             if (null != category) {
                 category.setFoods(null);
-                foodDTO.setCategory(categoryMapper.convertIntoDTO(category));
+                foodDTO.setCategory(CategoryMapper.convertIntoDTO(category));
             }
             restaurantFoods = food.getRestaurantFoods();
             if(null != restaurantFoods) {
                 restaurantFoodsDTO = restaurantFoods.stream().map(r -> {
                     r.setFood(null);
-                    return restaurantFoodMapper.convertIntoDTO(r);
+                    return RestaurantFoodMapper.convertIntoDTO(r);
                 }).collect(Collectors.toList());
                 foodDTO.setRestaurantFoods(restaurantFoodsDTO);
             }
@@ -72,7 +67,7 @@ public class FoodMapper {
      * @param foodDTO -a food DTO to be converted into entity.
      * @return   - a food.
      */
-    public Food convertIntoEntity(FoodDTO foodDTO) {
+    public static Food convertIntoEntity(FoodDTO foodDTO) {
         CategoryDTO categoryDTO;
         List<RestaurantFood> restaurantFoods = null;
         List<RestaurantFoodDTO> restaurantFoodsDTO;
@@ -86,13 +81,13 @@ public class FoodMapper {
             categoryDTO = foodDTO.getCategory();
             if (null != categoryDTO) {
                 categoryDTO.setFoods(null);
-                food.setCategory(categoryMapper.convertIntoEntity(categoryDTO));
+                food.setCategory(CategoryMapper.convertIntoEntity(categoryDTO));
             }
             restaurantFoodsDTO = foodDTO.getRestaurantFoods();
             if(null != restaurantFoodsDTO) {
                 restaurantFoods = restaurantFoodsDTO.stream().map(rDTO -> {
                     rDTO.setFoodDTO(null);
-                    return restaurantFoodMapper.convertIntoEntity(rDTO);
+                    return RestaurantFoodMapper.convertIntoEntity(rDTO);
                 }).collect(Collectors.toList());
                 food.setRestaurantFoods(restaurantFoods);
             }
@@ -108,7 +103,7 @@ public class FoodMapper {
      * @param foods - the list of foods DTO to be converted into entity.
      * @return   - the list of foods DTO.
      */
-    public List<FoodDTO> convertIntoFoodsDTO(List<Food> foods) {
+    public static List<FoodDTO> convertIntoFoodsDTO(List<Food> foods) {
         List<FoodDTO> foodsDTO = null;
         if (null != foods) {
             foodsDTO = foods.stream().map(f -> convertIntoDTO(f)).collect(Collectors.toList());
