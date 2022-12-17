@@ -86,7 +86,7 @@ public class FoodMapper {
             restaurantFoodsDTO = foodDTO.getRestaurantFoods();
             if(null != restaurantFoodsDTO) {
                 restaurantFoods = restaurantFoodsDTO.stream().map(rDTO -> {
-                    rDTO.setFoodDTO(null);
+                    rDTO.setFood(null);
                     return RestaurantFoodMapper.convertIntoEntity(rDTO);
                 }).collect(Collectors.toList());
                 food.setRestaurantFoods(restaurantFoods);

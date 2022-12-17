@@ -30,7 +30,6 @@ public class RestaurantMapper {
      * @return A RestaurantDTO object
      */
     public static RestaurantDTO convertRestaurantDTO(Restaurant restaurant) {
-        CuisineMapper cuisineMapper = new CuisineMapper();
         RestaurantFoodMapper restaurantFoodMapper = new RestaurantFoodMapper();
 
         RestaurantDTO restaurantDTO = null;
@@ -46,7 +45,7 @@ public class RestaurantMapper {
             cuisine = restaurant.getCuisine();
             if (null != cuisine) {
                 cuisine.setRestaurants(null);
-                restaurantDTO.setCuisineDTO(CuisineMapper.convertCuisineDTO(cuisine));
+                restaurantDTO.setCuisine(CuisineMapper.convertCuisineDTO(cuisine));
             }
             addresses = restaurant.getAddresses();
             if (null != addresses) {
@@ -54,7 +53,7 @@ public class RestaurantMapper {
                     address.setRestaurant(null);
                     addressDTOs.add(AddressMapper.convertAddressDTO(address));
                 }
-                restaurantDTO.setAddressesDTO(addressDTOs);
+                restaurantDTO.setAddresses(addressDTOs);
             }
             restaurantFoods = restaurant.getRestaurantFoods();
             if (null != restaurantFoods) {
@@ -62,7 +61,7 @@ public class RestaurantMapper {
                     restaurantFood.setRestaurant(null);
                     restaurantFoodDTOs.add(restaurantFoodMapper.convertIntoDTO(restaurantFood));
                 }
-                restaurantDTO.setRestaurantFoodDTOs(restaurantFoodDTOs);
+                restaurantDTO.setRestaurantFoods(restaurantFoodDTOs);
             }
         }
         return restaurantDTO;
@@ -75,8 +74,6 @@ public class RestaurantMapper {
      * @return A Restaurant object
      */
     public static Restaurant convertRestaurant(RestaurantDTO restaurantDTO) {
-        UserMapper userMapper = new UserMapper();
-        CuisineMapper cuisineMapper = new CuisineMapper();
         RestaurantFoodMapper restaurantFoodMapper = new RestaurantFoodMapper();
         Restaurant restaurant = null;
         List<AddressDTO> addressDTOs;
@@ -89,22 +86,22 @@ public class RestaurantMapper {
             restaurant.setId(restaurantDTO.getId());
             restaurant.setName(restaurantDTO.getName());
 
-            cuisineDTO = restaurantDTO.getCuisineDTO();
+            cuisineDTO = restaurantDTO.getCuisine();
             if (null != cuisineDTO) {
-                cuisineDTO.setRestaurantsDTO(null);
+                cuisineDTO.setRestaurants(null);
                 restaurant.setCuisine(CuisineMapper.convertCuisine(cuisineDTO));
             }
-            addressDTOs = restaurantDTO.getAddressesDTO();
+            addressDTOs = restaurantDTO.getAddresses();
             if (null != addressDTOs) {
                 for (AddressDTO addressDTO : addressDTOs) {
                     addresses.add(AddressMapper.convertAddress(addressDTO));
                 }
                 restaurant.setAddresses(addresses);
             }
-            restaurantFoodDTOs = restaurantDTO.getRestaurantFoodDTOs();
+            restaurantFoodDTOs = restaurantDTO.getRestaurantFoods();
             if (null != restaurantFoodDTOs) {
                 for (RestaurantFoodDTO restaurantFoodDTO : restaurantFoodDTOs) {
-                    restaurantFoodDTO.setRestaurantDTO(null);
+                    restaurantFoodDTO.setRestaurant(null);
                     restaurantFoods.add(restaurantFoodMapper.convertIntoEntity(restaurantFoodDTO));
                 }
                 restaurant.setRestaurantFoods(restaurantFoods);

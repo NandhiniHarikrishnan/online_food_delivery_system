@@ -6,9 +6,6 @@ import com.ideas2it.fooddeliverymanagement.model.Address;
 import com.ideas2it.fooddeliverymanagement.model.Restaurant;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * <p>
  * Handles the converting process from entity to DTO for AddressMapper.
@@ -21,7 +18,6 @@ import java.util.List;
 public class AddressMapper {
     public static AddressDTO convertAddressDTO(Address address) {
         AddressDTO addressDTO = null;
-        List<RestaurantDTO> restaurantsDTO = null;
         Restaurant restaurant;
         if (null != address) {
             addressDTO = new AddressDTO();
@@ -46,7 +42,6 @@ public class AddressMapper {
     public static Address convertAddress(AddressDTO addressDTO) {
         Address address = null;
         RestaurantDTO restaurantDTO;
-        Restaurant restaurant;
         if (null != addressDTO) {
             address = new Address();
             address.setId(addressDTO.getId());
@@ -60,11 +55,10 @@ public class AddressMapper {
 
             restaurantDTO = addressDTO.getRestaurantDTO();
             if (null != restaurantDTO) {
-                restaurantDTO.setAddressesDTO(null);
+                restaurantDTO.setAddresses(null);
                 address.setRestaurant(RestaurantMapper.convertRestaurant(restaurantDTO));
             }
         }
         return address;
     }
-
 }

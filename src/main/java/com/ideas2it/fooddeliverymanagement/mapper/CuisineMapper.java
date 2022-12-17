@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -29,8 +28,6 @@ public class CuisineMapper {
      * @return A CuisineDTO object
      */
     public static CuisineDTO convertCuisineDTO(Cuisine cuisine) {
-        RestaurantMapper restaurantMapper = new RestaurantMapper();
-
         List<Restaurant> restaurants = null;
         List<RestaurantDTO> restaurantsDTO;
         CuisineDTO cuisineDTO = new CuisineDTO();
@@ -40,11 +37,11 @@ public class CuisineMapper {
             cuisineDTO.setName(cuisine.getName());
 
             if (null != restaurants) {
-                restaurantsDTO = restaurants.stream().map((Function<Restaurant, RestaurantDTO>) r -> {
+                restaurantsDTO = restaurants.stream().map(r -> {
                     r.setCuisine(null);
-                    return restaurantMapper.convertRestaurantDTO(r);
+                    return RestaurantMapper.convertRestaurantDTO(r);
                 }).collect(Collectors.toList());
-                cuisineDTO.setRestaurantsDTO(restaurantsDTO);
+                cuisineDTO.setRestaurants(restaurantsDTO);
             }
         }
         return cuisineDTO;
@@ -57,8 +54,6 @@ public class CuisineMapper {
      * @return A Cuisine object
      */
     public static Cuisine convertCuisine(CuisineDTO cuisineDTO) {
-        RestaurantMapper restaurantMapper = new RestaurantMapper();
-
         List<RestaurantDTO> restaurantsDTO = null;
         List<Restaurant> restaurants ;
         Cuisine cuisine = new Cuisine();
@@ -68,8 +63,8 @@ public class CuisineMapper {
             cuisine.setName(cuisineDTO.getName());
             if (null != restaurantsDTO) {
                 restaurants = restaurantsDTO.stream().map(r -> {
-                    r.setCuisineDTO(null);
-                    return restaurantMapper.convertRestaurant(r);
+                    r.setCuisine(null);
+                    return RestaurantMapper.convertRestaurant(r);
                 }).collect(Collectors.toList());
                 cuisine.setRestaurants(restaurants);
             }
