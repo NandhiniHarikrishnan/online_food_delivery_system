@@ -1,6 +1,7 @@
 package com.ideas2it.fooddeliverymanagement.repository;
 
 import com.ideas2it.fooddeliverymanagement.model.Cuisine;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -26,5 +27,4 @@ public interface CuisineRepository extends JpaRepository<Cuisine, Integer> {
     @Modifying
     @Query("update Cuisine set isDeleted = true where id = :id")
     void deleteById(@Param("id")int id);
-
 }

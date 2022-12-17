@@ -31,11 +31,11 @@ public class RestaurantFoodMapper {
             restaurantFoodDTO.setPrice(restaurantFood.getPrice());
             restaurant = restaurantFood.getRestaurant();
             if (null != restaurant) {
-                restaurantFoodDTO.setRestaurantDTO(RestaurantMapper.convertRestaurantDTO(restaurant));
+                restaurantFoodDTO.setRestaurant(RestaurantMapper.convertRestaurantDTO(restaurant));
             }
             food = restaurantFood.getFood();
             if (null != food) {
-                restaurantFoodDTO.setFoodDTO(FoodMapper.convertIntoDTO(food));
+                restaurantFoodDTO.setFood(FoodMapper.convertIntoDTO(food));
             }
         }
         return restaurantFoodDTO;
@@ -56,11 +56,11 @@ public class RestaurantFoodMapper {
         if (null != restaurantFoodDTO) {
             restaurantFood.setId(restaurantFoodDTO.getId());
             restaurantFood.setPrice(restaurantFoodDTO.getPrice());
-            restaurantDTO = restaurantFoodDTO.getRestaurantDTO();
+            restaurantDTO = restaurantFoodDTO.getRestaurant();
             if (null != restaurantDTO) {
                 restaurantFood.setRestaurant(RestaurantMapper.convertRestaurant(restaurantDTO));
             }
-            foodDTO = restaurantFoodDTO.getFoodDTO();
+            foodDTO = restaurantFoodDTO.getFood();
             if (null != foodDTO) {
                 restaurantFood.setFood(FoodMapper.convertIntoEntity(foodDTO));
             }

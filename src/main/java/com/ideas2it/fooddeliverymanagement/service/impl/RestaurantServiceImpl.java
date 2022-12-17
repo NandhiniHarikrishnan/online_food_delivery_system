@@ -79,22 +79,22 @@ public class RestaurantServiceImpl implements RestaurantService {
             RestaurantDTO existingRestaurant = RestaurantMapper.convertRestaurantDTO(restaurantRepository.findById(id).get());
             if (null != existingRestaurant) {
                 existingRestaurant.setName(restaurantDTO.getName());
-                List<RestaurantFoodDTO> restaurantFoodsDTO = restaurantDTO.getRestaurantFoodDTOs();
+                List<RestaurantFoodDTO> restaurantFoodsDTO = restaurantDTO.getRestaurantFoods();
                 if (null != restaurantFoodsDTO) {
-                    List<RestaurantFoodDTO> input = existingRestaurant.getRestaurantFoodDTOs();
+                    List<RestaurantFoodDTO> input = existingRestaurant.getRestaurantFoods();
                     System.out.println(input);
                     input.addAll(restaurantFoodsDTO);
                     System.out.println(input);
-                    existingRestaurant.setRestaurantFoodDTOs(input);
+                    existingRestaurant.setRestaurantFoods(input);
                 }
-                List<AddressDTO> addressesDTO = restaurantDTO.getAddressesDTO();
+                List<AddressDTO> addressesDTO = restaurantDTO.getAddresses();
                 if (null != addressesDTO) {
-                    List<AddressDTO> input = existingRestaurant.getAddressesDTO();
+                    List<AddressDTO> input = existingRestaurant.getAddresses();
                     input.addAll(addressesDTO);
-                    existingRestaurant.setAddressesDTO(input);
+                    existingRestaurant.setAddresses(input);
                 }
-                if(null != restaurantDTO.getCuisineDTO()) {
-                    existingRestaurant.setCuisineDTO(restaurantDTO.getCuisineDTO());
+                if(null != restaurantDTO.getCuisine()) {
+                    existingRestaurant.setCuisine(restaurantDTO.getCuisine());
                 }
                 System.out.println("existing dto" + existingRestaurant);
                 System.out.println("converted dto" + RestaurantMapper.convertRestaurant(existingRestaurant));
@@ -111,10 +111,10 @@ public class RestaurantServiceImpl implements RestaurantService {
         RestaurantDetailDTO restaurantDetailDTO = new RestaurantDetailDTO();
         restaurantDetailDTO.setId(restaurantDTO.getId());
         restaurantDetailDTO.setName(restaurantDTO.getName());
-        List<RestaurantFoodDTO> restaurantFoodsDTO = restaurantDTO.getRestaurantFoodDTOs();
+        List<RestaurantFoodDTO> restaurantFoodsDTO = restaurantDTO.getRestaurantFoods();
         if (null != restaurantFoodsDTO) {
             List<FoodDTO> foodsDTO = restaurantFoodsDTO.stream().map(restaurantFoodDTO -> {
-                FoodDTO foodDTO = restaurantFoodDTO.getFoodDTO();
+                FoodDTO foodDTO = restaurantFoodDTO.getFood();
                 if(null != foodDTO) {
                     foodDTO.setPrice(restaurantFoodDTO.getPrice());
                     foodDTO.setRestaurantFoods(null);
@@ -123,8 +123,8 @@ public class RestaurantServiceImpl implements RestaurantService {
             }).collect(Collectors.toList());
             restaurantDetailDTO.setFoodsDTO(foodsDTO);
         }
-        restaurantDetailDTO.setCuisineDTO(restaurantDTO.getCuisineDTO());
-        restaurantDetailDTO.setAddressesDTO(restaurantDTO.getAddressesDTO());
+        restaurantDetailDTO.setCuisineDTO(restaurantDTO.getCuisine());
+        restaurantDetailDTO.setAddressesDTO(restaurantDTO.getAddresses());
         return restaurantDetailDTO;
     }
 }

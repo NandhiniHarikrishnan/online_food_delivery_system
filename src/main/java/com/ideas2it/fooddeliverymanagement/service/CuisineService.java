@@ -5,8 +5,8 @@ import com.ideas2it.fooddeliverymanagement.exception.FoodDeliveryManagementExcep
 
 import java.util.List;
 
-
 public interface CuisineService {
+
     /**
      * Create a new cuisine
      *
@@ -17,11 +17,6 @@ public interface CuisineService {
 
     /**
      * > This function returns a list of all the cuisines available in the system
-     *
-     * @return A list of CuisineDTO objects.
-     */
-    /**
-     * > Get all cuisines
      *
      * @return A list of CuisineDTO objects.
      */

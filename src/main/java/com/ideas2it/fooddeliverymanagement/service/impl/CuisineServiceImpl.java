@@ -1,12 +1,13 @@
 package com.ideas2it.fooddeliverymanagement.service.impl;
 
 import com.ideas2it.fooddeliverymanagement.dto.CuisineDTO;
-import com.ideas2it.fooddeliverymanagement.dto.RestaurantDTO;
 import com.ideas2it.fooddeliverymanagement.exception.FoodDeliveryManagementException;
 import com.ideas2it.fooddeliverymanagement.mapper.CuisineMapper;
 import com.ideas2it.fooddeliverymanagement.model.Cuisine;
 import com.ideas2it.fooddeliverymanagement.repository.CuisineRepository;
 import com.ideas2it.fooddeliverymanagement.service.CuisineService;
+
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,6 @@ import java.util.Optional;
  * @author Jeevanantham
  * @version 1.0 13-DEC-2022
  */
-
 @Service
 public class CuisineServiceImpl implements CuisineService {
 
@@ -36,7 +36,7 @@ public class CuisineServiceImpl implements CuisineService {
      */
     public CuisineDTO createCuisine(CuisineDTO cuisineDTO) {
         cuisineDTO.setCode(generateCode());
-        return cuisineMapper.convertCuisineDTO(cuisineRepository.save(cuisineMapper.convertCuisine(cuisineDTO)));
+        return CuisineMapper.convertCuisineDTO(cuisineRepository.save(CuisineMapper.convertCuisine(cuisineDTO)));
     }
 
     /**
@@ -57,18 +57,18 @@ public class CuisineServiceImpl implements CuisineService {
         if(cuisines.isEmpty()) {
             throw new FoodDeliveryManagementException("NOT_FOUND", HttpStatus.NOT_FOUND);
         }
-        return cuisineMapper.convertCuisinesDTO(cuisines);
+        return CuisineMapper.convertCuisinesDTO(cuisines);
     }
 
     /**
      *  {@inheritDoc}
      */
     public CuisineDTO getCuisineById(int id) throws FoodDeliveryManagementException {
-        Optional<Cuisine>  cuisine = cuisineRepository.findById(id);
-        if(!cuisine.isPresent()) {
+        Optional<Cuisine>  optionalCuisine = cuisineRepository.findById(id);
+        if(!optionalCuisine.isPresent()) {
             throw new FoodDeliveryManagementException(id + "NOT_FOUND", HttpStatus.NOT_FOUND);
         }
-        return cuisineMapper.convertCuisineDTO(cuisine.get());
+        return CuisineMapper.convertCuisineDTO(optionalCuisine.get());
     }
 
     /**
@@ -79,8 +79,8 @@ public class CuisineServiceImpl implements CuisineService {
         if(cuisineRepository.existsById(id)) {
             CuisineDTO  existingCuisineDTO = getCuisineById(id);
             existingCuisineDTO.setName(cuisineDTO.getName());
-            return cuisineMapper.convertCuisineDTO(
-                    cuisineRepository.save(cuisineMapper.convertCuisine(existingCuisineDTO)));
+            return CuisineMapper.convertCuisineDTO(
+                    cuisineRepository.save(CuisineMapper.convertCuisine(existingCuisineDTO)));
         }
         else {
             throw new FoodDeliveryManagementException("NOT_FOUND" + id, HttpStatus.NOT_FOUND);
