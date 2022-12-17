@@ -6,10 +6,12 @@ import com.ideas2it.fooddeliverymanagement.model.Restaurant;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString
 public class RestaurantFoodDTO {
     private int id;
     private RestaurantDTO restaurantDTO;

@@ -39,7 +39,7 @@ public class CategoryController {
      * @throws FoodDeliveryManagementException - when employees table is empty
      */
     @GetMapping("/")
-    public ResponseEntity<List<CategoryDTO>> getEmployees() throws FoodDeliveryManagementException {
+    public ResponseEntity<List<CategoryDTO>> getCategories() throws FoodDeliveryManagementException {
         return ResponseEntity.status(HttpStatus.FOUND).body(categoryService.getCategories());
     }
 
@@ -53,7 +53,7 @@ public class CategoryController {
      * @throws FoodDeliveryManagementException - if the category id is not found
      */
     @GetMapping("/{id}")
-    public ResponseEntity<CategoryDTO> getEmployeeById(@PathVariable int id) throws FoodDeliveryManagementException {
+    public ResponseEntity<CategoryDTO> getCategoryById(@PathVariable int id) throws FoodDeliveryManagementException {
         return ResponseEntity.status(HttpStatus.FOUND).body(categoryService.getCategoryById(id));
     }
 
@@ -67,7 +67,7 @@ public class CategoryController {
      * @throws FoodDeliveryManagementException - if the category is not found
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteEmployeeById(@PathVariable int id) throws FoodDeliveryManagementException {
+    public ResponseEntity<String> deleteCategoryById(@PathVariable int id) throws FoodDeliveryManagementException {
         return ResponseEntity.status(HttpStatus.OK).body(categoryService.deleteCategoryById(id));
     }
 

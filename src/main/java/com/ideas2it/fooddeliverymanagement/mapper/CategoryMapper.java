@@ -21,8 +21,6 @@ import java.util.stream.Collectors;
 @Component
 public class CategoryMapper {
 
-    private FoodMapper foodMapper;
-
     /**
      * <p>
      * To convert from entity to DTO for category
@@ -31,7 +29,7 @@ public class CategoryMapper {
      * @param category - a category entity to be converted into DTO.
      * @return   - a category DTO.
      */
-    public CategoryDTO convertIntoDTO(Category category) {
+    public static CategoryDTO convertIntoDTO(Category category) {
         List<Food> foods;
         List<FoodDTO> foodsDTO = null;
         CategoryDTO categoryDTO = new CategoryDTO();
@@ -43,7 +41,7 @@ public class CategoryMapper {
             if(null != foods) {
                 foodsDTO = foods.stream().map(f -> {
                     f.setCategory(null);
-                    return foodMapper.convertIntoDTO(f);
+                    return FoodMapper.convertIntoDTO(f);
                 }).collect(Collectors.toList());
                 categoryDTO.setFoods(foodsDTO);
             }
@@ -59,7 +57,7 @@ public class CategoryMapper {
      * @param categoryDTO -a category DTO to be converted into entity.
      * @return   - a category.
      */
-    public Category convertIntoEntity(CategoryDTO categoryDTO) {
+    public static Category convertIntoEntity(CategoryDTO categoryDTO) {
         List<FoodDTO> foodsDTO;
         List<Food> foods = null;
         Category category = new Category();
@@ -71,7 +69,7 @@ public class CategoryMapper {
             if(null != foodsDTO) {
                 foods = foodsDTO.stream().map(f -> {
                     f.setCategory(null);
-                    return foodMapper.convertIntoEntity(f);
+                    return FoodMapper.convertIntoEntity(f);
                 }).collect(Collectors.toList());
                 category.setFoods(foods);
             }
@@ -87,7 +85,7 @@ public class CategoryMapper {
      * @param categories - the list of categories DTO to be converted into entity.
      * @return   - the list of categories DTO.
      */
-    public List<CategoryDTO> convertIntoCategoriesDto(List<Category> categories) {
+    public static List<CategoryDTO> convertIntoCategoriesDto(List<Category> categories) {
         List<CategoryDTO> categoriesDTO = null;
         if (null != categories) {
             categoriesDTO = categories.stream().map(c -> convertIntoDTO(c)).collect(Collectors.toList());

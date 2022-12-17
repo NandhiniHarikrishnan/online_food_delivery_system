@@ -1,10 +1,13 @@
 package com.ideas2it.fooddeliverymanagement.model;
 
+import org.hibernate.annotations.Where;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
+@Where(clause = "is_deleted = false")
 public class Cuisine extends BaseModel {
 
     @NotNull
@@ -14,8 +17,7 @@ public class Cuisine extends BaseModel {
     @NotNull
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "cuisine_id", referencedColumnName = "id")
+    @OneToMany(mappedBy = "cuisine", cascade = CascadeType.ALL)
     private List<Restaurant> restaurants;
 
     public Cuisine() {
