@@ -2,6 +2,7 @@ package com.ideas2it.fooddeliverymanagement.model;
 
 import lombok.Getter;
 import lombok.Setter;
+
 import lombok.ToString;
 import org.hibernate.annotations.Where;
 
@@ -31,4 +32,6 @@ public class Role extends BaseModel {
 
     @ManyToMany(mappedBy = "roles")
     private List<User> users = new ArrayList<>();
+
+
 }

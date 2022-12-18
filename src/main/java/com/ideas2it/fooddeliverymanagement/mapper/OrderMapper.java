@@ -10,9 +10,8 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
 public class OrderMapper {
-    public Order convertOrder(OrderDTO orderDTO) {
+    public static Order convertOrder(OrderDTO orderDTO) {
         Order order = new Order();
         List<OrderDetail> orderDetails = new ArrayList<>();
         List<OrderDetailDTO> orders = orderDTO.getOrderDetail();
@@ -25,11 +24,12 @@ public class OrderMapper {
 
         order.setStatus(orderDTO.getStatus());
         order.setDateOfOrder(orderDTO.getDateOfOrder());
+        order.setRestaurant(orderDTO.getRestaurant());
         order.setOrderDetails(orderDetails);
         return order;
     }
 
-    public OrderDetail convertOrderDetail(OrderDetailDTO orderDetailDTO) {
+    public static OrderDetail convertOrderDetail(OrderDetailDTO orderDetailDTO) {
         OrderDetail orderDetail = new OrderDetail();
         RestaurantFood restaurantFood = new RestaurantFood();
         orderDetail.setPrice(orderDetailDTO.getPrice());
@@ -39,12 +39,12 @@ public class OrderMapper {
         return orderDetail;
     }
 
-    public void getPrice(RestaurantFood restaurantFood) {
+    public static void getPrice(RestaurantFood restaurantFood) {
         OrderDetail orderDetail = new OrderDetail();
         orderDetail.setPrice(restaurantFood.getPrice());
     }
 
-    public OrderDTO convertOrderDTO(Order order) {
+    public static OrderDTO convertOrderDTO(Order order) {
         OrderDTO orderDTO = new OrderDTO();
         List<OrderDetailDTO> orderDetailDTOS = new ArrayList<>();
         List<OrderDetail> orderDetail = order.getOrderDetails();
@@ -61,7 +61,7 @@ public class OrderMapper {
         return orderDTO;
     }
 
-    public OrderDetailDTO convertOrderDetailDTO(OrderDetail orderDetail) {
+    public static OrderDetailDTO convertOrderDetailDTO(OrderDetail orderDetail) {
         OrderDetailDTO orderDetailDTO = new OrderDetailDTO();
         orderDetailDTO.setId((orderDetail.getId()));
         orderDetailDTO.setPrice(orderDetail.getPrice());

@@ -36,12 +36,4 @@ public class ApplicationExceptionHandler {
         ErrorResponse errorResponse = new ErrorResponse(exception.getStatus(),exception.getMessage());
         return new ResponseEntity<> (errorResponse, exception.getStatus());
     }
-
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler(NoSuchElementException.class)
-    public ErrorResponseDTO noSuchElementException(NoSuchElementException exception) {
-        return new ErrorResponseDTO(HttpStatus.NOT_FOUND.value(),
-               exception.getMessage());
-
-    }
 }
