@@ -1,7 +1,6 @@
 package com.ideas2it.fooddeliverymanagement.service.impl;
 
-import com.ideas2it.fooddeliverymanagement.dto.CuisineDTO;
-import com.ideas2it.fooddeliverymanagement.dto.RestaurantDTO;
+import com.ideas2it.fooddeliverymanagement.dto.*;
 import com.ideas2it.fooddeliverymanagement.exception.FoodDeliveryManagementException;
 import com.ideas2it.fooddeliverymanagement.mapper.RestaurantMapper;
 import com.ideas2it.fooddeliverymanagement.model.Restaurant;
@@ -11,45 +10,121 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.io.PrintStream;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class RestaurantServiceImpl implements RestaurantService {
 
     @Autowired
-    RestaurantRepository restaurantRepository;
-    @Autowired
-    RestaurantMapper restaurantMapper;
-    public RestaurantDTO createRestaurant(RestaurantDTO restaurantDTO) {
-        return restaurantMapper.convertRestaurantDTO(restaurantRepository
-                .save(restaurantMapper.convertRestaurant((restaurantDTO))));
+    private RestaurantRepository restaurantRepository;
+
+    /**
+     * {@inheritDoc}
+     */
+    public RestaurantDTO addRestaurant(RestaurantDTO restaurantDTO) {
+        return RestaurantMapper.convertRestaurantDTO(restaurantRepository.save(RestaurantMapper.convertRestaurant(restaurantDTO)));
     }
 
-    public List<RestaurantDTO> getRestaurants() throws FoodDeliveryManagementException{
-        List<Restaurant> restaurants =restaurantRepository.findAll();
-        if(restaurants.isEmpty()) {
-            throw new FoodDeliveryManagementException("NOT_FOUND", HttpStatus.NOT_FOUND);
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<RestaurantDetailDTO> getRestaurants() throws FoodDeliveryManagementException {
+        List<RestaurantDTO> restaurants = RestaurantMapper.convertIntoRestaurantsDTO(restaurantRepository.findAll());
+        List<RestaurantDetailDTO> restaurantDetailsDTO;
+        if (restaurants.isEmpty()) {
+            throw new FoodDeliveryManagementException("NO_RECORD_FOUND", HttpStatus.NOT_FOUND);
         }
-        return restaurantMapper.convertIntoRestaurantsDTO(restaurants);
+        restaurantDetailsDTO = restaurants.stream()
+                .map(r -> convertIntoRestaurantDetailDTO(r)).collect(Collectors.toList());
+        return restaurantDetailsDTO;
     }
 
-    public RestaurantDTO getRestaurantById(int id) throws FoodDeliveryManagementException{
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public RestaurantDetailDTO getRestaurantById(int id) throws FoodDeliveryManagementException {
+        return convertIntoRestaurantDetailDTO(RestaurantMapper.
+                convertRestaurantDTO(restaurantRepository.findById(id).orElseThrow(
+                () -> new FoodDeliveryManagementException("REPOSITORY_NOT_FOUND", HttpStatus.NOT_FOUND))));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String deleteRestaurantById(int id) throws FoodDeliveryManagementException {
+        if (!restaurantRepository.existsById(id)) {
+            throw new FoodDeliveryManagementException("REPOSITORY_NOT_FOUND", HttpStatus.NOT_FOUND);
+        }
+        restaurantRepository.deleteById(id);
         Optional<Restaurant> restaurant = restaurantRepository.findById(id);
-        if(!restaurant.isPresent()) {
-            throw new FoodDeliveryManagementException("NOT_FOUND", HttpStatus.NOT_FOUND);
+        if(restaurant.isPresent()) {
+            throw new FoodDeliveryManagementException("DELETE_UNSUCCESSFUL", HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return restaurantMapper.convertRestaurantDTO(restaurant.get());
+        return "deleted successfully " + id;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public RestaurantDTO updateRestaurantById(RestaurantDTO restaurantDTO, int id) throws FoodDeliveryManagementException {
-        return null;
+    public String updateRestaurant(RestaurantDTO restaurantDTO, int id) throws FoodDeliveryManagementException {
+        String message = null;
+        if (restaurantRepository.existsById(id)) {
+            RestaurantDTO existingRestaurant = RestaurantMapper.convertRestaurantDTO(restaurantRepository.findById(id).get());
+            if (null != existingRestaurant) {
+                existingRestaurant.setName(restaurantDTO.getName());
+                List<RestaurantFoodDTO> restaurantFoodsDTO = restaurantDTO.getRestaurantFoods();
+                if (null != restaurantFoodsDTO) {
+                    List<RestaurantFoodDTO> input = existingRestaurant.getRestaurantFoods();
+                    System.out.println(input);
+                    input.addAll(restaurantFoodsDTO);
+                    System.out.println(input);
+                    existingRestaurant.setRestaurantFoods(input);
+                }
+                List<AddressDTO> addressesDTO = restaurantDTO.getAddresses();
+                if (null != addressesDTO) {
+                    List<AddressDTO> input = existingRestaurant.getAddresses();
+                    input.addAll(addressesDTO);
+                    existingRestaurant.setAddresses(input);
+                }
+                if(null != restaurantDTO.getCuisine()) {
+                    existingRestaurant.setCuisine(restaurantDTO.getCuisine());
+                }
+                System.out.println("existing dto" + existingRestaurant);
+                System.out.println("converted dto" + RestaurantMapper.convertRestaurant(existingRestaurant));
+                restaurantRepository.save(RestaurantMapper.convertRestaurant(existingRestaurant));
+                message = restaurantDTO.getName() + " Update Successfully";
+            }
+        } else {
+            throw new FoodDeliveryManagementException("REPOSITORY_NOT_FOUND", HttpStatus.NOT_FOUND);
+        }
+        return message;
     }
 
-    @Override
-    public RestaurantDTO deleteRestaurantById(int id) {
-        return null;
+    private RestaurantDetailDTO convertIntoRestaurantDetailDTO(RestaurantDTO restaurantDTO) {
+        RestaurantDetailDTO restaurantDetailDTO = new RestaurantDetailDTO();
+        restaurantDetailDTO.setId(restaurantDTO.getId());
+        restaurantDetailDTO.setName(restaurantDTO.getName());
+        List<RestaurantFoodDTO> restaurantFoodsDTO = restaurantDTO.getRestaurantFoods();
+        if (null != restaurantFoodsDTO) {
+            List<FoodDTO> foodsDTO = restaurantFoodsDTO.stream().map(restaurantFoodDTO -> {
+                FoodDTO foodDTO = restaurantFoodDTO.getFood();
+                if(null != foodDTO) {
+                    foodDTO.setPrice(restaurantFoodDTO.getPrice());
+                    foodDTO.setRestaurantFoods(null);
+                }
+                return foodDTO;
+            }).collect(Collectors.toList());
+            restaurantDetailDTO.setFoodsDTO(foodsDTO);
+        }
+        restaurantDetailDTO.setCuisineDTO(restaurantDTO.getCuisine());
+        restaurantDetailDTO.setAddressesDTO(restaurantDTO.getAddresses());
+        return restaurantDetailDTO;
     }
-
 }

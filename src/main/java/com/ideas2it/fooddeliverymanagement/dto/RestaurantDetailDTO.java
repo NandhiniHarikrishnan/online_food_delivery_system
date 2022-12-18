@@ -6,18 +6,17 @@ import lombok.Setter;
 
 import java.util.List;
 
-/**
- * A DTO class for Cuisine.
- *
- * @author Jeevanantham
- * @version 1.0 13-DEC-2022
- */
 @Getter
 @Setter
 @NoArgsConstructor
-public class CuisineDTO {
+public class RestaurantDetailDTO {
     private int id;
-    private String code;
+
     private String name;
-    private List<RestaurantDTO> restaurants;
+
+    private List<FoodDTO> foodsDTO;
+
+    private List<AddressDTO> addressesDTO;
+
+    private CuisineDTO cuisineDTO;
 }

@@ -1,16 +1,18 @@
 package com.ideas2it.fooddeliverymanagement.service.impl;
 
 import com.ideas2it.fooddeliverymanagement.dto.AddressDTO;
+import com.ideas2it.fooddeliverymanagement.dto.RoleDTO;
 import com.ideas2it.fooddeliverymanagement.dto.UserDTO;
 import com.ideas2it.fooddeliverymanagement.exception.FoodDeliveryManagementException;
 import com.ideas2it.fooddeliverymanagement.mapper.UserMapper;
 import com.ideas2it.fooddeliverymanagement.model.Address;
+import com.ideas2it.fooddeliverymanagement.model.Role;
 import com.ideas2it.fooddeliverymanagement.model.User;
 import com.ideas2it.fooddeliverymanagement.repository.UserRepository;
+import com.ideas2it.fooddeliverymanagement.service.RoleService;
 import com.ideas2it.fooddeliverymanagement.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 
@@ -20,16 +22,35 @@ import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
+    private final UserRepository userRepository;
+
+    private final RoleService roleService;
+
+
     @Autowired
-    private UserRepository userRepository;
-    private final UserMapper userMapper = new UserMapper();
+    public UserServiceImpl(UserRepository userRepository,
+                           RoleService roleService) {
+        this.userRepository = userRepository;
+        this.roleService = roleService;
+    }
 
     @Override
-    public Optional<UserDTO> addUser(UserDTO userDTO) throws FoodDeliveryManagementException{
+    public UserDTO addUser(UserDTO userDTO) throws FoodDeliveryManagementException{
+        User user = UserMapper.convertUser(userDTO);
+        List<RoleDTO> roles = userDTO.getRoles();
+        List<Role> roles1 = new ArrayList<>();
 
-        Optional<UserDTO> savedUser = Optional.ofNullable(userMapper.convertUserDTO(userRepository.save(userMapper.convertUser(userDTO))));
+        if (roles.isEmpty()){
+            roles.add((roleService.getRole(1)));
+        }
+        for (RoleDTO roleDTO : roles) {
+            roles1.add(UserMapper.convertToRole(roleDTO));
+        }
+        user.setRoles(roles1);
 
-        if (savedUser.isPresent()) {
+       UserDTO savedUser = UserMapper.convertUserDTO(userRepository.save(user));
+
+        if (savedUser != null) {
             return savedUser;
         }
         throw new FoodDeliveryManagementException("USER_NOT_ADDED", HttpStatus.UNPROCESSABLE_ENTITY);
@@ -40,18 +61,18 @@ public class UserServiceImpl implements UserService {
        Optional<User> user = userRepository.findById(userId);
 
         if(user.isPresent()) {
-            return (userMapper.convertUserDTO(user.get()));
+            return (UserMapper.convertUserDTO(user.get()));
         }
         throw new FoodDeliveryManagementException("USER_NOT_FOUND", HttpStatus.NOT_FOUND);
     }
 
     @Override
-    public Optional<UserDTO> deleteUser(int userId) throws FoodDeliveryManagementException  {
+    public UserDTO deleteUser(int userId) throws FoodDeliveryManagementException  {
+        Optional<User> user = userRepository.findById(userId);
 
-        if(userRepository.existsById(userId)) {
-                Optional<User> user = userRepository.findById(userId);
-                user.get().setDelete(true);
-                return Optional.ofNullable(userMapper.convertUserDTO(userRepository.save(user.get())));
+        if(user.isPresent()) {
+            user.get().setDelete(true);
+            return UserMapper.convertUserDTO(userRepository.save(user.get()));
         }
         throw new FoodDeliveryManagementException("USER_NOT_FOUND",HttpStatus.NOT_FOUND);
     }
@@ -62,26 +83,26 @@ public class UserServiceImpl implements UserService {
         List<User> users = userRepository.findAll();
 
         if (!users.isEmpty()) {
-            users.forEach(user -> userDTOS.add(userMapper.convertUserDTO(user)));
+            users.forEach(user -> userDTOS.add(UserMapper.convertUserDTO(user)));
             return userDTOS;
         }
         throw new FoodDeliveryManagementException("USER'S_NOT_FOUND",HttpStatus.NOT_FOUND);
     }
 
     @Override
-    public Optional<UserDTO> updateUser(UserDTO userDTO) throws FoodDeliveryManagementException {
+    public UserDTO updateUser(UserDTO userDTO) throws FoodDeliveryManagementException {
         List<Address> addresses = new ArrayList<>();
-        User user = userMapper.convertToUser(userDTO);
+        User user = UserMapper.convertToUser(userDTO);
 
         for (AddressDTO addressDTO : userDTO.getAddresses()) {
-            Address address = userMapper.convertAddress(addressDTO);
+            Address address = UserMapper.convertAddress(addressDTO);
             address.setUser(user);
             addresses.add(address);
         }
         user.setAddresses(addresses);
-       Optional<UserDTO> updatedUser = Optional.ofNullable((userMapper.convertUserDTO(userRepository.save(user))));
+        UserDTO updatedUser = UserMapper.convertUserDTO(userRepository.save(user));
 
-       if (updatedUser.isPresent()) {
+       if (updatedUser != null) {
            return updatedUser;
        }
         throw new FoodDeliveryManagementException("DETAILS_NOT_UPDATED",HttpStatus.UNPROCESSABLE_ENTITY);
@@ -89,7 +110,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean isExist(int userId) throws FoodDeliveryManagementException {
+    public boolean isExist(int userId) {
         return userRepository.existsById(userId);
     }
 

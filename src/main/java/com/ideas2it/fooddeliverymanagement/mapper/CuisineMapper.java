@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -22,60 +21,67 @@ import java.util.stream.Collectors;
 @Component
 public class CuisineMapper {
 
-    private RestaurantMapper restaurantMapper;
-
     /**
-     * <p>
-     * To convert from entity to DTO for category
-     * </p>
+     * It converts a Cuisine object to a CuisineDTO object.
      *
-     * @param cuisine - a category entity to be converted into DTO.
-     * @return - a cuisine DTO.
+     * @param cuisine The Cuisine object that we want to convert to a CuisineDTO object.
+     * @return A CuisineDTO object
      */
-    public CuisineDTO convertCusineDTO(Cuisine cuisine) {
-        List<Restaurant> restuarants = null;
-        List<RestaurantDTO> restaurantsDTO = null;
+    public static CuisineDTO convertCuisineDTO(Cuisine cuisine) {
+        List<Restaurant> restaurants = null;
+        List<RestaurantDTO> restaurantsDTO;
         CuisineDTO cuisineDTO = new CuisineDTO();
         if (null != cuisine) {
             cuisineDTO.setId(cuisine.getId());
             cuisineDTO.setCode(cuisine.getCode());
             cuisineDTO.setName(cuisine.getName());
 
-            if (null != restuarants) {
-                restaurantsDTO = restuarants.stream().map((Function<Restaurant, RestaurantDTO>) r -> {
+            if (null != restaurants) {
+                restaurantsDTO = restaurants.stream().map(r -> {
                     r.setCuisine(null);
-                    return restaurantMapper.convertRestaurantDTO(r);
+                    return RestaurantMapper.convertRestaurantDTO(r);
                 }).collect(Collectors.toList());
+                cuisineDTO.setRestaurants(restaurantsDTO);
             }
-            cuisineDTO.setRestaurantDTOs(restaurantsDTO);
         }
         return cuisineDTO;
     }
 
-    public Cuisine convertCuisine(CuisineDTO cuisineDTO) {
+    /**
+     * It converts a CuisineDTO object to a Cuisine object.
+     *
+     * @param cuisineDTO The DTO object that we want to convert to a Cuisine object.
+     * @return A Cuisine object
+     */
+    public static Cuisine convertCuisine(CuisineDTO cuisineDTO) {
         List<RestaurantDTO> restaurantsDTO = null;
-        List<Restaurant> restuarants = null;
+        List<Restaurant> restaurants ;
         Cuisine cuisine = new Cuisine();
         if (null != cuisineDTO) {
             cuisine.setId(cuisineDTO.getId());
             cuisine.setCode(cuisineDTO.getCode());
             cuisine.setName(cuisineDTO.getName());
             if (null != restaurantsDTO) {
-                restuarants = restaurantsDTO.stream().map(r -> {
-                    r.setCuisineDTO(null);
-                    return restaurantMapper.convertRestaurant(r);
+                restaurants = restaurantsDTO.stream().map(r -> {
+                    r.setCuisine(null);
+                    return RestaurantMapper.convertRestaurant(r);
                 }).collect(Collectors.toList());
+                cuisine.setRestaurants(restaurants);
             }
-            cuisine.setRestaurants(restuarants);
         }
-
         return cuisine;
     }
 
-    public List<CuisineDTO> convertCuisinesDTO(List<Cuisine> cuisines) {
+    /**
+     * It converts a list of Cuisine objects to a list of CuisineDTO objects.
+     *
+     * @param cuisines The list of cuisines to be converted.
+     * @return A list of CuisineDTO objects.
+     */
+    public static List<CuisineDTO> convertCuisinesDTO(List<Cuisine> cuisines) {
         List<CuisineDTO> cuisinesDTO = new ArrayList<>();
         for (Cuisine cuisine  : cuisines) {
-            cuisinesDTO.add(convertCusineDTO(cuisine));
+            cuisinesDTO.add(convertCuisineDTO(cuisine));
         }
         return cuisinesDTO;
     }
@@ -85,41 +91,3 @@ public class CuisineMapper {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-
- if (null != cuisine) {
-         cuisineDTO.setId(cuisine.getId());
-         cuisineDTO.setCode(cuisine.getCode());
-         cuisineDTO.setName(cuisine.getName());
-         if (null != restuarants) {
-         for(Restaurant restaurant : restuarants) {
-         restaurantDTOs.add(entityToDTO(restaurant));
-         }
-         }
-
-
-         if (null != restuarantsDTOs) {
-                for(RestaurantDTO restaurantDTO : restuarantDTOs) {
-                    restaurants.add(entityToDTO(restaurantDTO));
-                }
-            }
-        }
-        return cuisine;*/

@@ -19,18 +19,22 @@ import java.util.Optional;
 @Service
 public class AddressServiceImpl implements AddressService {
 
-    @Autowired
-    AddressRepository addressRepository;
-    @Autowired
-    UserService userService;
-    private final UserMapper userMapper = new UserMapper();
-    @Override
-    public Optional<AddressDTO> addAddress(AddressDTO addressDTO, int userId) throws FoodDeliveryManagementException {
-        Address address = userMapper.convertAddress(addressDTO);
-        address.setUser(userMapper.convertUser(userService.getUser(userId)));
-        Optional<AddressDTO> addedAddress = Optional.ofNullable((userMapper.convertAddressDTO(addressRepository.save(address))));
+    private final AddressRepository addressRepository;
+    private final UserService userService;
 
-        if (addedAddress.isPresent()) {
+    @Autowired
+    public AddressServiceImpl(AddressRepository addressRepository, UserService userService) {
+        this.addressRepository = addressRepository;
+        this.userService = userService;
+    }
+
+    @Override
+    public AddressDTO addAddress(AddressDTO addressDTO, int userId) throws FoodDeliveryManagementException {
+        Address address = UserMapper.convertAddress(addressDTO);
+        address.setUser(UserMapper.convertUser(userService.getUser(userId)));
+        AddressDTO addedAddress = UserMapper.convertAddressDTO(addressRepository.save(address));
+
+        if (addedAddress != null) {
             return addedAddress;
         }
         throw new FoodDeliveryManagementException("ADDRESS_NOT ADDED", HttpStatus.UNPROCESSABLE_ENTITY);
@@ -38,37 +42,37 @@ public class AddressServiceImpl implements AddressService {
     
     @Override
     public AddressDTO getAddress(int id) throws FoodDeliveryManagementException{
+        Optional<Address> existingAddress = addressRepository.findById(id);
 
-        if (addressRepository.existsById(id)) {
-            return userMapper.convertAddressDTO(addressRepository.findById(id).get());
-        } else {
-            throw new FoodDeliveryManagementException("ADDRESS_NOT_FOUND",HttpStatus.NOT_FOUND);
+        if (existingAddress.isPresent()) {
+            return UserMapper.convertAddressDTO(existingAddress.get());
         }
+        throw new FoodDeliveryManagementException("ADDRESS_NOT_FOUND",HttpStatus.NOT_FOUND);
 
     }
 
     @Override
-    public Optional<AddressDTO> updateAddress(int userId, AddressDTO addressDTO) throws FoodDeliveryManagementException {
-        Address address = userMapper.convertAddress(addressDTO);
-        address.setUser(userMapper.convertToUser(userService.getUser(userId)));
-        Optional<AddressDTO> updatedAddress = Optional.ofNullable(userMapper.convertAddressDTO(addressRepository.save(address)));
+    public AddressDTO updateAddress(int userId, AddressDTO addressDTO) throws FoodDeliveryManagementException {
+        Address address = UserMapper.convertAddress(addressDTO);
+        address.setUser(UserMapper.convertToUser(userService.getUser(userId)));
+        AddressDTO updatedAddress = UserMapper.convertAddressDTO(addressRepository.save(address));
 
-        if (updatedAddress.isPresent()) {
+        if (updatedAddress != null) {
             return updatedAddress;
         }
         throw new FoodDeliveryManagementException("ADDRESS_NOT_UPDATED",HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
     @Override
-    public Optional<AddressDTO> deleteAddress(int userID, int addressId) throws FoodDeliveryManagementException {
+    public AddressDTO deleteAddress(int userID, int addressId) throws FoodDeliveryManagementException {
         if(userService.isExist(userID)) {
-            User user = userMapper.convertUser(userService.getUser(userID));
+            User user = UserMapper.convertUser(userService.getUser(userID));
 
             for (Address address : user.getAddresses()) {
                 if (address.getId() == addressId) {
                     address.setDelete(true);
                     address.setUser(user);
-                    return Optional.ofNullable(userMapper.convertAddressDTO(addressRepository.save(address)));
+                    return UserMapper.convertAddressDTO(addressRepository.save(address));
                 }
             }
         }
@@ -81,7 +85,7 @@ public class AddressServiceImpl implements AddressService {
         List<Address> addresses = addressRepository.findAll();
         
         if (!addresses.isEmpty()) {
-            addresses.forEach(address -> listOfAddresses.add(userMapper.convertAddressDTO(address)));
+            addresses.forEach(address -> listOfAddresses.add(UserMapper.convertAddressDTO(address)));
             return listOfAddresses;
         }
         throw new FoodDeliveryManagementException("NO_ADDRESS_FOUND",HttpStatus.NOT_FOUND);

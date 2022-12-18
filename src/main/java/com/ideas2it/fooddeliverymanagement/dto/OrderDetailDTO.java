@@ -7,8 +7,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class OrderDetailDTO {
-        private int id;
-        private float price;
-        private int quantity;
-        private Food food;
+    private int id;
+    private float price;
+    private int quantity;
+    private Food food;
 }

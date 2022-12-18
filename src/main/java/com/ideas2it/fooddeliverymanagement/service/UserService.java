@@ -9,16 +9,16 @@ import java.util.Optional;
 
 public interface UserService {
 
-    Optional<UserDTO> addUser(UserDTO userDTO) throws FoodDeliveryManagementException;
+    UserDTO addUser(UserDTO userDTO) throws FoodDeliveryManagementException;
 
    UserDTO getUser(int userId) throws FoodDeliveryManagementException ;
 
    boolean isExist(int userId) throws FoodDeliveryManagementException ;
 
-   Optional<UserDTO> deleteUser(int userId) throws FoodDeliveryManagementException ;
+   UserDTO deleteUser(int userId) throws FoodDeliveryManagementException ;
 
    List<UserDTO> getAllUsers() throws FoodDeliveryManagementException ;
 
-   Optional<UserDTO> updateUser(UserDTO userDTO) throws FoodDeliveryManagementException ;
+   UserDTO updateUser(UserDTO userDTO) throws FoodDeliveryManagementException ;
 
 }

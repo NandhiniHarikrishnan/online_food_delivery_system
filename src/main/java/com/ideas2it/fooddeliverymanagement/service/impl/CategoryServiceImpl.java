@@ -17,8 +17,6 @@ import java.util.Optional;
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
-    private CategoryMapper categoryMapper = new CategoryMapper();
-
     @Autowired
     private CategoryRepository categoryRepository;
 
@@ -28,7 +26,8 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryDTO addCategory(CategoryDTO categoryDTO) {
         categoryDTO.setCode(generateCategoryCode());
-        return categoryMapper.convertIntoDTO(categoryRepository.save(categoryMapper.convertIntoEntity(categoryDTO)));
+        return CategoryMapper.convertIntoDTO(categoryRepository
+                .save(CategoryMapper.convertIntoEntity(categoryDTO)));
     }
 
     /**
@@ -36,7 +35,8 @@ public class CategoryServiceImpl implements CategoryService {
      */
     @Override
     public List<CategoryDTO> getCategories() throws FoodDeliveryManagementException {
-        List<CategoryDTO> categories = categoryMapper.convertIntoCategoriesDto(categoryRepository.findAll());
+        List<CategoryDTO> categories = CategoryMapper
+                .convertIntoCategoriesDto(categoryRepository.findAll());
         if (categories.isEmpty()) {
             throw new FoodDeliveryManagementException("NO_RECORD_FOUND", HttpStatus.NOT_FOUND);
         }
@@ -48,7 +48,7 @@ public class CategoryServiceImpl implements CategoryService {
      */
     @Override
     public CategoryDTO getCategoryById(int id) throws FoodDeliveryManagementException {
-        return categoryMapper.convertIntoDTO(categoryRepository.findById(id).orElseThrow(
+        return CategoryMapper.convertIntoDTO(categoryRepository.findById(id).orElseThrow(
                 () -> new FoodDeliveryManagementException("CATEGORY_NOT_FOUND", HttpStatus.NOT_FOUND)));
     }
 
@@ -83,7 +83,7 @@ public class CategoryServiceImpl implements CategoryService {
                     input.addAll(categoryDTO.getFoods());
                     existingCategory.setFoods(input);
                 }
-                categoryRepository.save(categoryMapper.convertIntoEntity(existingCategory));
+                categoryRepository.save(CategoryMapper.convertIntoEntity(existingCategory));
                 message = categoryDTO.getName() + " Update Successfully";
             }
         } else {

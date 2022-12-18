@@ -3,11 +3,9 @@ package com.ideas2it.fooddeliverymanagement.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
@@ -53,6 +51,6 @@ public class Address extends BaseModel{
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "restuarant_id")
+    @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 }

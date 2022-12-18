@@ -3,6 +3,9 @@ package com.ideas2it.fooddeliverymanagement.model;
 import lombok.Getter;
 import lombok.Setter;
 
+import lombok.ToString;
+import org.hibernate.annotations.Where;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
@@ -18,8 +21,8 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@Where(clause = "is_deleted = false")
 public class Role extends BaseModel {
-
     @NotNull
     private String name;
 
@@ -27,7 +30,7 @@ public class Role extends BaseModel {
     @Column(columnDefinition="varchar(20) unique")
     private String code;
 
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "roles", cascade=CascadeType.ALL)
+    @ManyToMany(mappedBy = "roles")
     private List<User> users = new ArrayList<>();
 
 

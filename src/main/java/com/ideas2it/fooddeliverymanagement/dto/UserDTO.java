@@ -8,10 +8,11 @@ import lombok.ToString;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A UserDTO is a data transfer object that contains the user's id, name, email, and a list of addresses.
+ * Data transfer object that contains the user's id, name, email, and a list of addresses.
  *
  * @author - dilip.n
  * @version - 1.0
@@ -28,6 +29,6 @@ public class UserDTO {
     @NotBlank(message = "email should be mentioned")
     @Email(message = "invalid format")
     private String email;
-    private List<AddressDTO> addresses;
-    private List<RoleDTO> roles;
+    private List<AddressDTO> addresses = new ArrayList<>();
+    private List<RoleDTO> roles = new ArrayList<>();
 }

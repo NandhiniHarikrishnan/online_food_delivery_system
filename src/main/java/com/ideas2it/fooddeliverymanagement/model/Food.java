@@ -1,5 +1,8 @@
 package com.ideas2it.fooddeliverymanagement.model;
 
+import lombok.ToString;
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +14,7 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
+@ToString
 public class Food extends BaseModel {
 
     @NotNull
@@ -25,15 +29,16 @@ public class Food extends BaseModel {
     @NotNull
     private String weight;
 
+    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     @ManyToOne(fetch = FetchType.LAZY)
     private Category category;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany
     @JoinColumn(name = "food_id", referencedColumnName = "id")
     private List<RestaurantFood> restaurantFoods;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "food_id", referencedColumnName = "id")
+    @OneToMany(mappedBy = "food")
+    //@JoinColumn(name = "food_id", referencedColumnName = "id")
     private List<OrderDetail> orderDetails;
 
     public Food() {
@@ -83,11 +88,11 @@ public class Food extends BaseModel {
         this.category = category;
     }
 
-    public List<OrderDetail> getOrderDetails() {
+    public List<com.ideas2it.fooddeliverymanagement.model.OrderDetail> getOrderDetails() {
         return orderDetails;
     }
 
-    public void setOrderDetails(List<OrderDetail> orderDetails) {
+    public void setOrderDetails(List<com.ideas2it.fooddeliverymanagement.model.OrderDetail> orderDetails) {
         this.orderDetails = orderDetails;
     }
 
