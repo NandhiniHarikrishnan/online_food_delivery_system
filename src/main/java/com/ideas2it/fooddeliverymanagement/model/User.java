@@ -34,6 +34,7 @@ public class User extends BaseModel{
     @NotNull
     private String email;
 
+    private String status;
     @OneToMany(cascade = CascadeType.ALL)
     @LazyCollection(LazyCollectionOption.FALSE)
     @JoinColumn(name = "user_id" ,referencedColumnName = "id")

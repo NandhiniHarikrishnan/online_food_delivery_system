@@ -1,5 +1,8 @@
 package com.ideas2it.fooddeliverymanagement.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
@@ -13,6 +16,8 @@ import java.util.List;
  * @since - 2022-12-10
  */
 @Entity
+@Getter
+@Setter
 public class Role extends BaseModel {
 
     @NotNull
@@ -24,4 +29,6 @@ public class Role extends BaseModel {
 
     @ManyToMany(fetch = FetchType.EAGER, mappedBy = "roles", cascade=CascadeType.ALL)
     private List<User> users = new ArrayList<>();
+
+
 }
