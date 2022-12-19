@@ -4,7 +4,7 @@ package com.ideas2it.fooddeliverymanagement.util;
 public class Constants {
     public static final String REGEX_FOR_NAME = "^[a-zA-Z0-9]([._-](?![._-])|[a-zA-Z0-9]){1,18}[a-zA-Z0-9]$";
     public static final String REGEX_FOR_PHONE_NUMBER = "^[6-9]{1}[0-9]{9}";
-    public static final String REGEX_FOR_PINC0DE= "^[1-9][0-9]{5}$";
+    public static final String REGEX_FOR_PINCODE= "^[1-9][0-9]{5}$";
     public static final String INVALID_NAME = "Invalid Name";
     public static final String INVALID_EMAIL = "Invalid Email";
     public static final String ADDRESS_NOT_EMPTY = "Please Mention Your Address";

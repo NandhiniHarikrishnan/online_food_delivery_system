@@ -39,7 +39,7 @@ public class AddressDTO {
     @NotBlank(message = Constants.MENTION_STATE_NAME)
     private String state;
 
-    @Pattern(regexp = Constants.REGEX_FOR_PINC0DE)
+    @Pattern(regexp = Constants.REGEX_FOR_PINCODE)
     private long pinCode;
 
     @Pattern(regexp = Constants.REGEX_FOR_PHONE_NUMBER)
