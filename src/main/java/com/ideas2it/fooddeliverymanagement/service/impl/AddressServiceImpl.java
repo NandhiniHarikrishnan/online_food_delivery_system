@@ -8,6 +8,7 @@ import com.ideas2it.fooddeliverymanagement.model.User;
 import com.ideas2it.fooddeliverymanagement.repository.AddressRepository;
 import com.ideas2it.fooddeliverymanagement.service.AddressService;
 import com.ideas2it.fooddeliverymanagement.service.UserService;
+import com.ideas2it.fooddeliverymanagement.util.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -48,7 +49,7 @@ public class AddressServiceImpl implements AddressService {
         if (addedAddress != null) {
             return addedAddress;
         }
-        throw new FoodDeliveryManagementException("ADDRESS_NOT ADDED", HttpStatus.UNPROCESSABLE_ENTITY);
+        throw new FoodDeliveryManagementException(Constants.ADDRESS_NOT_ADDED, HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
     /**
@@ -61,7 +62,7 @@ public class AddressServiceImpl implements AddressService {
         if (existingAddress.isPresent()) {
             return UserMapper.convertAddressDTO(existingAddress.get());
         }
-        throw new FoodDeliveryManagementException("ADDRESS_NOT_FOUND",HttpStatus.NOT_FOUND);
+        throw new FoodDeliveryManagementException(Constants.ADDRESS_NOT_FOUND,HttpStatus.NOT_FOUND);
 
     }
 
@@ -77,7 +78,7 @@ public class AddressServiceImpl implements AddressService {
         if (updatedAddress != null) {
             return updatedAddress;
         }
-        throw new FoodDeliveryManagementException("ADDRESS_NOT_UPDATED",HttpStatus.UNPROCESSABLE_ENTITY);
+        throw new FoodDeliveryManagementException(Constants.ADDRESS_NOT_UPDATED,HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
     /**
@@ -96,7 +97,7 @@ public class AddressServiceImpl implements AddressService {
                 }
             }
         }
-       throw new FoodDeliveryManagementException("ADDRESS_NOT_DELETED",HttpStatus.NOT_FOUND);
+       throw new FoodDeliveryManagementException(Constants.ADDRESS_NOT_DELETED,HttpStatus.NOT_FOUND);
     }
 
     /**
@@ -111,7 +112,7 @@ public class AddressServiceImpl implements AddressService {
             addresses.forEach(address -> listOfAddresses.add(UserMapper.convertAddressDTO(address)));
             return listOfAddresses;
         }
-        throw new FoodDeliveryManagementException("NO_ADDRESS_FOUND",HttpStatus.NOT_FOUND);
+        throw new FoodDeliveryManagementException(Constants.ADDRESS_NOT_FOUND,HttpStatus.NOT_FOUND);
     }
 
 }

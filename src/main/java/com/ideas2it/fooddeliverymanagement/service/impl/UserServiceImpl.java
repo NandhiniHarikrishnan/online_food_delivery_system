@@ -11,6 +11,7 @@ import com.ideas2it.fooddeliverymanagement.model.User;
 import com.ideas2it.fooddeliverymanagement.repository.UserRepository;
 import com.ideas2it.fooddeliverymanagement.service.RoleService;
 import com.ideas2it.fooddeliverymanagement.service.UserService;
+import com.ideas2it.fooddeliverymanagement.util.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -51,7 +52,7 @@ public class UserServiceImpl implements UserService {
         UserDTO savedUser;
         User user = UserMapper.convertUser(userDTO);
         if (isEmailExist(user.getEmail())) {
-            throw new FoodDeliveryManagementException("EMAIL_ALREADY_EXIST",HttpStatus.NOT_ACCEPTABLE);
+            throw new FoodDeliveryManagementException(Constants.EMAIL_ALREADY_EXIST,HttpStatus.NOT_ACCEPTABLE);
         } else {
             if (userDTO.getRoles().isEmpty()) {
                 roles.add((UserMapper.convertToRole(roleService.getRole(1))));
@@ -69,7 +70,7 @@ public class UserServiceImpl implements UserService {
             }
 
         }
-        throw new FoodDeliveryManagementException("USER_NOT_ADDED", HttpStatus.UNPROCESSABLE_ENTITY);
+        throw new FoodDeliveryManagementException(Constants.USER_NOT_ADDED, HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
     /**
@@ -82,7 +83,7 @@ public class UserServiceImpl implements UserService {
         if(user.isPresent()) {
             return (UserMapper.convertUserDTO(user.get()));
         }
-        throw new FoodDeliveryManagementException("USER_NOT_FOUND", HttpStatus.NOT_FOUND);
+        throw new FoodDeliveryManagementException(Constants.USER_NOT_FOUND, HttpStatus.NOT_FOUND);
     }
 
     /**
@@ -100,7 +101,7 @@ public class UserServiceImpl implements UserService {
             user.get().setDelete(true);
             return UserMapper.convertUserDTO(userRepository.save(user.get()));
         }
-        throw new FoodDeliveryManagementException("USER_NOT_FOUND",HttpStatus.NOT_FOUND);
+        throw new FoodDeliveryManagementException(Constants.USER_NOT_FOUND,HttpStatus.NOT_FOUND);
     }
 
     /**
@@ -115,7 +116,7 @@ public class UserServiceImpl implements UserService {
             users.forEach(user -> userDTOS.add(UserMapper.convertUserDTO(user)));
             return userDTOS;
         }
-        throw new FoodDeliveryManagementException("USER'S_NOT_FOUND",HttpStatus.NOT_FOUND);
+        throw new FoodDeliveryManagementException(Constants.USER_NOT_FOUND,HttpStatus.NOT_FOUND);
     }
 
     /**
@@ -137,7 +138,7 @@ public class UserServiceImpl implements UserService {
        if (updatedUser != null) {
            return updatedUser;
        }
-        throw new FoodDeliveryManagementException("DETAILS_NOT_UPDATED",HttpStatus.UNPROCESSABLE_ENTITY);
+        throw new FoodDeliveryManagementException(Constants.DETAILS_NOT_UPDATED,HttpStatus.UNPROCESSABLE_ENTITY);
 
     }
     /**

@@ -91,7 +91,7 @@ public class UserMapper {
     public static User convertToUser(UserDTO userDTO) {
         User user = new User();
 
-        userDTO.setId(user.getId());
+        user.setId(userDTO.getId());
         user.setId(userDTO.getId());
         user.setName(userDTO.getName());
         user.setEmail(userDTO.getEmail());

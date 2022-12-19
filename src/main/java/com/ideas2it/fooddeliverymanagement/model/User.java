@@ -36,7 +36,6 @@ public class User extends BaseModel{
 
     private String status;
     @OneToMany(cascade = CascadeType.ALL)
-    @LazyCollection(LazyCollectionOption.FALSE)
     @JoinColumn(name = "user_id" ,referencedColumnName = "id")
     private List<Address> addresses;
 
@@ -47,7 +46,6 @@ public class User extends BaseModel{
     private List<Role> roles = new ArrayList<>();
 
     @OneToMany
-    @LazyCollection(LazyCollectionOption.FALSE)
     @JoinColumn(name = "customer_Id", referencedColumnName ="id")
     private List<Order> orders;
 

@@ -1,10 +1,12 @@
 package com.ideas2it.fooddeliverymanagement.dto;
 
+import com.ideas2it.fooddeliverymanagement.util.Constants;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -26,13 +28,13 @@ public class UserDTO {
 
     private int id;
 
-    @NotBlank(message = "User name should be mentioned")
+    @Pattern(regexp = Constants.REGEX_FOR_NAME, message = Constants.INVALID_NAME)
     private String name;
 
-    @NotBlank(message = "email should be mentioned")
-    @Email(message = "invalid format")
+    @Email(message = Constants.INVALID_EMAIL)
     private String email;
 
+    @NotBlank(message = Constants.ADDRESS_NOT_EMPTY)
     private List<AddressDTO> addresses = new ArrayList<>();
 
     private List<RoleDTO> roles = new ArrayList<>();

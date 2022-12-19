@@ -1,9 +1,13 @@
 package com.ideas2it.fooddeliverymanagement.dto;
 
+import com.ideas2it.fooddeliverymanagement.util.Constants;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 
 
 /**
@@ -20,18 +24,25 @@ public class AddressDTO {
 
     private int id;
 
+    @NotBlank(message = Constants.MENTION_PLOT_NUMBER)
     private String plotNumber;
 
+    @NotBlank(message = Constants.MENTION_STREET_NAME)
     private String street;
 
+    @NotBlank(message = Constants.MENTION_CITY_NAME)
     private String city;
 
+    @NotBlank(message = Constants.MENTION_DISTRICT_NAME)
     private String district;
 
+    @NotBlank(message = Constants.MENTION_STATE_NAME)
     private String state;
 
+    @Pattern(regexp = Constants.REGEX_FOR_PINC0DE)
     private long pinCode;
 
+    @Pattern(regexp = Constants.REGEX_FOR_PHONE_NUMBER)
     private long phoneNumber;
 
     private UserDTO user;
