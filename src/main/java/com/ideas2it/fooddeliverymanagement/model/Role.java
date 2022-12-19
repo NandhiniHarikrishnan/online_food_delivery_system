@@ -13,10 +13,11 @@ import java.util.List;
 
 /**
  * A Role can be assigned to many Users, and a User can have many Roles
+ * It contains id, name, code, user's.
  *
  * @author - dilip.n
  * @version - 1.0
- * @since - 2022-12-10
+ * @since - 2022-16-10
  */
 @Entity
 @Getter

@@ -12,6 +12,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
+/**
+ * It converts a UserDTO to a User and vice versa
+ *
+ * @author - dilip.n
+ * @version - 1.0
+ * @since - 2022-12-10
+ */
 public class UserMapper {
     public static User convertUser(UserDTO userDTO) {
         User user = convertToUser(userDTO);

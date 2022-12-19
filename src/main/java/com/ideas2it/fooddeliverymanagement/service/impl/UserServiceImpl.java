@@ -20,6 +20,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * It performs create, read, update, delete (CRUD) operation for the user
+ * Throw's custom exception if the user is not present in the database
+ *
+ * @author - dilip.n
+ * @version - 1.0
+ * @since - 2022-12-10
+ */
 @Service
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
@@ -34,28 +42,39 @@ public class UserServiceImpl implements UserService {
         this.roleService = roleService;
     }
 
+    /**
+     *{@inheritDoc}
+     */
     @Override
-    public UserDTO addUser(UserDTO userDTO) throws FoodDeliveryManagementException{
+    public UserDTO addUser(UserDTO userDTO) throws FoodDeliveryManagementException {
+        List<Role> roles = new ArrayList<>();
+        UserDTO savedUser;
         User user = UserMapper.convertUser(userDTO);
-        List<RoleDTO> roles = userDTO.getRoles();
-        List<Role> roles1 = new ArrayList<>();
+        if (isEmailExist(user.getEmail())) {
+            throw new FoodDeliveryManagementException("EMAIL_ALREADY_EXIST",HttpStatus.NOT_ACCEPTABLE);
+        } else {
+            if (userDTO.getRoles().isEmpty()) {
+                roles.add((UserMapper.convertToRole(roleService.getRole(1))));
+            } else {
+                for (RoleDTO role : userDTO.getRoles()) {
+                    roles.add(UserMapper.convertToRole(roleService.getRole(role.getId())));
+                }
+            }
+            user.setRoles(roles);
 
-        if (roles.isEmpty()){
-            roles.add((roleService.getRole(1)));
-        }
-        for (RoleDTO roleDTO : roles) {
-            roles1.add(UserMapper.convertToRole(roleDTO));
-        }
-        user.setRoles(roles1);
+            savedUser = UserMapper.convertUserDTO(userRepository.save(user));
 
-       UserDTO savedUser = UserMapper.convertUserDTO(userRepository.save(user));
+            if (savedUser != null) {
+                return savedUser;
+            }
 
-        if (savedUser != null) {
-            return savedUser;
         }
         throw new FoodDeliveryManagementException("USER_NOT_ADDED", HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
+    /**
+     *{@inheritDoc}
+     */
     @Override
     public UserDTO getUser(int userId)  throws FoodDeliveryManagementException {
        Optional<User> user = userRepository.findById(userId);
@@ -66,17 +85,27 @@ public class UserServiceImpl implements UserService {
         throw new FoodDeliveryManagementException("USER_NOT_FOUND", HttpStatus.NOT_FOUND);
     }
 
+    /**
+     *{@inheritDoc}
+     */
     @Override
     public UserDTO deleteUser(int userId) throws FoodDeliveryManagementException  {
         Optional<User> user = userRepository.findById(userId);
 
         if(user.isPresent()) {
+            for (Address address : user.get().getAddresses()) {
+                address.setDelete(true);
+            }
+            user.get().getRoles().clear();
             user.get().setDelete(true);
             return UserMapper.convertUserDTO(userRepository.save(user.get()));
         }
         throw new FoodDeliveryManagementException("USER_NOT_FOUND",HttpStatus.NOT_FOUND);
     }
 
+    /**
+     *{@inheritDoc}
+     */
     @Override
     public List<UserDTO> getAllUsers() throws FoodDeliveryManagementException {
         List<UserDTO> userDTOS = new ArrayList<>();
@@ -89,6 +118,9 @@ public class UserServiceImpl implements UserService {
         throw new FoodDeliveryManagementException("USER'S_NOT_FOUND",HttpStatus.NOT_FOUND);
     }
 
+    /**
+     *{@inheritDoc}
+     */
     @Override
     public UserDTO updateUser(UserDTO userDTO) throws FoodDeliveryManagementException {
         List<Address> addresses = new ArrayList<>();
@@ -108,10 +140,22 @@ public class UserServiceImpl implements UserService {
         throw new FoodDeliveryManagementException("DETAILS_NOT_UPDATED",HttpStatus.UNPROCESSABLE_ENTITY);
 
     }
-
+    /**
+     *{@inheritDoc}
+     */
     @Override
     public boolean isExist(int userId) {
         return userRepository.existsById(userId);
     }
 
+    /**
+     * Check weather the email is already exist or not
+     *
+     * @param email
+     * @return true if the user is existed
+     */
+    private boolean isEmailExist(String email){
+        User user = userRepository.findByEmail(email);
+        return user != null;
+    }
 }

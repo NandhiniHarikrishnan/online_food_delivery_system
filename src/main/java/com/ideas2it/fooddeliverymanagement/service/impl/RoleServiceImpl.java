@@ -16,6 +16,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * It performs create, read, delete for the role
+ * Throws custom exception if the role is not present in database.
+ *
+ * @author - dilip.n
+ * @version - 1.0
+ * @since - 2022-16-10
+ */
 @Service
 public class RoleServiceImpl implements RoleService {
 
@@ -29,6 +37,9 @@ public class RoleServiceImpl implements RoleService {
         this.userMapper = userMapper;
     }
 
+    /**
+     *{@inheritDoc}
+     */
     @Override
     public RoleDTO addRole(RoleDTO newRole) throws FoodDeliveryManagementException {
         Role role = UserMapper.convertToRole(newRole);
@@ -51,6 +62,9 @@ public class RoleServiceImpl implements RoleService {
 
     }
 
+    /**
+     *{@inheritDoc}
+     */
     @Override
     public RoleDTO getRole(int roleId) throws FoodDeliveryManagementException {
         Optional<Role> existingRole = roleRepository.findById(roleId);
@@ -61,6 +75,9 @@ public class RoleServiceImpl implements RoleService {
         throw new FoodDeliveryManagementException("ROLE_NOT FOUND", HttpStatus.NOT_FOUND);
     }
 
+    /**
+     *{@inheritDoc}
+     */
     @Override
     public RoleDTO deleteRole(int roleId) throws FoodDeliveryManagementException {
         Optional<Role> existingRole = roleRepository.findById(roleId);
@@ -72,6 +89,11 @@ public class RoleServiceImpl implements RoleService {
         throw new FoodDeliveryManagementException("ROLE_NOT_DELETED",HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
+    /**
+     * It generates a unique code for a role
+     *
+     * @return A String
+     */
     private String generateCode() {
         long roleCount = roleRepository.count();
         return "ROLE-0"+ (++roleCount);
