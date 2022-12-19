@@ -2,7 +2,7 @@ package com.ideas2it.fooddeliverymanagement.controller;
 
 import com.ideas2it.fooddeliverymanagement.dto.AddressDTO;
 import com.ideas2it.fooddeliverymanagement.dto.UserDTO;
-import com.ideas2it.fooddeliverymanagement.exception.FoodDeliveryManagementException;
+import com.ideas2it.fooddeliverymanagement.util.exception.FoodDeliveryManagementException;
 import com.ideas2it.fooddeliverymanagement.service.AddressService;
 import com.ideas2it.fooddeliverymanagement.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

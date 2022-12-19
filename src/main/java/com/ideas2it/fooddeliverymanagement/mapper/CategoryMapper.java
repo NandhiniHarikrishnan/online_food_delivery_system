@@ -31,7 +31,7 @@ public class CategoryMapper {
      */
     public static CategoryDTO convertIntoDTO(Category category) {
         List<Food> foods;
-        List<FoodDTO> foodsDTO = null;
+        List<FoodDTO> foodsDTO;
         CategoryDTO categoryDTO = new CategoryDTO();
         if(null != category) {
             categoryDTO.setId(category.getId());
@@ -39,11 +39,8 @@ public class CategoryMapper {
             categoryDTO.setName(category.getName());
             foods = category.getFoods();
             if(null != foods) {
-                foodsDTO = foods.stream().map(f -> {
-                    f.setCategory(null);
-                    return FoodMapper.convertIntoDTO(f);
-                }).collect(Collectors.toList());
-                categoryDTO.setFoods(foodsDTO);
+                categoryDTO.setFood(foods.stream().map(f ->
+                    f.getName()).collect(Collectors.joining(",")));
             }
         }
         return categoryDTO;

@@ -2,7 +2,7 @@ package com.ideas2it.fooddeliverymanagement.controller;
 
 import com.ideas2it.fooddeliverymanagement.dto.RestaurantDTO;
 import com.ideas2it.fooddeliverymanagement.dto.RestaurantDetailDTO;
-import com.ideas2it.fooddeliverymanagement.exception.FoodDeliveryManagementException;
+import com.ideas2it.fooddeliverymanagement.util.exception.FoodDeliveryManagementException;
 import com.ideas2it.fooddeliverymanagement.service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,18 +25,18 @@ public class RestaurantController {
 
 
     @PostMapping("/")
-    public RestaurantDTO addRestaurant(@Valid @RequestBody RestaurantDTO restaurantDTO) {
+    public RestaurantDTO addRestaurant(@Valid @RequestBody RestaurantDTO restaurantDTO) throws FoodDeliveryManagementException{
         return restaurantService.addRestaurant(restaurantDTO);
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<RestaurantDetailDTO>> getRestaurants() throws FoodDeliveryManagementException {
-        return ResponseEntity.status(HttpStatus.FOUND).body(restaurantService.getRestaurants());
+    public List<RestaurantDetailDTO> getRestaurants() throws FoodDeliveryManagementException {
+        return restaurantService.getRestaurants();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<RestaurantDetailDTO> getRestaurantById(@PathVariable int id) throws FoodDeliveryManagementException {
-        return ResponseEntity.status(HttpStatus.FOUND).body(restaurantService.getRestaurantById(id));
+    public RestaurantDetailDTO getRestaurantById(@PathVariable int id) throws FoodDeliveryManagementException {
+        return restaurantService.getRestaurantById(id);
     }
 
     /**
@@ -49,8 +49,8 @@ public class RestaurantController {
      * @throws FoodDeliveryManagementException - if the restaurant is not found
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteRestaurantById(@PathVariable int id) throws FoodDeliveryManagementException {
-        return ResponseEntity.status(HttpStatus.OK).body(restaurantService.deleteRestaurantById(id));
+    public String deleteRestaurantById(@PathVariable int id) throws FoodDeliveryManagementException {
+        return restaurantService.deleteRestaurantById(id);
     }
 
     /**
@@ -60,13 +60,13 @@ public class RestaurantController {
      *
      * @param  id - a restaurant id to be updated
      * @param restaurantDTO - the restaurant to be updated
-     * @return    - the success message if it is updated
+     * @return    - the updated restaurant
      * @throws FoodDeliveryManagementException - if the restaurant is not found, if the restaurant is not updated
      */
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateRestaurant(@RequestBody RestaurantDTO restaurantDTO, @PathVariable int id)
+    public RestaurantDTO updateRestaurant(@RequestBody RestaurantDTO restaurantDTO, @PathVariable int id)
             throws FoodDeliveryManagementException {
-        return ResponseEntity.status(HttpStatus.OK).body(restaurantService.updateRestaurant(restaurantDTO, id));
+        return restaurantService.updateRestaurant(restaurantDTO, id);
     }
 
     /**
@@ -79,7 +79,7 @@ public class RestaurantController {
      * @throws FoodDeliveryManagementException - if there is no restaurant based on the given keyword
      */
     @GetMapping("/search")
-    public ResponseEntity<List<RestaurantDetailDTO>> searchEmployees(@RequestParam String keyword) throws FoodDeliveryManagementException {
-        return ResponseEntity.status(HttpStatus.FOUND).body(restaurantService.searchRestaurant(keyword));
+    public List<RestaurantDetailDTO> searchEmployees(@RequestParam String keyword) throws FoodDeliveryManagementException {
+        return restaurantService.searchRestaurant(keyword);
     }
 }

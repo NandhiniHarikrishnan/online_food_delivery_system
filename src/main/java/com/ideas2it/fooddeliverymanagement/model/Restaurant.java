@@ -45,8 +45,10 @@ public class Restaurant extends BaseModel {
     }
 
     public void setRestaurantFoods(List<RestaurantFood> restaurantFoods) {
-        restaurantFoods.forEach(restaurantFood -> restaurantFood.setRestaurant(this));
-        this.restaurantFoods = restaurantFoods;
+        if (null != restaurantFoods) {
+            restaurantFoods.forEach(restaurantFood -> restaurantFood.setRestaurant(this));
+            this.restaurantFoods = restaurantFoods;
+        }
     }
 
     public List<Address> getAddresses() {

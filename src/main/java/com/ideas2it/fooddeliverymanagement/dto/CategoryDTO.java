@@ -1,6 +1,7 @@
 package com.ideas2it.fooddeliverymanagement.dto;
 
 import com.ideas2it.fooddeliverymanagement.model.Food;
+import com.ideas2it.fooddeliverymanagement.util.Constants;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,8 +17,9 @@ import java.util.List;
 public class CategoryDTO {
     private int id;
     private String code;
-    @NotNull(message = "Category name should not be null or empty")
-    @Pattern(regexp = "[^\\s][a-zA-Z\\s]*", message = "only alphabets and space are allowed")
+    @NotNull(message = Constants.NOT_NULL_OR_EMPTY_NAME)
+    @Pattern(regexp = Constants.REGEX_FOR_CATEGORY, message = Constants.ONLY_ALPHABETS_SPACE)
     private String name;
+    private String food;
     private List<FoodDTO> foods;
 }
