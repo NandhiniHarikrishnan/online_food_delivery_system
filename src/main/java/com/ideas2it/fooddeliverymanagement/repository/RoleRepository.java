@@ -14,11 +14,5 @@ import org.springframework.stereotype.Repository;
  */
 
 @Repository
-<<<<<<< Updated upstream
 public interface RoleRepository extends JpaRepository<Role, Integer> {
-=======
-public interface RoleRepository extends JpaRepository<Role, Integer>{
-
->>>>>>> Stashed changes
-
 }
