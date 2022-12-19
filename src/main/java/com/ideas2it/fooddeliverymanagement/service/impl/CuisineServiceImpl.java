@@ -7,7 +7,6 @@ import com.ideas2it.fooddeliverymanagement.model.Cuisine;
 import com.ideas2it.fooddeliverymanagement.repository.CuisineRepository;
 import com.ideas2it.fooddeliverymanagement.service.CuisineService;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -26,10 +25,13 @@ import java.util.Optional;
 @Service
 public class CuisineServiceImpl implements CuisineService {
 
+    private final CuisineRepository cuisineRepository;
+
     @Autowired
-    CuisineRepository cuisineRepository;
-    @Autowired
-    CuisineMapper cuisineMapper;
+    public CuisineServiceImpl(CuisineRepository cuisineRepository) {
+        this.cuisineRepository = cuisineRepository;
+    }
+
 
     /**
      * {@inheritDoc}
@@ -44,7 +46,7 @@ public class CuisineServiceImpl implements CuisineService {
      *
      * @return A String
      */
-    public String generateCode() {
+    private String generateCode() {
         long code = cuisineRepository.getCuisineCount();
         return "CUI-"+ (++code);
     }
@@ -66,7 +68,7 @@ public class CuisineServiceImpl implements CuisineService {
     public CuisineDTO getCuisineById(int id) throws FoodDeliveryManagementException {
         Optional<Cuisine>  optionalCuisine = cuisineRepository.findById(id);
         if(!optionalCuisine.isPresent()) {
-            throw new FoodDeliveryManagementException(id + "NOT_FOUND", HttpStatus.NOT_FOUND);
+            throw new FoodDeliveryManagementException(id + " id NOT_FOUND", HttpStatus.NOT_FOUND);
         }
         return CuisineMapper.convertCuisineDTO(optionalCuisine.get());
     }

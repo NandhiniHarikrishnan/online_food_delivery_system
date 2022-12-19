@@ -12,13 +12,17 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * > This class is a controller that handles requests for the `/cuisines` endpoint
+ * This class is a controller that handles requests for the `/cuisines` endpoint
  */
 @RestController
 @RequestMapping("/cuisine")
 public class CuisineController {
-    @Autowired
-    CuisineService cuisineService;
+    private final CuisineService cuisineService;
+
+    @Autowired   
+    public CuisineController(CuisineService cuisineService) {
+        this.cuisineService = cuisineService;
+    }
 
     /**
      * <p>
@@ -28,6 +32,7 @@ public class CuisineController {
      *
      * @param cuisineDTO cuisine details of a admin
      * @return cuisineDTO details
+     * @throws FoodDeliveryManagementException - if the restaurant is not found
      */
     @PostMapping("/")
     public ResponseEntity<CuisineDTO> addCuisine(@RequestBody CuisineDTO cuisineDTO) {
@@ -40,6 +45,7 @@ public class CuisineController {
      * </p>
      *
      * @return set of all cuisines
+     * @throws FoodDeliveryManagementException - if the restaurant is not found
      */
     @GetMapping("/")
     public ResponseEntity<List<CuisineDTO>> getCuisines() throws FoodDeliveryManagementException {
@@ -52,6 +58,7 @@ public class CuisineController {
      * </p>
      *
      * @return cuisine in given id
+     * @throws FoodDeliveryManagementException - if the cuisine is not found
      */
     @GetMapping("/{id}")
     public ResponseEntity<CuisineDTO> getCuisineById(@PathVariable int id) throws FoodDeliveryManagementException {

@@ -2,6 +2,7 @@ package com.ideas2it.fooddeliverymanagement.model;
 
 import lombok.ToString;
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.SQLDelete;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -14,7 +15,7 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
-@ToString
+@SQLDelete(sql = "UPDATE food SET is_deleted = true WHERE id=?")
 public class Food extends BaseModel {
 
     @NotNull
