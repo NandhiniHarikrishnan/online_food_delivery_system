@@ -31,10 +31,12 @@ public class RestaurantFoodMapper {
             restaurantFoodDTO.setPrice(restaurantFood.getPrice());
             restaurant = restaurantFood.getRestaurant();
             if (null != restaurant) {
+                restaurant.setRestaurantFoods(null);
                 restaurantFoodDTO.setRestaurant(RestaurantMapper.convertRestaurantDTO(restaurant));
             }
             food = restaurantFood.getFood();
             if (null != food) {
+                food.setRestaurantFoods(null);
                 restaurantFoodDTO.setFood(FoodMapper.convertIntoDTO(food));
             }
         }

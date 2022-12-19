@@ -1,23 +1,20 @@
 package com.ideas2it.fooddeliverymanagement.service.impl;
 
 import com.ideas2it.fooddeliverymanagement.dto.OrderDTO;
-import com.ideas2it.fooddeliverymanagement.exception.FoodDeliveryManagementException;
+import com.ideas2it.fooddeliverymanagement.util.exception.FoodDeliveryManagementException;
 import com.ideas2it.fooddeliverymanagement.mapper.OrderMapper;
 import com.ideas2it.fooddeliverymanagement.mapper.UserMapper;
 import com.ideas2it.fooddeliverymanagement.model.*;
 import com.ideas2it.fooddeliverymanagement.repository.OrderRepository;
 import com.ideas2it.fooddeliverymanagement.repository.RoleRepository;
-import com.ideas2it.fooddeliverymanagement.repository.UserRepository;
 import com.ideas2it.fooddeliverymanagement.service.OrderService;
 import com.ideas2it.fooddeliverymanagement.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class OrderServiceImpl implements OrderService {

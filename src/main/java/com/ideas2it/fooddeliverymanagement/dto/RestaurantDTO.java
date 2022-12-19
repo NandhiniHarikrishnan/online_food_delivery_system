@@ -1,5 +1,6 @@
 package com.ideas2it.fooddeliverymanagement.dto;
 
+import com.ideas2it.fooddeliverymanagement.util.Constants;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,10 +22,11 @@ import java.util.List;
 @ToString
 public class RestaurantDTO {
     private int id;
-    @NotNull(message = "Restaurant name should not be null or empty")
-    @Pattern(regexp = "[^\\s][0-9a-zA-Z\\s]*", message = "only alphanumerics and space are allowed")
+    @NotNull(message = Constants.NOT_NULL_OR_EMPTY_NAME)
+    @Pattern(regexp = Constants.REGEX_FOR_RESTAURANT, message = Constants.ONLY_ALPHANUMERIC_SPACE)
     private String name;
     private List<RestaurantFoodDTO> restaurantFoods;
+    @NotNull(message = Constants.NOT_NULL_OR_EMPTY_ADDRESS)
     private List<AddressDTO> addresses;
     private CuisineDTO cuisine;
 }

@@ -4,7 +4,7 @@ package com.ideas2it.fooddeliverymanagement.util;
 public class Constants {
     public static final String REGEX_FOR_NAME = "^[a-zA-Z0-9]([._-](?![._-])|[a-zA-Z0-9]){1,18}[a-zA-Z0-9]$";
     public static final String REGEX_FOR_PHONE_NUMBER = "^[6-9]{1}[0-9]{9}";
-    public static final String REGEX_FOR_PINCODE= "^[1-9][0-9]{5}$";
+    public static final String REGEX_FOR_PINCODE = "^[1-9][0-9]{5}$";
     public static final String INVALID_NAME = "Invalid Name";
     public static final String INVALID_EMAIL = "Invalid Email";
     public static final String ADDRESS_NOT_EMPTY = "Please Mention Your Address";
@@ -15,7 +15,7 @@ public class Constants {
     public static final String MENTION_PLOT_NUMBER = "Please Mention Plot Number";
     public static final String ADDRESS_NOT_ADDED = "Address Not Added";
     public static final String ADDRESS_NOT_FOUND = "Address Not Found";
-    public static final String ADDRESS_NOT_UPDATED ="Address Not Updated";
+    public static final String ADDRESS_NOT_UPDATED = "Address Not Updated";
     public static final String ADDRESS_NOT_DELETED = "Address Not Deleted";
     public static final String ROLE_NOT_ADDED = "Role Not Added";
     public static final String ROLE_NOT_FOUND = "Role Not Found";
@@ -24,4 +24,21 @@ public class Constants {
     public static final String USER_NOT_ADDED = "User Not Added";
     public static final String USER_NOT_FOUND = "User Not Found";
     public static final String DETAILS_NOT_UPDATED = "Details Not Updated";
+    public static final String NO_RECORD_FOUND = "No record Found";
+    public static final String RESTAURANT_NOT_FOUND = "Restaurant Not Found";
+    public static final String RESTAURANT_NOT_ADDED = "Restaurant Not Added";
+    public static final String RESTAURANT_NOT_UPDATED = "Restaurant Not Updated";
+    public static final String RESTAURANT_NOT_DELETED = "Restaurant Not Deleted";
+    public static final String CATEGORY_NOT_FOUND = "Category Not Found";
+    public static final String CATEGORY_NOT_ADDED = "Category Not Added";
+    public static final String CATEGORY_NOT_UPDATED = "Category Not Updated";
+    public static final String CATEGORY_NOT_DELETED = "Category Not Deleted";
+    public static final String DELETED_SUCCESSFULLY = "Deleted Successfully";
+    public static final String REGEX_FOR_CATEGORY = "[^\\s][a-zA-Z\\s]*";
+    public static final String ONLY_ALPHABETS_SPACE = "only alphabets and space are allowed";
+    public static final String NOT_NULL_OR_EMPTY_NAME = "Name should not be null or empty, Please give valid name";
+    public static final String REGEX_FOR_RESTAURANT = "[^\\s][0-9a-zA-Z\\s]*";
+    public static final String ONLY_ALPHANUMERIC_SPACE = "only alphanumerics and space are allowed";
+    public static final String NOT_NULL_OR_EMPTY_ADDRESS = "Address should not be null or empty, Please give valid address";
+
 }

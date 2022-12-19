@@ -97,18 +97,9 @@ public class Food extends BaseModel {
     }
 
     public void setRestaurantFoods(List<RestaurantFood> restaurantFoods) {
-        restaurantFoods.forEach(restaurantFood -> restaurantFood.setFood(this));
-        this.restaurantFoods = restaurantFoods;
-    }
-
-    @Override
-    public String toString() {
-        return "Food{" +
-                "name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", isAvailable=" + isAvailable +
-                ", weight='" + weight + '\'' +
-                ", category=" + category +
-                '}';
+        if (null != restaurantFoods) {
+            restaurantFoods.forEach(restaurantFood -> restaurantFood.setFood(this));
+            this.restaurantFoods = restaurantFoods;
+        }
     }
 }

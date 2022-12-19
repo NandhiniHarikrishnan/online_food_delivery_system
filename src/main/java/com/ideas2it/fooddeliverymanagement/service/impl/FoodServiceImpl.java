@@ -3,7 +3,7 @@ package com.ideas2it.fooddeliverymanagement.service.impl;
 import com.ideas2it.fooddeliverymanagement.dto.CategoryDTO;
 import com.ideas2it.fooddeliverymanagement.dto.FoodDTO;
 import com.ideas2it.fooddeliverymanagement.dto.RestaurantFoodDTO;
-import com.ideas2it.fooddeliverymanagement.exception.FoodDeliveryManagementException;
+import com.ideas2it.fooddeliverymanagement.util.exception.FoodDeliveryManagementException;
 import com.ideas2it.fooddeliverymanagement.mapper.FoodMapper;
 import com.ideas2it.fooddeliverymanagement.model.Food;
 import com.ideas2it.fooddeliverymanagement.repository.FoodRepository;
