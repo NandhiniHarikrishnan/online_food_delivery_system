@@ -18,17 +18,22 @@ import java.util.List;
  * @version - 1.0
  * @since - 2022-12-10
  */
+
 @Getter
 @Setter
 @NoArgsConstructor
 public class UserDTO {
 
     private int id;
+
     @NotBlank(message = "User name should be mentioned")
     private String name;
+
     @NotBlank(message = "email should be mentioned")
     @Email(message = "invalid format")
     private String email;
+
     private List<AddressDTO> addresses = new ArrayList<>();
+
     private List<RoleDTO> roles = new ArrayList<>();
 }

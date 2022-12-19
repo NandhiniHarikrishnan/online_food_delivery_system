@@ -16,6 +16,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * It performs basic CRUD operation to the address
+ * It throws custom exception if the data is not present in the database
+ *
+ * @author - dilip.n
+ * @version - 1.0
+ * @since - 2022-12-10
+ */
 @Service
 public class AddressServiceImpl implements AddressService {
 
@@ -28,6 +36,9 @@ public class AddressServiceImpl implements AddressService {
         this.userService = userService;
     }
 
+    /**
+     *{@inheritDoc}
+     */
     @Override
     public AddressDTO addAddress(AddressDTO addressDTO, int userId) throws FoodDeliveryManagementException {
         Address address = UserMapper.convertAddress(addressDTO);
@@ -39,7 +50,10 @@ public class AddressServiceImpl implements AddressService {
         }
         throw new FoodDeliveryManagementException("ADDRESS_NOT ADDED", HttpStatus.UNPROCESSABLE_ENTITY);
     }
-    
+
+    /**
+     *{@inheritDoc}
+     */
     @Override
     public AddressDTO getAddress(int id) throws FoodDeliveryManagementException{
         Optional<Address> existingAddress = addressRepository.findById(id);
@@ -51,6 +65,9 @@ public class AddressServiceImpl implements AddressService {
 
     }
 
+    /**
+     *{@inheritDoc}
+     */
     @Override
     public AddressDTO updateAddress(int userId, AddressDTO addressDTO) throws FoodDeliveryManagementException {
         Address address = UserMapper.convertAddress(addressDTO);
@@ -63,6 +80,9 @@ public class AddressServiceImpl implements AddressService {
         throw new FoodDeliveryManagementException("ADDRESS_NOT_UPDATED",HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
+    /**
+     *{@inheritDoc}
+     */
     @Override
     public AddressDTO deleteAddress(int userID, int addressId) throws FoodDeliveryManagementException {
         if(userService.isExist(userID)) {
@@ -79,6 +99,9 @@ public class AddressServiceImpl implements AddressService {
        throw new FoodDeliveryManagementException("ADDRESS_NOT_DELETED",HttpStatus.NOT_FOUND);
     }
 
+    /**
+     *{@inheritDoc}
+     */
     @Override
     public List<AddressDTO> getAllAddress() throws FoodDeliveryManagementException {
         List<AddressDTO> listOfAddresses = new ArrayList<>();
