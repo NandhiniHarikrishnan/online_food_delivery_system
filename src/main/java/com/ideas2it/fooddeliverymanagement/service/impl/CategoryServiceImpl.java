@@ -17,15 +17,19 @@ import java.util.Optional;
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
-    @Autowired
     private CategoryRepository categoryRepository;
+
+    @Autowired
+    public CategoryServiceImpl(CategoryRepository categoryRepository) {
+        this.categoryRepository = categoryRepository;
+    }
 
     /**
      * {@inheritDoc}
      */
     @Override
     public CategoryDTO addCategory(CategoryDTO categoryDTO) {
-        categoryDTO.setCode(generateCategoryCode());
+        categoryDTO.setCode(generateCategoryCode(categoryDTO));
         return CategoryMapper.convertIntoDTO(categoryRepository
                 .save(CategoryMapper.convertIntoEntity(categoryDTO)));
     }
@@ -75,7 +79,7 @@ public class CategoryServiceImpl implements CategoryService {
     public String updateCategory(CategoryDTO categoryDTO, int id) throws FoodDeliveryManagementException {
         String message = null;
         if (categoryRepository.existsById(id)) {
-           CategoryDTO existingCategory = getCategoryById(id);
+            CategoryDTO existingCategory = getCategoryById(id);
             if (null != existingCategory) {
                 existingCategory.setName(categoryDTO.getName());
                 if (null != categoryDTO.getFoods()) {
@@ -97,11 +101,11 @@ public class CategoryServiceImpl implements CategoryService {
      * Generate the category code as per the count of the categories
      * </p>
      *
-     * @return an category code with prefix as CAT
+     * @return an category code with prefix as first three characters of name in upper case
      */
-    public String generateCategoryCode() {
+    public String generateCategoryCode(CategoryDTO categoryDTO) {
         Long categoryCode = categoryRepository.getCategoriesCount();
-        return "CAT" + (++categoryCode);
+        return categoryDTO.getName().substring(0,3).toUpperCase() + "-" + (++categoryCode);
     }
 
 }

@@ -11,10 +11,12 @@ import java.util.List;
 @Where(clause = "is_deleted = false")
 public class Category extends BaseModel {
 
-    @Column(columnDefinition = "varchar(20) unique", nullable = false)
+    @NotNull
+    @Column(columnDefinition="varchar(30) unique")
     private String code;
 
     @NotNull
+    @Column(columnDefinition="varchar(30) unique")
     private String name;
 
     @OneToMany(mappedBy = "category",cascade = CascadeType.ALL)
@@ -44,7 +46,10 @@ public class Category extends BaseModel {
     }
 
     public void setFoods(List<Food> foods) {
-        this.foods = foods;
+        if(null != foods) {
+            foods.forEach(food -> food.setCategory(this));
+            this.foods = foods;
+        }
     }
 
 }

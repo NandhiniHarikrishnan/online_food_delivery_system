@@ -1,5 +1,6 @@
 package com.ideas2it.fooddeliverymanagement.model;
 
+import lombok.ToString;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
@@ -15,6 +16,7 @@ public class Cuisine extends BaseModel {
     private String code;
 
     @NotNull
+    @Column(columnDefinition="varchar(20) unique")
     private String name;
 
     @OneToMany(mappedBy = "cuisine", cascade = CascadeType.ALL)
@@ -44,7 +46,10 @@ public class Cuisine extends BaseModel {
     }
 
     public void setRestaurants(List<Restaurant> restaurants) {
-        this.restaurants = restaurants;
+        if(null != restaurants) {
+            restaurants.forEach(restaurant -> restaurant.setCuisine(this));
+            this.restaurants = restaurants;
+        }
     }
 }
 

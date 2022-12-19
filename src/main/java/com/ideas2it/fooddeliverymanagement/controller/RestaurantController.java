@@ -9,17 +9,23 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
 @RequestMapping("/restaurant")
 public class RestaurantController {
 
-    @Autowired
     private RestaurantService restaurantService;
 
+    @Autowired
+    public RestaurantController(RestaurantService restaurantService) {
+        this.restaurantService = restaurantService;
+    }
+
+
     @PostMapping("/")
-    public RestaurantDTO addRestaurant(@RequestBody RestaurantDTO restaurantDTO) {
+    public RestaurantDTO addRestaurant(@Valid @RequestBody RestaurantDTO restaurantDTO) {
         return restaurantService.addRestaurant(restaurantDTO);
     }
 
@@ -61,5 +67,19 @@ public class RestaurantController {
     public ResponseEntity<String> updateRestaurant(@RequestBody RestaurantDTO restaurantDTO, @PathVariable int id)
             throws FoodDeliveryManagementException {
         return ResponseEntity.status(HttpStatus.OK).body(restaurantService.updateRestaurant(restaurantDTO, id));
+    }
+
+    /**
+     * <p>
+     * To search the restaurant.
+     * </p>
+     *
+     * @param keyword - an input for which restaurant will be filtered
+     * @return - the list of filtered restaurants
+     * @throws FoodDeliveryManagementException - if there is no restaurant based on the given keyword
+     */
+    @GetMapping("/search")
+    public ResponseEntity<List<RestaurantDetailDTO>> searchEmployees(@RequestParam String keyword) throws FoodDeliveryManagementException {
+        return ResponseEntity.status(HttpStatus.FOUND).body(restaurantService.searchRestaurant(keyword));
     }
 }

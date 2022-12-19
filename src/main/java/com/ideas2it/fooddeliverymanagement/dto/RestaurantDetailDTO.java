@@ -14,9 +14,9 @@ public class RestaurantDetailDTO {
 
     private String name;
 
-    private List<FoodDTO> foodsDTO;
+    private List<FoodDTO> foods;
 
-    private List<AddressDTO> addressesDTO;
+    private List<AddressDTO> addresses;
 
-    private CuisineDTO cuisineDTO;
+    private CuisineDTO cuisine;
 }

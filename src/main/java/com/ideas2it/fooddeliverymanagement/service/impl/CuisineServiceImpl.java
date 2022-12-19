@@ -1,6 +1,8 @@
 package com.ideas2it.fooddeliverymanagement.service.impl;
 
 import com.ideas2it.fooddeliverymanagement.dto.CuisineDTO;
+import com.ideas2it.fooddeliverymanagement.dto.FoodDTO;
+import com.ideas2it.fooddeliverymanagement.dto.RestaurantDTO;
 import com.ideas2it.fooddeliverymanagement.exception.FoodDeliveryManagementException;
 import com.ideas2it.fooddeliverymanagement.mapper.CuisineMapper;
 import com.ideas2it.fooddeliverymanagement.model.Cuisine;
@@ -81,6 +83,11 @@ public class CuisineServiceImpl implements CuisineService {
         if(cuisineRepository.existsById(id)) {
             CuisineDTO  existingCuisineDTO = getCuisineById(id);
             existingCuisineDTO.setName(cuisineDTO.getName());
+            if (null != cuisineDTO.getRestaurants()) {
+                List<RestaurantDTO> input = existingCuisineDTO.getRestaurants();
+                input.addAll(cuisineDTO.getRestaurants());
+                existingCuisineDTO.setRestaurants(input);
+            }
             return CuisineMapper.convertCuisineDTO(
                     cuisineRepository.save(CuisineMapper.convertCuisine(existingCuisineDTO)));
         }

@@ -1,8 +1,8 @@
 package com.ideas2it.fooddeliverymanagement.model;
 
-import lombok.ToString;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -16,6 +16,7 @@ import java.util.List;
 
 @Entity
 @SQLDelete(sql = "UPDATE food SET is_deleted = true WHERE id=?")
+@Where(clause = "is_deleted = false")
 public class Food extends BaseModel {
 
     @NotNull
@@ -34,12 +35,10 @@ public class Food extends BaseModel {
     @ManyToOne(fetch = FetchType.LAZY)
     private Category category;
 
-    @OneToMany
-    @JoinColumn(name = "food_id", referencedColumnName = "id")
+    @OneToMany(mappedBy = "food",cascade = CascadeType.ALL)
     private List<RestaurantFood> restaurantFoods;
 
     @OneToMany(mappedBy = "food")
-    //@JoinColumn(name = "food_id", referencedColumnName = "id")
     private List<OrderDetail> orderDetails;
 
     public Food() {
@@ -89,17 +88,27 @@ public class Food extends BaseModel {
         this.category = category;
     }
 
-    public List<com.ideas2it.fooddeliverymanagement.model.OrderDetail> getOrderDetails() {
+    public List<OrderDetail> getOrderDetails() {
         return orderDetails;
     }
 
-    public void setOrderDetails(List<com.ideas2it.fooddeliverymanagement.model.OrderDetail> orderDetails) {
+    public void setOrderDetails(List<OrderDetail> orderDetails) {
         this.orderDetails = orderDetails;
     }
 
     public void setRestaurantFoods(List<RestaurantFood> restaurantFoods) {
+        restaurantFoods.forEach(restaurantFood -> restaurantFood.setFood(this));
         this.restaurantFoods = restaurantFoods;
     }
 
-
+    @Override
+    public String toString() {
+        return "Food{" +
+                "name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", isAvailable=" + isAvailable +
+                ", weight='" + weight + '\'' +
+                ", category=" + category +
+                '}';
+    }
 }

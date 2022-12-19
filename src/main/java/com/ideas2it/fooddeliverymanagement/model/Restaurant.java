@@ -2,6 +2,7 @@ package com.ideas2it.fooddeliverymanagement.model;
 
 import lombok.ToString;
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
@@ -9,6 +10,7 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
+@SQLDelete(sql = "update restaurant set is_deleted = 1 where id =?")
 @Where(clause = "is_deleted = false")
 @ToString
 public class Restaurant extends BaseModel {
@@ -16,16 +18,15 @@ public class Restaurant extends BaseModel {
     @NotNull
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "restaurant_id", referencedColumnName = "id")
+    @OneToMany(mappedBy = "restaurant",cascade = CascadeType.ALL)
     private List<RestaurantFood> restaurantFoods;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "restaurant_id", referencedColumnName = "id")
+    @OneToMany(mappedBy = "restaurant",cascade = CascadeType.ALL)
     private List<Address> addresses;
 
-    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
+    //cascade = {CascadeType.PERSIST, CascadeType.MERGE}
     @ManyToOne(fetch = FetchType.LAZY)
+    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     private Cuisine cuisine;
 
     public Restaurant() {
@@ -44,6 +45,7 @@ public class Restaurant extends BaseModel {
     }
 
     public void setRestaurantFoods(List<RestaurantFood> restaurantFoods) {
+        restaurantFoods.forEach(restaurantFood -> restaurantFood.setRestaurant(this));
         this.restaurantFoods = restaurantFoods;
     }
 
@@ -52,6 +54,7 @@ public class Restaurant extends BaseModel {
     }
 
     public void setAddresses(List<Address> addresses) {
+        addresses.forEach(address -> address.setRestaurant(this));
         this.addresses = addresses;
     }
 

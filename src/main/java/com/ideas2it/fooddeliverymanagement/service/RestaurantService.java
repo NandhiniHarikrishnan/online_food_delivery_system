@@ -16,4 +16,6 @@ public interface RestaurantService {
     String deleteRestaurantById(int id) throws FoodDeliveryManagementException;
 
     String updateRestaurant(RestaurantDTO restaurantDTO, int id) throws FoodDeliveryManagementException;
+
+    List<RestaurantDetailDTO> searchRestaurant(String keyword) throws FoodDeliveryManagementException;
 }
