@@ -8,14 +8,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
 @RequestMapping("/category")
 public class CategoryController {
 
-    @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    public CategoryController(CategoryService categoryService) {
+        this.categoryService = categoryService;
+    }
 
     /**
      * <p>
@@ -26,7 +31,7 @@ public class CategoryController {
      * @return - the created category with HttpStatus.CREATED
      */
     @PostMapping("/")
-    private ResponseEntity<CategoryDTO> addCategory(@RequestBody CategoryDTO categoryDTO) {
+    private ResponseEntity<CategoryDTO> addCategory(@Valid @RequestBody CategoryDTO categoryDTO) {
         return new ResponseEntity<>(categoryService.addCategory(categoryDTO), HttpStatus.CREATED);
     }
 

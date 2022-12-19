@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.io.PrintStream;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -18,8 +17,12 @@ import java.util.stream.Collectors;
 @Service
 public class RestaurantServiceImpl implements RestaurantService {
 
-    @Autowired
     private RestaurantRepository restaurantRepository;
+
+    @Autowired
+    public RestaurantServiceImpl(RestaurantRepository restaurantRepository) {
+        this.restaurantRepository = restaurantRepository;
+    }
 
     /**
      * {@inheritDoc}
@@ -48,9 +51,11 @@ public class RestaurantServiceImpl implements RestaurantService {
      */
     @Override
     public RestaurantDetailDTO getRestaurantById(int id) throws FoodDeliveryManagementException {
+        System.out.println(restaurantRepository.findById(id).orElseThrow(
+                () -> new FoodDeliveryManagementException("REPOSITORY_NOT_FOUND", HttpStatus.NOT_FOUND)));
         return convertIntoRestaurantDetailDTO(RestaurantMapper.
                 convertRestaurantDTO(restaurantRepository.findById(id).orElseThrow(
-                () -> new FoodDeliveryManagementException("REPOSITORY_NOT_FOUND", HttpStatus.NOT_FOUND))));
+                () -> new FoodDeliveryManagementException("RESTAURANT_NOT_FOUND", HttpStatus.NOT_FOUND))));
     }
 
     /**
@@ -82,9 +87,7 @@ public class RestaurantServiceImpl implements RestaurantService {
                 List<RestaurantFoodDTO> restaurantFoodsDTO = restaurantDTO.getRestaurantFoods();
                 if (null != restaurantFoodsDTO) {
                     List<RestaurantFoodDTO> input = existingRestaurant.getRestaurantFoods();
-                    System.out.println(input);
                     input.addAll(restaurantFoodsDTO);
-                    System.out.println(input);
                     existingRestaurant.setRestaurantFoods(input);
                 }
                 List<AddressDTO> addressesDTO = restaurantDTO.getAddresses();
@@ -96,15 +99,29 @@ public class RestaurantServiceImpl implements RestaurantService {
                 if(null != restaurantDTO.getCuisine()) {
                     existingRestaurant.setCuisine(restaurantDTO.getCuisine());
                 }
-                System.out.println("existing dto" + existingRestaurant);
-                System.out.println("converted dto" + RestaurantMapper.convertRestaurant(existingRestaurant));
                 restaurantRepository.save(RestaurantMapper.convertRestaurant(existingRestaurant));
                 message = restaurantDTO.getName() + " Update Successfully";
             }
         } else {
-            throw new FoodDeliveryManagementException("REPOSITORY_NOT_FOUND", HttpStatus.NOT_FOUND);
+            throw new FoodDeliveryManagementException("RESTAURANT_NOT_FOUND", HttpStatus.NOT_FOUND);
         }
         return message;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<RestaurantDetailDTO> searchRestaurant(String keyword) throws FoodDeliveryManagementException {
+        List<RestaurantDTO> restaurants = RestaurantMapper.convertIntoRestaurantsDTO(restaurantRepository.searchRestaurant(keyword));
+        System.out.println(restaurants);
+        List<RestaurantDetailDTO> restaurantDetailsDTO;
+        if (restaurants.isEmpty()) {
+            throw new FoodDeliveryManagementException("NO_RECORD_FOUND", HttpStatus.NOT_FOUND);
+        }
+        restaurantDetailsDTO = restaurants.stream()
+                .map(r -> convertIntoRestaurantDetailDTO(r)).collect(Collectors.toList());
+        return restaurantDetailsDTO;
     }
 
     private RestaurantDetailDTO convertIntoRestaurantDetailDTO(RestaurantDTO restaurantDTO) {
@@ -112,6 +129,7 @@ public class RestaurantServiceImpl implements RestaurantService {
         restaurantDetailDTO.setId(restaurantDTO.getId());
         restaurantDetailDTO.setName(restaurantDTO.getName());
         List<RestaurantFoodDTO> restaurantFoodsDTO = restaurantDTO.getRestaurantFoods();
+        System.out.println(restaurantFoodsDTO);
         if (null != restaurantFoodsDTO) {
             List<FoodDTO> foodsDTO = restaurantFoodsDTO.stream().map(restaurantFoodDTO -> {
                 FoodDTO foodDTO = restaurantFoodDTO.getFood();
@@ -121,10 +139,11 @@ public class RestaurantServiceImpl implements RestaurantService {
                 }
                 return foodDTO;
             }).collect(Collectors.toList());
-            restaurantDetailDTO.setFoodsDTO(foodsDTO);
+            restaurantDetailDTO.setFoods(foodsDTO);
+            System.out.println(foodsDTO);
         }
-        restaurantDetailDTO.setCuisineDTO(restaurantDTO.getCuisine());
-        restaurantDetailDTO.setAddressesDTO(restaurantDTO.getAddresses());
+        restaurantDetailDTO.setCuisine(restaurantDTO.getCuisine());
+        restaurantDetailDTO.setAddresses(restaurantDTO.getAddresses());
         return restaurantDetailDTO;
     }
 }

@@ -35,7 +35,7 @@ public class CuisineMapper {
             cuisineDTO.setId(cuisine.getId());
             cuisineDTO.setCode(cuisine.getCode());
             cuisineDTO.setName(cuisine.getName());
-
+            restaurants = cuisine.getRestaurants();
             if (null != restaurants) {
                 restaurantsDTO = restaurants.stream().map(r -> {
                     r.setCuisine(null);
@@ -61,6 +61,7 @@ public class CuisineMapper {
             cuisine.setId(cuisineDTO.getId());
             cuisine.setCode(cuisineDTO.getCode());
             cuisine.setName(cuisineDTO.getName());
+            restaurantsDTO = cuisineDTO.getRestaurants();
             if (null != restaurantsDTO) {
                 restaurants = restaurantsDTO.stream().map(r -> {
                     r.setCuisine(null);
