@@ -8,6 +8,7 @@ import com.ideas2it.fooddeliverymanagement.model.Role;
 import com.ideas2it.fooddeliverymanagement.model.User;
 import com.ideas2it.fooddeliverymanagement.repository.RoleRepository;
 import com.ideas2it.fooddeliverymanagement.service.RoleService;
+import com.ideas2it.fooddeliverymanagement.util.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -58,7 +59,7 @@ public class RoleServiceImpl implements RoleService {
         if (savedRole.isPresent()) {
             return savedRole.get();
         }
-        throw new FoodDeliveryManagementException("ROLE_NOT_ADDED",HttpStatus.UNPROCESSABLE_ENTITY);
+        throw new FoodDeliveryManagementException(Constants.ROLE_NOT_ADDED,HttpStatus.UNPROCESSABLE_ENTITY);
 
     }
 
@@ -72,7 +73,7 @@ public class RoleServiceImpl implements RoleService {
         if (existingRole.isPresent()) {
             return UserMapper.convertToRoleDTO(existingRole.get());
         }
-        throw new FoodDeliveryManagementException("ROLE_NOT FOUND", HttpStatus.NOT_FOUND);
+        throw new FoodDeliveryManagementException(Constants.ROLE_NOT_FOUND, HttpStatus.NOT_FOUND);
     }
 
     /**
@@ -86,7 +87,22 @@ public class RoleServiceImpl implements RoleService {
             existingRole.get().setDelete(true);
             return UserMapper.convertToRoleDTO(roleRepository.save(existingRole.get()));
         }
-        throw new FoodDeliveryManagementException("ROLE_NOT_DELETED",HttpStatus.UNPROCESSABLE_ENTITY);
+        throw new FoodDeliveryManagementException(Constants.ROLE_NOT_DELETED,HttpStatus.UNPROCESSABLE_ENTITY);
+    }
+
+    /**
+     *{@inheritDoc}
+     */
+    @Override
+    public List<RoleDTO> getAllRoles() throws FoodDeliveryManagementException {
+        List<RoleDTO> existingRoles = new ArrayList<>();
+        List<Role> roles = roleRepository.findAll();
+
+        if (!roles.isEmpty()) {
+            roles.forEach(role -> existingRoles.add(UserMapper.convertToRoleDTO(role)));
+            return existingRoles;
+        }
+        throw new FoodDeliveryManagementException(Constants.ROLE_NOT_FOUND, HttpStatus.NOT_FOUND);
     }
 
     /**

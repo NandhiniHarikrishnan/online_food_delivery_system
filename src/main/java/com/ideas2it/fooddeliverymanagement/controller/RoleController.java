@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * It exposes endpoints for adding, getting and deleting roles
  * The url path to enter is /role after it perform based on the url-path
@@ -59,5 +61,10 @@ public class RoleController {
     @DeleteMapping("/{roleId}")
     public RoleDTO deleteRole(@PathVariable int roleId) throws FoodDeliveryManagementException {
         return roleService.deleteRole(roleId);
+    }
+
+    @GetMapping("/")
+    public List<RoleDTO> getAllRole() throws FoodDeliveryManagementException {
+        return roleService.getAllRoles();
     }
 }

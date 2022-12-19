@@ -1,9 +1,11 @@
 package com.ideas2it.fooddeliverymanagement.dto;
 
+import com.ideas2it.fooddeliverymanagement.util.Constants;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.Pattern;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +22,8 @@ import java.util.List;
 public class RoleDTO {
 
     private int id;
+
+    @Pattern(regexp = Constants.REGEX_FOR_NAME)
     private String name;
 
     private String code;

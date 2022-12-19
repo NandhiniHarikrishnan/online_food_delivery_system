@@ -3,6 +3,8 @@ package com.ideas2it.fooddeliverymanagement.service;
 import com.ideas2it.fooddeliverymanagement.dto.RoleDTO;
 import com.ideas2it.fooddeliverymanagement.exception.FoodDeliveryManagementException;
 
+import java.util.List;
+
 /**
  * It performs create, read, delete for the role
  *
@@ -38,4 +40,12 @@ public interface RoleService {
      * @throws FoodDeliveryManagementException
      */
     RoleDTO deleteRole(int roleId) throws FoodDeliveryManagementException;
+
+    /**
+     * This function returns a list of all the roles in the system
+     *
+     * @return List of RoleDTO objects
+     * @throws FoodDeliveryManagementException
+     */
+    List<RoleDTO> getAllRoles() throws FoodDeliveryManagementException;
 }
