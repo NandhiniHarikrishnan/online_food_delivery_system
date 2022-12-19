@@ -31,7 +31,7 @@ public class OrderController {
     }
 
     @PutMapping("/assignDelivery/{id}")
-    public OrderDTO assignDelivery(@PathVariable("id") int orderId) {
+    public OrderDTO assignDelivery(@PathVariable("id") int orderId) throws FoodDeliveryManagementException{
         return orderService.assignDelivery(orderId);
     }
 }
