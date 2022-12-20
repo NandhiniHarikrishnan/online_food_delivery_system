@@ -1,4 +1,4 @@
-package com.ideas2it.fooddeliverymanagement.exception;
+package com.ideas2it.fooddeliverymanagement.util.exception;
 
 import org.springframework.http.HttpStatus;
 

@@ -1,7 +1,7 @@
 package com.ideas2it.fooddeliverymanagement.service;
 
 import com.ideas2it.fooddeliverymanagement.dto.OrderDTO;
-import com.ideas2it.fooddeliverymanagement.exception.FoodDeliveryManagementException;
+import com.ideas2it.fooddeliverymanagement.util.exception.FoodDeliveryManagementException;
 
 public interface OrderService {
     OrderDTO assignOrder(OrderDTO orderDTO,int customerId) throws FoodDeliveryManagementException;

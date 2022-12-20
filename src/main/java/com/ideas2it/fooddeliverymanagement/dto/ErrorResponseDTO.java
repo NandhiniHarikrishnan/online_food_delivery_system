@@ -33,4 +33,10 @@ public class ErrorResponseDTO {
         this.status = httpStatus.name();
         this.message = message;
     }
+
+    public ErrorResponseDTO(
+            String message) {
+        this();
+        this.message = message;
+    }
 }

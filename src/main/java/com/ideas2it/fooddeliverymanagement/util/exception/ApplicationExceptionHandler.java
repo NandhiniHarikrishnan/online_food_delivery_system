@@ -1,8 +1,9 @@
-package com.ideas2it.fooddeliverymanagement.exception;
+package com.ideas2it.fooddeliverymanagement.util.exception;
 
-import com.ideas2it.fooddeliverymanagement.model.ErrorResponse;
+import com.ideas2it.fooddeliverymanagement.dto.ErrorResponseDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -31,8 +32,8 @@ public class ApplicationExceptionHandler {
      * @return - the error message with respective status and code
      */
     @ExceptionHandler(FoodDeliveryManagementException.class)
-    public ResponseEntity<ErrorResponse> handleEmployeeManagementException(FoodDeliveryManagementException exception) {
-        ErrorResponse errorResponse = new ErrorResponse(exception.getStatus(),exception.getMessage());
+    public ResponseEntity<ErrorResponseDTO> handleEmployeeManagementException(FoodDeliveryManagementException exception) {
+        ErrorResponseDTO errorResponse = new ErrorResponseDTO(exception.getStatus(),exception.getMessage());
         return new ResponseEntity<> (errorResponse, exception.getStatus());
     }
 
@@ -52,4 +53,19 @@ public class ApplicationExceptionHandler {
         return errorResponse;
 
     }
+
+    /**
+     * <p>
+     * To handle the HttpRequestMethodNotSupportedException.
+     * </p>
+     *
+     * @param exception - an exception to be handled
+     * @return - the error message with respective status and code
+     */
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public ResponseEntity<ErrorResponseDTO> handleMethodNotSupportedException(HttpRequestMethodNotSupportedException exception) {
+        ErrorResponseDTO errorResponse = new ErrorResponseDTO(exception.getMessage());
+        return new ResponseEntity<> (errorResponse, HttpStatus.METHOD_NOT_ALLOWED);
+    }
+
 }

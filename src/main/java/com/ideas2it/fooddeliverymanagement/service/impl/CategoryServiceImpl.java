@@ -2,7 +2,8 @@ package com.ideas2it.fooddeliverymanagement.service.impl;
 
 import com.ideas2it.fooddeliverymanagement.dto.CategoryDTO;
 import com.ideas2it.fooddeliverymanagement.dto.FoodDTO;
-import com.ideas2it.fooddeliverymanagement.exception.FoodDeliveryManagementException;
+import com.ideas2it.fooddeliverymanagement.util.Constants;
+import com.ideas2it.fooddeliverymanagement.util.exception.FoodDeliveryManagementException;
 import com.ideas2it.fooddeliverymanagement.mapper.CategoryMapper;
 import com.ideas2it.fooddeliverymanagement.model.Category;
 import com.ideas2it.fooddeliverymanagement.repository.CategoryRepository;
@@ -28,10 +29,15 @@ public class CategoryServiceImpl implements CategoryService {
      * {@inheritDoc}
      */
     @Override
-    public CategoryDTO addCategory(CategoryDTO categoryDTO) {
+    public CategoryDTO addCategory(CategoryDTO categoryDTO) throws FoodDeliveryManagementException {
+        CategoryDTO createdCategoryDTO;
         categoryDTO.setCode(generateCategoryCode(categoryDTO));
-        return CategoryMapper.convertIntoDTO(categoryRepository
+        createdCategoryDTO =  CategoryMapper.convertIntoDTO(categoryRepository
                 .save(CategoryMapper.convertIntoEntity(categoryDTO)));
+        if (null == createdCategoryDTO) {
+            throw new FoodDeliveryManagementException(Constants.CATEGORY_NOT_ADDED, HttpStatus.NOT_FOUND);
+        }
+        return createdCategoryDTO;
     }
 
     /**
@@ -42,7 +48,7 @@ public class CategoryServiceImpl implements CategoryService {
         List<CategoryDTO> categories = CategoryMapper
                 .convertIntoCategoriesDto(categoryRepository.findAll());
         if (categories.isEmpty()) {
-            throw new FoodDeliveryManagementException("NO_RECORD_FOUND", HttpStatus.NOT_FOUND);
+            throw new FoodDeliveryManagementException(Constants.NO_RECORD_FOUND, HttpStatus.NOT_FOUND);
         }
         return categories;
     }
@@ -53,7 +59,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryDTO getCategoryById(int id) throws FoodDeliveryManagementException {
         return CategoryMapper.convertIntoDTO(categoryRepository.findById(id).orElseThrow(
-                () -> new FoodDeliveryManagementException("CATEGORY_NOT_FOUND", HttpStatus.NOT_FOUND)));
+                () -> new FoodDeliveryManagementException(Constants.CATEGORY_NOT_FOUND, HttpStatus.NOT_FOUND)));
     }
 
     /**
@@ -62,22 +68,22 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public String deleteCategoryById(int id) throws FoodDeliveryManagementException {
         if (!categoryRepository.existsById(id)) {
-            throw new FoodDeliveryManagementException("CATEGORY_NOT_FOUND", HttpStatus.NOT_FOUND);
+            throw new FoodDeliveryManagementException(Constants.CATEGORY_NOT_FOUND, HttpStatus.NOT_FOUND);
         }
         categoryRepository.deleteById(id);
         Optional<Category> category = categoryRepository.findById(id);
         if(category.isPresent()) {
-            throw new FoodDeliveryManagementException("DELETE_UNSUCCESSFUL", HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new FoodDeliveryManagementException(Constants.CATEGORY_NOT_DELETED, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return "deleted successfully " + id;
+        return Constants.DELETED_SUCCESSFULLY + id;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public String updateCategory(CategoryDTO categoryDTO, int id) throws FoodDeliveryManagementException {
-        String message = null;
+    public CategoryDTO updateCategory(CategoryDTO categoryDTO, int id) throws FoodDeliveryManagementException {
+        CategoryDTO updatedCategoryDTO = null;
         if (categoryRepository.existsById(id)) {
             CategoryDTO existingCategory = getCategoryById(id);
             if (null != existingCategory) {
@@ -87,13 +93,15 @@ public class CategoryServiceImpl implements CategoryService {
                     input.addAll(categoryDTO.getFoods());
                     existingCategory.setFoods(input);
                 }
-                categoryRepository.save(CategoryMapper.convertIntoEntity(existingCategory));
-                message = categoryDTO.getName() + " Update Successfully";
+                updatedCategoryDTO = CategoryMapper.convertIntoDTO(categoryRepository.save(CategoryMapper.convertIntoEntity(existingCategory)));
+                if (null == updatedCategoryDTO) {
+                    throw new FoodDeliveryManagementException(Constants.CATEGORY_NOT_UPDATED, HttpStatus.NOT_FOUND);
+                }
             }
         } else {
-            throw new FoodDeliveryManagementException("CATEGORY_NOT_FOUND", HttpStatus.NOT_FOUND);
+            throw new FoodDeliveryManagementException(Constants.CATEGORY_NOT_FOUND, HttpStatus.NOT_FOUND);
         }
-        return message;
+        return updatedCategoryDTO;
     }
 
     /**
@@ -101,7 +109,7 @@ public class CategoryServiceImpl implements CategoryService {
      * Generate the category code as per the count of the categories
      * </p>
      *
-     * @return an category code with prefix as first three characters of name in upper case
+     * @return a category code with prefix as first three characters of name in upper case
      */
     public String generateCategoryCode(CategoryDTO categoryDTO) {
         Long categoryCode = categoryRepository.getCategoriesCount();
