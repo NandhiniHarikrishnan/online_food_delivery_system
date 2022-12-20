@@ -28,20 +28,16 @@ public class CuisineMapper {
      * @return A CuisineDTO object
      */
     public static CuisineDTO convertCuisineDTO(Cuisine cuisine) {
-        List<Restaurant> restaurants = null;
-        List<RestaurantDTO> restaurantsDTO;
+        List<Restaurant> restaurants;
         CuisineDTO cuisineDTO = new CuisineDTO();
         if (null != cuisine) {
             cuisineDTO.setId(cuisine.getId());
             cuisineDTO.setCode(cuisine.getCode());
             cuisineDTO.setName(cuisine.getName());
-            restaurants = cuisine.getRestaurants();
+           restaurants = cuisine.getRestaurants();
             if (null != restaurants) {
-                restaurantsDTO = restaurants.stream().map(r -> {
-                    r.setCuisine(null);
-                    return RestaurantMapper.convertRestaurantDTO(r);
-                }).collect(Collectors.toList());
-                cuisineDTO.setRestaurants(restaurantsDTO);
+                cuisineDTO.setRestaurant(restaurants.stream()
+                        .map(r -> r.getName()).collect(Collectors.joining(",")));
             }
         }
         return cuisineDTO;

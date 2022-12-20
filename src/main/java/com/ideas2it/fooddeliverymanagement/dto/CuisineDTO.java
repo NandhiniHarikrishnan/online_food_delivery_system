@@ -20,5 +20,6 @@ public class CuisineDTO {
     private int id;
     private String code;
     private String name;
+    private String restaurant;
     private List<RestaurantDTO> restaurants;
 }

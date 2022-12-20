@@ -1,11 +1,9 @@
 package com.ideas2it.fooddeliverymanagement.controller;
 
 import com.ideas2it.fooddeliverymanagement.dto.CategoryDTO;
-import com.ideas2it.fooddeliverymanagement.exception.FoodDeliveryManagementException;
+import com.ideas2it.fooddeliverymanagement.util.exception.FoodDeliveryManagementException;
 import com.ideas2it.fooddeliverymanagement.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -31,8 +29,8 @@ public class CategoryController {
      * @return - the created category with HttpStatus.CREATED
      */
     @PostMapping("/")
-    private ResponseEntity<CategoryDTO> addCategory(@Valid @RequestBody CategoryDTO categoryDTO) {
-        return new ResponseEntity<>(categoryService.addCategory(categoryDTO), HttpStatus.CREATED);
+    private CategoryDTO addCategory(@Valid @RequestBody CategoryDTO categoryDTO) throws FoodDeliveryManagementException {
+        return categoryService.addCategory(categoryDTO);
     }
 
     /**
@@ -44,8 +42,8 @@ public class CategoryController {
      * @throws FoodDeliveryManagementException - when employees table is empty
      */
     @GetMapping("/")
-    public ResponseEntity<List<CategoryDTO>> getCategories() throws FoodDeliveryManagementException {
-        return ResponseEntity.status(HttpStatus.FOUND).body(categoryService.getCategories());
+    public List<CategoryDTO> getCategories() throws FoodDeliveryManagementException {
+        return categoryService.getCategories();
     }
 
     /**
@@ -58,8 +56,8 @@ public class CategoryController {
      * @throws FoodDeliveryManagementException - if the category id is not found
      */
     @GetMapping("/{id}")
-    public ResponseEntity<CategoryDTO> getCategoryById(@PathVariable int id) throws FoodDeliveryManagementException {
-        return ResponseEntity.status(HttpStatus.FOUND).body(categoryService.getCategoryById(id));
+    public CategoryDTO getCategoryById(@PathVariable int id) throws FoodDeliveryManagementException {
+        return categoryService.getCategoryById(id);
     }
 
     /**
@@ -72,8 +70,8 @@ public class CategoryController {
      * @throws FoodDeliveryManagementException - if the category is not found
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteCategoryById(@PathVariable int id) throws FoodDeliveryManagementException {
-        return ResponseEntity.status(HttpStatus.OK).body(categoryService.deleteCategoryById(id));
+    public String deleteCategoryById(@PathVariable int id) throws FoodDeliveryManagementException {
+        return categoryService.deleteCategoryById(id);
     }
 
     /**
@@ -83,12 +81,12 @@ public class CategoryController {
      *
      * @param  id - a category id to be updated
      * @param categoryDTO - the category to be updated
-     * @return    - the success message if it is updated
+     * @return    - the updated category
      * @throws FoodDeliveryManagementException - if the category is not found, if the category is not updated
      */
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateCategory(@RequestBody CategoryDTO categoryDTO, @PathVariable int id)
+    public CategoryDTO updateCategory(@RequestBody CategoryDTO categoryDTO, @PathVariable int id)
             throws FoodDeliveryManagementException {
-        return ResponseEntity.status(HttpStatus.OK).body(categoryService.updateCategory(categoryDTO, id));
+        return categoryService.updateCategory(categoryDTO, id);
     }
 }

@@ -1,7 +1,7 @@
 package com.ideas2it.fooddeliverymanagement.service;
 
 import com.ideas2it.fooddeliverymanagement.dto.CategoryDTO;
-import com.ideas2it.fooddeliverymanagement.exception.FoodDeliveryManagementException;
+import com.ideas2it.fooddeliverymanagement.util.exception.FoodDeliveryManagementException;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ public interface CategoryService {
      * @param categoryDTO - the category to be created
      * @return - the created category
      */
-    CategoryDTO addCategory(CategoryDTO categoryDTO);
+    CategoryDTO addCategory(CategoryDTO categoryDTO) throws FoodDeliveryManagementException;
 
     /**
      * <p>
@@ -56,9 +56,9 @@ public interface CategoryService {
      *
      * @param  id - a category id to be updated
      * @param categoryDTO - the category to be updated
-     * @return    - the success message if it is updated
+     * @return    - the updated category
      * @throws FoodDeliveryManagementException - if the category is not found, if the category is not updated
      */
-    String updateCategory(CategoryDTO categoryDTO, int id) throws FoodDeliveryManagementException;
+    CategoryDTO updateCategory(CategoryDTO categoryDTO, int id) throws FoodDeliveryManagementException;
 
 }

@@ -3,7 +3,7 @@ package com.ideas2it.fooddeliverymanagement.service.impl;
 import com.ideas2it.fooddeliverymanagement.dto.AddressDTO;
 import com.ideas2it.fooddeliverymanagement.dto.RoleDTO;
 import com.ideas2it.fooddeliverymanagement.dto.UserDTO;
-import com.ideas2it.fooddeliverymanagement.exception.FoodDeliveryManagementException;
+import com.ideas2it.fooddeliverymanagement.util.exception.FoodDeliveryManagementException;
 import com.ideas2it.fooddeliverymanagement.mapper.UserMapper;
 import com.ideas2it.fooddeliverymanagement.model.Address;
 import com.ideas2it.fooddeliverymanagement.model.Role;
