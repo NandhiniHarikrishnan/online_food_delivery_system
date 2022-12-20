@@ -2,10 +2,9 @@ package com.ideas2it.fooddeliverymanagement.mapper;
 
 import com.ideas2it.fooddeliverymanagement.dto.OrderDTO;
 import com.ideas2it.fooddeliverymanagement.dto.OrderDetailDTO;
-import com.ideas2it.fooddeliverymanagement.model.Order;
-import com.ideas2it.fooddeliverymanagement.model.OrderDetail;
-import com.ideas2it.fooddeliverymanagement.model.RestaurantFood;
-import org.springframework.stereotype.Component;
+import com.ideas2it.fooddeliverymanagement.dto.RestaurantDTO;
+import com.ideas2it.fooddeliverymanagement.dto.RestaurantFoodDTO;
+import com.ideas2it.fooddeliverymanagement.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +23,7 @@ public class OrderMapper {
 
         order.setStatus(orderDTO.getStatus());
         order.setDateOfOrder(orderDTO.getDateOfOrder());
-        order.setRestaurant(orderDTO.getRestaurant());
+        order.setRestaurant(RestaurantMapper.convertRestaurant(orderDTO.getRestaurant()));
         order.setOrderDetails(orderDetails);
         return order;
     }
@@ -35,7 +34,7 @@ public class OrderMapper {
         orderDetail.setPrice(orderDetailDTO.getPrice());
         getPrice(restaurantFood);
         orderDetail.setQuantity(orderDetailDTO.getQuantity());
-        orderDetail.setFood(orderDetailDTO.getFood());
+        orderDetail.setFood(FoodMapper.convertIntoEntity(orderDetailDTO.getFood()));
         return orderDetail;
     }
 
@@ -47,25 +46,33 @@ public class OrderMapper {
     public static OrderDTO convertOrderDTO(Order order) {
         OrderDTO orderDTO = new OrderDTO();
         List<OrderDetailDTO> orderDetailDTOS = new ArrayList<>();
+        List<RestaurantDTO> restaurantDTOS = new ArrayList<>();
         List<OrderDetail> orderDetail = order.getOrderDetails();
+        List<Restaurant> restaurant = (List<Restaurant>) order.getRestaurant();
 
+        orderDTO.setId(order.getId());
+        orderDTO.setStatus(order.getStatus());
+        orderDTO.setDateOfOrder(order.getDateOfOrder());
         if (!orderDetail.isEmpty()) {
             for (OrderDetail orders : orderDetail) {
                 orderDetailDTOS.add(convertOrderDetailDTO(orders));
             }
         }
-        orderDTO.setId(order.getId());
-        orderDTO.setStatus(order.getStatus());
-        orderDTO.setDateOfOrder(order.getDateOfOrder());
         orderDTO.setOrderDetail(orderDetailDTOS);
+        orderDTO.setRestaurant(RestaurantMapper.convertRestaurantDTO(order.getRestaurant()));
         return orderDTO;
     }
 
     public static OrderDetailDTO convertOrderDetailDTO(OrderDetail orderDetail) {
         OrderDetailDTO orderDetailDTO = new OrderDetailDTO();
+        RestaurantFoodDTO restaurantFoodDTO = new RestaurantFoodDTO();
+        RestaurantFood restaurantFood = new RestaurantFood();
+        Food food;
         orderDetailDTO.setId((orderDetail.getId()));
         orderDetailDTO.setPrice(orderDetail.getPrice());
         orderDetailDTO.setQuantity(orderDetail.getQuantity());
+
+        orderDetailDTO.setFood(FoodMapper.convertIntoDTO(orderDetail.getFood()));
         return orderDetailDTO;
     }
 }
