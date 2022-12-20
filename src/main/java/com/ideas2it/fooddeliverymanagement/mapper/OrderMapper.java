@@ -21,7 +21,7 @@ public class OrderMapper {
             }
         }
 
-        order.setStatus(orderDTO.getStatus());
+        order.setStatus("ordered");
         order.setDateOfOrder(orderDTO.getDateOfOrder());
         order.setRestaurant(RestaurantMapper.convertRestaurant(orderDTO.getRestaurant()));
         order.setOrderDetails(orderDetails);
@@ -48,7 +48,6 @@ public class OrderMapper {
         List<OrderDetailDTO> orderDetailDTOS = new ArrayList<>();
         List<RestaurantDTO> restaurantDTOS = new ArrayList<>();
         List<OrderDetail> orderDetail = order.getOrderDetails();
-        List<Restaurant> restaurant = (List<Restaurant>) order.getRestaurant();
 
         orderDTO.setId(order.getId());
         orderDTO.setStatus(order.getStatus());

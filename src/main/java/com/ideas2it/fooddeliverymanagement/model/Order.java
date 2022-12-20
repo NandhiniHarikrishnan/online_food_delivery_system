@@ -15,6 +15,7 @@ public class Order extends BaseModel {
     private String status;
     private LocalDate dateOfOrder;
     private int deliveryId;
+    private float totalPrice;
     @OneToMany(targetEntity = OrderDetail.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "order_id")
     private List<OrderDetail> orderDetails;
