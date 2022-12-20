@@ -37,11 +37,13 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderDTO assignOrder(OrderDTO orderDTO, int customerId) throws FoodDeliveryManagementException {
+        OrderDetail orderDetail = new OrderDetail();
+        float totalPrice;
         int restaurantId = orderDTO.getRestaurant().getId();
         List<OrderDetailDTO> orderDetailDTOS = new ArrayList<>();
         for (OrderDetailDTO orderDetailDTO : orderDTO.getOrderDetail()) {
             int id = orderDetailDTO.getFood().getId();
-            orderDetailDTO.setPrice(restaurantFoodService.getPrice(id, restaurantId));
+            orderDetailDTO.setPrice(orderDetailDTO.getQuantity() * restaurantFoodService.getPrice(id, restaurantId));
             orderDetailDTOS.add(orderDetailDTO);
         }
         orderDTO.setOrderDetail(orderDetailDTOS);
@@ -67,16 +69,16 @@ public class OrderServiceImpl implements OrderService {
 
         Order order = orderRepository.findById(orderId).get();
         List<Role> roles = roleRepository.findAll();
-
         for(Role role : roles) {
             if(role.getName().equals("delivery")) {
                 deliveryRole = role;
             }
         }
         for (User user : deliveryRole.getUsers()) {
-            if (count == 0 && user.getStatus().equals("UnAssigned")) {
+            if (count == 0 && user.getStatus().equals(null)) {
                 user.setStatus("Assigned");
-                order.setCustomer(user);
+                order.setDeliveryId(user.getId());
+                order.setStatus("Delivered");
                 count++;
             }
         }

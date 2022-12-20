@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
  * @since Dec 12 2022
  */
 @RestController
-@RequestMapping
+@RequestMapping("/order")
 public class OrderController {
 
     private OrderService orderService;
@@ -34,10 +34,9 @@ public class OrderController {
      * @return placed order with id
      * @throws FoodDeliveryManagementException
      */
-    @PutMapping("/assignOrder/{customerId}")
+    @PutMapping("/{customerId}")
     public ResponseEntity<OrderDTO> assignOrders(@RequestBody OrderDTO orderDTO,
                                                @PathVariable int customerId) throws FoodDeliveryManagementException {
-        //orderService.assignOrder(orderDTO,customerId);
         return new ResponseEntity<>(orderService.assignOrder(orderDTO,customerId),HttpStatus.CREATED);
     }
 
@@ -48,7 +47,7 @@ public class OrderController {
      * @return order detail for mentioned id
      * @throws FoodDeliveryManagementException
      */
-    @GetMapping("/orderDetails/{id}")
+    @GetMapping("/{id}")
     public OrderDTO getOrderDetails(@PathVariable("id") int orderId) throws FoodDeliveryManagementException {
         return orderService.DisplayOrderDetailsById(orderId);
     }
@@ -62,7 +61,6 @@ public class OrderController {
      */
     @PutMapping("/assignDelivery/{id}")
     public OrderDTO assignDelivery(@PathVariable("id") int orderId) throws FoodDeliveryManagementException {
-
         return orderService.assignDelivery(orderId);
     }
 }

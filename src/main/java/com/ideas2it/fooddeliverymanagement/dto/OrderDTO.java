@@ -1,6 +1,5 @@
 package com.ideas2it.fooddeliverymanagement.dto;
 
-import com.ideas2it.fooddeliverymanagement.model.Restaurant;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,6 +14,6 @@ public class OrderDTO {
     private LocalDate dateOfOrder;
     private UserDTO customer;
     private RestaurantDTO restaurant;
-    //private List<RestaurantDTO> restaurantDTOS;
+    private float totalPrice;
     private List<OrderDetailDTO> orderDetail;
 }

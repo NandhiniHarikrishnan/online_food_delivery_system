@@ -4,6 +4,10 @@ import com.ideas2it.fooddeliverymanagement.model.Food;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * DTO class for orderDetail
+ *
+ */
 @Getter
 @Setter
 public class OrderDetailDTO {
