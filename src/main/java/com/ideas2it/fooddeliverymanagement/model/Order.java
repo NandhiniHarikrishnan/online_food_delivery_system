@@ -19,7 +19,7 @@ public class Order extends BaseModel {
     @JoinColumn(name = "order_id")
     private List<OrderDetail> orderDetails;
     @ManyToOne(fetch = FetchType.LAZY)
-    private User user;
+    private User customer;
     @ManyToOne(fetch = FetchType.LAZY)
     private Restaurant restaurant;
 }
