@@ -34,12 +34,15 @@ public class User extends BaseModel{
     @NotNull
     private String email;
 
+    @NotNull
+    private String password;
+
     private String status;
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id" ,referencedColumnName = "id")
     private List<Address> addresses;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles",
     joinColumns = { @JoinColumn(name = "user_id")},
     inverseJoinColumns = { @JoinColumn(name = "role_id")})

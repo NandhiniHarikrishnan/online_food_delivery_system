@@ -2,10 +2,22 @@ package com.ideas2it.fooddeliverymanagement.controller;
 
 import com.ideas2it.fooddeliverymanagement.dto.AddressDTO;
 import com.ideas2it.fooddeliverymanagement.dto.UserDTO;
+<<<<<<< Updated upstream
 import com.ideas2it.fooddeliverymanagement.util.exception.FoodDeliveryManagementException;
+=======
+import com.ideas2it.fooddeliverymanagement.exception.FoodDeliveryManagementException;
+import com.ideas2it.fooddeliverymanagement.model.AuthenticationRequest;
+import com.ideas2it.fooddeliverymanagement.model.AuthenticationResponse;
+>>>>>>> Stashed changes
 import com.ideas2it.fooddeliverymanagement.service.AddressService;
 import com.ideas2it.fooddeliverymanagement.service.UserService;
+import com.ideas2it.fooddeliverymanagement.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -26,10 +38,16 @@ public class UserController {
 
     private final AddressService addressService;
 
+    private final JwtUtil jwtTokenUtil;
+    private final AuthenticationManager authenticationManager;
+
     @Autowired
-    public UserController(UserService userService, AddressService addressService) {
+    public UserController(UserService userService, AddressService addressService,
+                          JwtUtil jwtTokenUtil, AuthenticationManager authenticationManager) {
         this.userService = userService;
         this.addressService = addressService;
+        this.jwtTokenUtil = jwtTokenUtil;
+        this.authenticationManager = authenticationManager;
     }
     /**
      * It takes a User object as a parameter to add the user, and returns the saved UserDTO object
@@ -150,5 +168,24 @@ public class UserController {
     @GetMapping("/getAllAddresses")
     public List<AddressDTO> getAllAddresses() throws FoodDeliveryManagementException {
         return addressService.getAllAddress();
+    }
+
+    @PostMapping("/authentication")
+    public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
+        final UserDetails userDetails;
+        final String jwt;
+
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(authenticationRequest.getUserName(),
+                            authenticationRequest.getPassword()));
+        } catch (BadCredentialsException badCredentialsException) {
+            throw new Exception("Incorrect username or password", badCredentialsException);
+        }
+
+        userDetails = userService.loadUserByUsername(authenticationRequest.getUserName());
+        jwt = jwtTokenUtil.generateToken(userDetails);
+
+        return ResponseEntity.ok(new AuthenticationResponse(jwt));
     }
 }
