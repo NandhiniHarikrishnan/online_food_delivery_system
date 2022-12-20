@@ -7,7 +7,6 @@ public class Constants {
     public static final String REGEX_FOR_PINCODE = "^[1-9][0-9]{5}$";
     public static final String INVALID_NAME = "Invalid Name";
     public static final String INVALID_EMAIL = "Invalid Email";
-    public static final String ADDRESS_NOT_EMPTY = "Please Mention Your Address";
     public static final String MENTION_STREET_NAME = "Please Mention Your Street Name";
     public static final String MENTION_CITY_NAME = "Please Mention City Name";
     public static final String MENTION_DISTRICT_NAME = "Please Mention District Name";

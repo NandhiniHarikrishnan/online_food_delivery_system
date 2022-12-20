@@ -14,10 +14,16 @@ import com.ideas2it.fooddeliverymanagement.service.UserService;
 import com.ideas2it.fooddeliverymanagement.util.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,8 +36,10 @@ import java.util.Optional;
  * @since - 2022-12-10
  */
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService, UserDetailsService {
     private final UserRepository userRepository;
+
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     private final RoleService roleService;
 
@@ -55,13 +63,18 @@ public class UserServiceImpl implements UserService {
             throw new FoodDeliveryManagementException(Constants.EMAIL_ALREADY_EXIST,HttpStatus.NOT_ACCEPTABLE);
         } else {
             if (userDTO.getRoles().isEmpty()) {
-                roles.add((UserMapper.convertToRole(roleService.getRole(1))));
+                for (RoleDTO roleDTO: roleService.getAllRoles()){
+                    if (roleDTO.getName().equals("CUSTOMER")){
+                        roles.add(UserMapper.convertToRole(roleDTO));
+                    }
+                }
             } else {
                 for (RoleDTO role : userDTO.getRoles()) {
                     roles.add(UserMapper.convertToRole(roleService.getRole(role.getId())));
                 }
             }
             user.setRoles(roles);
+            user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
 
             savedUser = UserMapper.convertUserDTO(userRepository.save(user));
 
@@ -158,5 +171,21 @@ public class UserServiceImpl implements UserService {
     private boolean isEmailExist(String email){
         User user = userRepository.findByEmail(email);
         return user != null;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
+        Collection<SimpleGrantedAuthority> authorities = null;
+        User user = (userRepository.findByName(name));
+
+        if (user == null) {
+            throw  new UsernameNotFoundException(Constants.USER_NOT_FOUND + name);
+        }
+
+        for (Role role : user.getRoles()) {
+           authorities = new ArrayList<>();
+            authorities.add(new SimpleGrantedAuthority(role.getName()));
+        }
+        return new org.springframework.security.core.userdetails.User(user.getName(), user.getPassword(), authorities);
     }
 }
