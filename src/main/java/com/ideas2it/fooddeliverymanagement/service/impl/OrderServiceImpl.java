@@ -28,7 +28,6 @@ import java.util.Optional;
  * @version 1.0
  * @since Dec 12 2022
  */
-
 @Service
 public class OrderServiceImpl implements OrderService {
     private OrderRepository orderRepository;
@@ -83,14 +82,14 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
-     * view order detail by id
+     * view order detail by call getOrderDetails shows the orderDetails
      *
      * @param orderId pass id to get order details
      * @return order detail for specified id
      * @throws FoodDeliveryManagementException if order id not there
      */
     @Override
-    public OrderDTO DisplayOrderDetailsById(int orderId)throws FoodDeliveryManagementException {
+    public OrderDTO getOrderDetails(int orderId)throws FoodDeliveryManagementException {
         Optional<Order> order = orderRepository.findById(orderId);
         if (order.isEmpty()) {
             throw new FoodDeliveryManagementException("NOT_FOUND", HttpStatus.NOT_FOUND);
@@ -99,8 +98,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
-     * assignDelivery is used by admin
-     * for assign delivery person
+     * assignDelivery method is used to assign delivery boy
+     * check the delivery boy available status then assign the delivery boy for that order.
      *
      * @param orderId assign order by order id
      * @return assigned delivery id

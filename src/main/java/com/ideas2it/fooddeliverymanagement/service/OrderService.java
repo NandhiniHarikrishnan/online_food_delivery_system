@@ -12,7 +12,8 @@ import com.ideas2it.fooddeliverymanagement.util.exception.FoodDeliveryManagement
  */
 public interface OrderService {
     OrderDTO assignOrder(OrderDTO orderDTO,int customerId) throws FoodDeliveryManagementException;
-    OrderDTO DisplayOrderDetailsById(int orderId) throws FoodDeliveryManagementException;
+
+    OrderDTO getOrderDetails(int orderId) throws FoodDeliveryManagementException;
 
     OrderDTO assignDelivery(int orderId) throws FoodDeliveryManagementException;
 }
