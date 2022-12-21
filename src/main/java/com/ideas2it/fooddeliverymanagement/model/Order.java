@@ -7,6 +7,14 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * Order Model
+ * Used to store the values of order
+ *
+ * @author Devaraj
+ * @version 1.0
+ * @since Dec 12 2022
+ */
 @Entity
 @Getter
 @Setter

@@ -1,12 +1,15 @@
 package com.ideas2it.fooddeliverymanagement.dto;
 
-import com.ideas2it.fooddeliverymanagement.model.Food;
 import lombok.Getter;
 import lombok.Setter;
 
 /**
  * DTO class for orderDetail
+ * to pass object store and retrieve by controller.
  *
+ * @author Devaraj
+ * @version 1.0
+ * @since Dec 12 2022
  */
 @Getter
 @Setter

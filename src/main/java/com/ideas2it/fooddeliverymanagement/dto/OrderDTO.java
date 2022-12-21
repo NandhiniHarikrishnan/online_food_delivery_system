@@ -6,6 +6,14 @@ import lombok.Setter;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * DTO class for Order
+ * to assign order by pass object to model
+ *
+ * @author Devaraj
+ * @version 1.0
+ * @since Dec 12 2022
+ */
 @Getter
 @Setter
 public class OrderDTO {
