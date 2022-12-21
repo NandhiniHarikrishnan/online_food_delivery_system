@@ -4,11 +4,12 @@ import org.springframework.http.HttpStatus;
 
 /**
  * <p>
- * Custom exception of Food Delivery Management application
+ * Custom exception of Food Delivery Management application contains status code.
  * </p>
  *
  * @author Naganandhini
- * @version 1.0 14-DEC-2022
+ * @version 1.0
+ * @since - 2022-12-14
  */
 public class FoodDeliveryManagementException extends Exception {
 

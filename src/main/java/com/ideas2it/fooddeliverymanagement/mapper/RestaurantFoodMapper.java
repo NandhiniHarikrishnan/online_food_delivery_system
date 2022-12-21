@@ -6,12 +6,19 @@ import com.ideas2it.fooddeliverymanagement.dto.RestaurantFoodDTO;
 import com.ideas2it.fooddeliverymanagement.model.Food;
 import com.ideas2it.fooddeliverymanagement.model.Restaurant;
 import com.ideas2it.fooddeliverymanagement.model.RestaurantFood;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Component
+/**
+ * <p>
+ * Handles the converting process from entity to DTO for RestaurantFood.
+ * </p
+ *
+ * @author Naganandhini
+ * @version 1.0
+ * @since - 2022-12-13
+ */
 public class RestaurantFoodMapper {
 
     /**

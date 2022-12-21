@@ -5,6 +5,13 @@ import com.ideas2it.fooddeliverymanagement.util.exception.FoodDeliveryManagement
 
 import java.util.List;
 
+/**
+ * Perform create, read, update, delete (CRUD) operation for the restaurant.
+ *
+ * @author - Naganandhini
+ * @version - 1.0
+ * @since - 2022-12-14
+ */
 public interface CategoryService {
 
     /**

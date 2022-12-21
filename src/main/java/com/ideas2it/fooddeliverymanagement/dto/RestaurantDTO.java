@@ -19,7 +19,6 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString
 public class RestaurantDTO {
     private int id;
     @NotNull(message = Constants.NOT_NULL_OR_EMPTY_NAME)

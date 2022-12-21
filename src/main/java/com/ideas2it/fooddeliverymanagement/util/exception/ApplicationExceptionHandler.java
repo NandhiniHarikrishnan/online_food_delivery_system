@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.security.SignatureException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,7 +19,8 @@ import java.util.Map;
  * </p>
  *
  * @author Naganandhini
- * @version 1.0 14-DEC-2022
+ * @version 1.0
+ * @since - 2022-12-14
  */
 @RestControllerAdvice
 public class ApplicationExceptionHandler {
@@ -64,8 +66,22 @@ public class ApplicationExceptionHandler {
      */
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ResponseEntity<ErrorResponseDTO> handleMethodNotSupportedException(HttpRequestMethodNotSupportedException exception) {
-        ErrorResponseDTO errorResponse = new ErrorResponseDTO(exception.getMessage());
+        ErrorResponseDTO errorResponse = new ErrorResponseDTO(HttpStatus.METHOD_NOT_ALLOWED, exception.getMessage());
         return new ResponseEntity<> (errorResponse, HttpStatus.METHOD_NOT_ALLOWED);
+    }
+
+    /**
+     * <p>
+     * To handle the SignatureException.
+     * </p>
+     *
+     * @param exception - an exception to be handled
+     * @return - the error message with respective status and code
+     */
+    @ExceptionHandler(SignatureException.class)
+    public ResponseEntity<ErrorResponseDTO> handleSignatureException(SignatureException exception) {
+        ErrorResponseDTO errorResponse = new ErrorResponseDTO(HttpStatus.FORBIDDEN, exception.getMessage());
+        return new ResponseEntity<> (errorResponse, HttpStatus.FORBIDDEN);
     }
 
 }

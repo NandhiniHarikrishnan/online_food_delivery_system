@@ -1,17 +1,22 @@
 package com.ideas2it.fooddeliverymanagement.dto;
 
-import com.ideas2it.fooddeliverymanagement.dto.OrderDetailDTO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 import java.util.List;
 
+/**
+ * It is a food DTO that contains fields which is shown to the user
+ * for the food entity.
+ *
+ * @author - Naganandhini
+ * @version - 1.0
+ * @since - 2022-12-10
+ */
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString
 public class FoodDTO {
     private int id;
     private String name;

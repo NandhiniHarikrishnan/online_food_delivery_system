@@ -6,8 +6,6 @@ import com.ideas2it.fooddeliverymanagement.dto.RestaurantFoodDTO;
 import com.ideas2it.fooddeliverymanagement.model.Category;
 import com.ideas2it.fooddeliverymanagement.model.Food;
 import com.ideas2it.fooddeliverymanagement.model.RestaurantFood;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,9 +16,9 @@ import java.util.stream.Collectors;
  * </p
  *
  * @author Naganandhini
- * @version 1.0 13-DEC-2022
+ * @version 1.0
+ * @since - 2022-12-13
  */
-@Component
 public class FoodMapper {
 
     /**

@@ -8,12 +8,19 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
+/**
+ * Food which has a field like name, description, availability, weight,
+ * category, order and restaurant details.
+ *
+ * @author - Naganandhini
+ * @version - 1.0
+ * @since - 2022-12-10
+ */
 @Entity
 @SQLDelete(sql = "UPDATE food SET is_deleted = true WHERE id=?")
 @Where(clause = "is_deleted = false")
