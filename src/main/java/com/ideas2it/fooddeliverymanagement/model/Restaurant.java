@@ -9,10 +9,16 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
+/**
+ * The restaurant which has a field like name, cuisine, addresses and food details.
+ *
+ * @author - Naganandhini
+ * @version - 1.0
+ * @since - 2022-12-10
+ */
 @Entity
 @SQLDelete(sql = "update restaurant set is_deleted = 1 where id =?")
 @Where(clause = "is_deleted = false")
-@ToString
 public class Restaurant extends BaseModel {
 
     @NotNull
@@ -24,7 +30,6 @@ public class Restaurant extends BaseModel {
     @OneToMany(mappedBy = "restaurant",cascade = CascadeType.ALL)
     private List<Address> addresses;
 
-    //cascade = {CascadeType.PERSIST, CascadeType.MERGE}
     @ManyToOne(fetch = FetchType.LAZY)
     @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     private Cuisine cuisine;

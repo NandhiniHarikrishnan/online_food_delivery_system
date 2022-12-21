@@ -9,6 +9,13 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
+/**
+ * It exposes endpoints for the admin to perform CRUD operations on the category.
+ *
+ * @author - Naganandhini
+ * @version - 1.0
+ * @since - 2022-12-14
+ */
 @RestController
 @RequestMapping("/category")
 public class CategoryController {
@@ -26,7 +33,7 @@ public class CategoryController {
      * </p>
      *
      * @param categoryDTO - the category to be created
-     * @return - the created category with HttpStatus.CREATED
+     * @return - the created category
      */
     @PostMapping("/")
     private CategoryDTO addCategory(@Valid @RequestBody CategoryDTO categoryDTO) throws FoodDeliveryManagementException {
@@ -35,11 +42,11 @@ public class CategoryController {
 
     /**
      * <p>
-     * To display all the categories stored in the category table.
+     * To display all the categories.
      * </p>
      *
      * @return - the list of categories
-     * @throws FoodDeliveryManagementException - when employees table is empty
+     * @throws FoodDeliveryManagementException - if there is no categories in the table.
      */
     @GetMapping("/")
     public List<CategoryDTO> getCategories() throws FoodDeliveryManagementException {
@@ -52,7 +59,7 @@ public class CategoryController {
      * </p>
      *
      * @param id - a category id for which the category to be returned
-     * @return   - the employee if the category id is found
+     * @return   - the category if the category id is found
      * @throws FoodDeliveryManagementException - if the category id is not found
      */
     @GetMapping("/{id}")
@@ -66,7 +73,7 @@ public class CategoryController {
      * </p>
      *
      * @param id - a category id to be removed
-     * @return   - the success message with HttpStatus.Ok
+     * @return   - the success message if the category is removed
      * @throws FoodDeliveryManagementException - if the category is not found
      */
     @DeleteMapping("/{id}")

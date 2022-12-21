@@ -6,6 +6,14 @@ import lombok.Setter;
 
 import java.util.List;
 
+/**
+ * It is a restaurant detail DTO that contains fields which is shown to the user
+ * in the formatted manner for the restaurant entity.
+ *
+ * @author - Naganandhini
+ * @version - 1.0
+ * @since - 2022-12-10
+ */
 @Getter
 @Setter
 @NoArgsConstructor

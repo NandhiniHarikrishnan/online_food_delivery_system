@@ -46,6 +46,8 @@ public class Constants {
     public static final String REGEX_FOR_RESTAURANT = "[^\\s][0-9a-zA-Z\\s]*";
     public static final String ONLY_ALPHANUMERIC_SPACE = "only alphanumerics and space are allowed";
     public static final String NOT_NULL_OR_EMPTY_ADDRESS = "Address should not be null or empty, Please give valid address";
+    public static final String RESTAURANT_EXIST = "Given restaurant with same address is already exist in the table";
+    public static final String CATEGORY_EXIST = "Given category is already exist in the table";
 
     public static final String NO_ORDER_DETAILS_FOUND = "No Order Found Please Make A Order";
     public static final String MENTION_AREA = "Please Mention Area";

@@ -7,6 +7,13 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
+/**
+ * The Cuisine which has a field like name, code and restaurants.
+ *
+ * @author - Naganandhini
+ * @version - 1.0
+ * @since - 2022-12-10
+ */
 @Entity
 @Where(clause = "is_deleted = false")
 public class Cuisine extends BaseModel {

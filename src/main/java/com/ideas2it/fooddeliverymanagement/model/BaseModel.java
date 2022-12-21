@@ -6,6 +6,14 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.util.Date;
 
+/**
+ * Base model contains common attributes for all entities such as
+ * id, isDeleted, createdAt, and updatedAt.
+ *
+ * @author - Naganandhini
+ * @version - 1.0
+ * @since - 2022-12-10
+ */
 @MappedSuperclass
 public class BaseModel {
     @Id
