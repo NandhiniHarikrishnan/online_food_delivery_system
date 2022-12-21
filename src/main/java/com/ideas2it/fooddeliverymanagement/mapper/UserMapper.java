@@ -80,6 +80,7 @@ public class UserMapper {
         addressDTO.setDistrict(address.getDistrict());
         addressDTO.setPlotNumber(address.getPlotNumber());
         addressDTO.setPinCode(address.getPinCode());
+        addressDTO.setArea(address.getArea());
         addressDTO.setPhoneNumber(address.getPhoneNumber());
         addressDTO.setState(address.getState());
         addressDTO.setStreet(address.getStreet());
@@ -112,10 +113,12 @@ public class UserMapper {
         if (addressDTO != null) {
             address.setId(addressDTO.getId());
             address.setCity(addressDTO.getCity());
+            address.setArea(addressDTO.getArea());
             address.setPinCode(addressDTO.getPinCode());
             address.setDistrict(addressDTO.getDistrict());
             address.setPlotNumber(addressDTO.getPlotNumber());
             address.setStreet(addressDTO.getStreet());
+            address.setPhoneNumber(addressDTO.getPhoneNumber());
             address.setState(addressDTO.getState());
             address.setPhoneNumber(addressDTO.getPhoneNumber());
         }

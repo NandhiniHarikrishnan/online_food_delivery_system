@@ -38,9 +38,11 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     /**
-     * Perform authentication operation.
+     * This function is used to configure the AuthenticationManagerBuilder object, which is used to create an
+     * AuthenticationManager object
      *
-     * @param - authenticationManagerBuilder
+     * @param authenticationManagerBuilder This is the object that is used to create an AuthenticationManager instance
+     * which is the main Spring Security interface for authenticating a user.
      * @throws - Exception
      */
     @Override
@@ -49,29 +51,42 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     /**
-     * perform authorization operation
+     * The above function is used to configure the security of the application. It is used to define the access control of
+     * the application.
      *
-     * @param - http
-     * @throws - Exception
+     * @param http This is the object that allows configuring web based security for specific http requests.
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf()
                 .disable()
                 .authorizeRequests()
-                .antMatchers("/user/authentication").permitAll()
-                .antMatchers("/user/").permitAll()
+                .antMatchers(HttpMethod.POST,"/user/authentication").permitAll()
+                .antMatchers(HttpMethod.POST, "/user/").permitAll()
                 .antMatchers(HttpMethod.POST, "/role/").permitAll()
-                .antMatchers(HttpMethod.GET, "/user/userId", "/user/address/{addressId}").hasAnyRole("CUSTOMER","ADMIN")                   //hasAuthority("CUSTOMER")
-                .antMatchers(HttpMethod.GET, "/user/", "/user/getAllAddress").hasRole("ADMIN")
-                .antMatchers(HttpMethod.DELETE, "/user/{userId}", "/user/deleteAddress/{userId}").hasAnyRole("CUSTOMER","ADMIN")
-                .antMatchers(HttpMethod.PUT, "/user/", "/user/updateAddress/{userId}").hasAnyRole("CUSTOMER","ADMIN")
-                .antMatchers(HttpMethod.POST, "/user/addAddress/{userId}").hasAnyRole("CUSTOMER","ADMIN")
-                .antMatchers(HttpMethod.GET,"/restaurant/search").hasAnyRole("CUSTOMER","ADMIN")
-                .antMatchers(HttpMethod.POST,"/restaurant/").hasRole("ADMIN")
-                .antMatchers(HttpMethod.GET,"/restaurant/","/restaurant/{id}").hasRole("ADMIN")
-                .antMatchers(HttpMethod.DELETE, "/restaurant/{id}").hasRole("ADMIN")
-                .antMatchers(HttpMethod.PUT, "/restaurant/{id}").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET, "/user/userId", "/user/address/{addressId}").hasAnyAuthority("CUSTOMER", "ADMIN")
+                .antMatchers(HttpMethod.GET, "/user/", "/user/getAllAddresses").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.GET, "/user/getOrderDetails/{userId}").hasAnyAuthority("CUSTOMER", "ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/user/{userId}", "/user/deleteAddress/{userId}").hasAnyAuthority("CUSTOMER", "ADMIN")
+                .antMatchers(HttpMethod.PUT, "/user/", "/user/updateAddress/{userId}").hasAnyAuthority("CUSTOMER", "ADMIN")
+                .antMatchers(HttpMethod.POST, "/user/addAddress/{userId}").hasAnyAuthority("CUSTOMER", "ADMIN")
+                .antMatchers(HttpMethod.GET, "/restaurant/search/").hasAnyAuthority("CUSTOMER", "ADMIN")
+                .antMatchers(HttpMethod.POST, "/restaurant/").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.GET, "/restaurant/", "/restaurant/{id}").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/restaurant/{id}").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.GET, "/restaurant/search-by-location/").hasAnyAuthority("ADMIN", "CUSTOMER")
+                .antMatchers(HttpMethod.GET, "/restaurant/search-by-cuisine/").hasAnyAuthority("ADMIN", "CUSTOMER")
+                .antMatchers(HttpMethod.PUT, "/restaurant/{id}").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.PUT, "/order/{customerId}").hasAnyAuthority("ADMIN", "CUSTOMER")
+                .antMatchers(HttpMethod.GET, "/order/{id}").hasAnyAuthority("ADMIN", "CUSTOMER")
+                .antMatchers(HttpMethod.PUT, "/order/assignDelivery/{id}").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.GET, "/food/search/").hasAnyAuthority("ADMIN", "CUSTOMER")
+                .antMatchers(HttpMethod.GET, "/food/search-by-category/").hasAnyAuthority("ADMIN", "CUSTOMER")
+                .antMatchers(HttpMethod.GET, "/food/{id}").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.PUT, "/food/{id}").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/food/{id}").hasAuthority("ADMIN")
+                .antMatchers("/cuisine/**").hasAuthority("ADMIN")
+                .antMatchers("/category/**").hasAuthority("ADMIN")
                 .anyRequest()
                 .authenticated()
                 .and()
@@ -79,6 +94,12 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
+    /**
+     * The function is used to expose the `AuthenticationManager` as a Bean
+     *
+     * @return AuthenticationManager
+     * @throws Exception
+     */
     @Override
     @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {

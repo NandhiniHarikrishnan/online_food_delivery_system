@@ -9,6 +9,7 @@ import org.hibernate.annotations.Where;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 
@@ -43,6 +44,9 @@ public class Address extends BaseModel{
 
     @NotNull
     private String state;
+
+    @NotNull
+    private String area;
 
     @NotNull
     private long pinCode;

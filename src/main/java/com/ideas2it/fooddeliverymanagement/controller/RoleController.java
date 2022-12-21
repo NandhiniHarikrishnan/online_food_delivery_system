@@ -6,6 +6,7 @@ import com.ideas2it.fooddeliverymanagement.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -33,9 +34,10 @@ public class RoleController {
      *
      * @param roleDTO This is the object that is passed to the method.
      * @return RoleDTO
+     * @throws FoodDeliveryManagementException
      */
     @PostMapping("/")
-    public RoleDTO addRole(@RequestBody RoleDTO roleDTO) throws FoodDeliveryManagementException {
+    public RoleDTO addRole(@Valid @RequestBody RoleDTO roleDTO) throws FoodDeliveryManagementException {
         return roleService.addRole(roleDTO);
     }
 
@@ -44,6 +46,7 @@ public class RoleController {
      *
      * @param roleId The id of the role to be fetched.
      * @return A RoleDTO object
+     * @throws FoodDeliveryManagementException
      */
     @GetMapping("/{roleId}")
     public RoleDTO getRole(@PathVariable int roleId) throws FoodDeliveryManagementException {
@@ -55,12 +58,19 @@ public class RoleController {
      *
      * @param roleId The id of the role to be deleted.
      * @return RoleDTO
+     * @throws FoodDeliveryManagementException
      */
     @DeleteMapping("/{roleId}")
     public RoleDTO deleteRole(@PathVariable int roleId) throws FoodDeliveryManagementException {
         return roleService.deleteRole(roleId);
     }
 
+    /**
+     * It returns a list of all the roles in the database
+     *
+     * @return List of RoleDTO
+     * @throws FoodDeliveryManagementException
+     */
     @GetMapping("/")
     public List<RoleDTO> getAllRole() throws FoodDeliveryManagementException {
         return roleService.getAllRoles();
