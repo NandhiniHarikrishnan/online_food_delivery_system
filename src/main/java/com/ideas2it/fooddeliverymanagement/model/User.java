@@ -38,6 +38,7 @@ public class User extends BaseModel{
     private String password;
 
     private String status;
+
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id" ,referencedColumnName = "id")
     private List<Address> addresses;

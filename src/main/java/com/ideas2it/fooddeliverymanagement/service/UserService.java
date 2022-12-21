@@ -1,5 +1,6 @@
 package com.ideas2it.fooddeliverymanagement.service;
 
+import com.ideas2it.fooddeliverymanagement.dto.OrderDTO;
 import com.ideas2it.fooddeliverymanagement.dto.UserDTO;
 import com.ideas2it.fooddeliverymanagement.util.exception.FoodDeliveryManagementException;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -68,5 +69,15 @@ public interface UserService {
     */
    UserDTO updateUser(UserDTO userDTO) throws FoodDeliveryManagementException;
 
+    /**
+     * Given a username, return a UserDetails object that represents the user.
+     * The UserDetails object is a Spring Security interface that represents a user. It has a number of methods that return
+     * information about the user
+     *
+     * @param userName The username of the user to load.
+     * @return A UserDetails object.
+     */
     UserDetails loadUserByUsername(String userName);
+
+    List<OrderDTO> getOrderDetails(int userId) throws FoodDeliveryManagementException;
 }

@@ -1,6 +1,7 @@
 package com.ideas2it.fooddeliverymanagement.controller;
 
 import com.ideas2it.fooddeliverymanagement.dto.AddressDTO;
+import com.ideas2it.fooddeliverymanagement.dto.OrderDTO;
 import com.ideas2it.fooddeliverymanagement.dto.UserDTO;
 import com.ideas2it.fooddeliverymanagement.util.exception.FoodDeliveryManagementException;
 import com.ideas2it.fooddeliverymanagement.model.AuthenticationRequest;
@@ -183,5 +184,10 @@ public class UserController {
         jwt = jwtTokenUtil.generateToken(userDetails);
 
         return ResponseEntity.ok(new AuthenticationResponse(jwt));
+    }
+
+    @GetMapping("/getOrderDetails/{userId}")
+    public List<OrderDTO> getOrderDetails(@PathVariable int userId) throws FoodDeliveryManagementException {
+        return userService.getOrderDetails(userId);
     }
 }

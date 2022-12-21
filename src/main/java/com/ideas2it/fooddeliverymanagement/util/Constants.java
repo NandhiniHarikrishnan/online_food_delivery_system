@@ -40,4 +40,5 @@ public class Constants {
     public static final String ONLY_ALPHANUMERIC_SPACE = "only alphanumerics and space are allowed";
     public static final String NOT_NULL_OR_EMPTY_ADDRESS = "Address should not be null or empty, Please give valid address";
 
+    public static final String NO_ORDER_DETAILS_FOUND = "No Order Found Please Make A Order";
 }

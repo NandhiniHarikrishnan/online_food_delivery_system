@@ -1,8 +1,11 @@
 package com.ideas2it.fooddeliverymanagement.service.impl;
 
 import com.ideas2it.fooddeliverymanagement.dto.AddressDTO;
+import com.ideas2it.fooddeliverymanagement.dto.OrderDTO;
 import com.ideas2it.fooddeliverymanagement.dto.RoleDTO;
 import com.ideas2it.fooddeliverymanagement.dto.UserDTO;
+import com.ideas2it.fooddeliverymanagement.mapper.OrderMapper;
+import com.ideas2it.fooddeliverymanagement.model.Order;
 import com.ideas2it.fooddeliverymanagement.util.exception.FoodDeliveryManagementException;
 import com.ideas2it.fooddeliverymanagement.mapper.UserMapper;
 import com.ideas2it.fooddeliverymanagement.model.Address;
@@ -75,7 +78,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             }
             user.setRoles(roles);
             user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-
             savedUser = UserMapper.convertUserDTO(userRepository.save(user));
 
             if (savedUser != null) {
@@ -187,5 +189,17 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             authorities.add(new SimpleGrantedAuthority(role.getName()));
         }
         return new org.springframework.security.core.userdetails.User(user.getName(), user.getPassword(), authorities);
+    }
+
+    public List<OrderDTO> getOrderDetails(int userId) throws FoodDeliveryManagementException {
+        User existingUser = userRepository.findById(userId).get();
+        List<OrderDTO> existingOrders = null;
+        if (!existingUser.getOrders().isEmpty()) {
+            for (Order order : existingUser.getOrders()) {
+                existingOrders.add(OrderMapper.convertOrderDTO(order));
+            }
+            return existingOrders;
+        }
+        throw new FoodDeliveryManagementException(Constants.NO_ORDER_DETAILS_FOUND,HttpStatus.NOT_FOUND);
     }
 }
