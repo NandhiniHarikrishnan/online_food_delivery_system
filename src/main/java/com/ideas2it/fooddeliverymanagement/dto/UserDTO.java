@@ -34,7 +34,8 @@ public class UserDTO {
     @Email(message = Constants.INVALID_EMAIL)
     private String email;
 
-    @NotBlank(message = Constants.ADDRESS_NOT_EMPTY)
+    private String password;
+
     private List<AddressDTO> addresses = new ArrayList<>();
 
     private List<RoleDTO> roles = new ArrayList<>();

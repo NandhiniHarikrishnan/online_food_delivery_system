@@ -2,6 +2,7 @@ package com.ideas2it.fooddeliverymanagement.service;
 
 import com.ideas2it.fooddeliverymanagement.dto.UserDTO;
 import com.ideas2it.fooddeliverymanagement.util.exception.FoodDeliveryManagementException;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.List;
 
@@ -67,4 +68,5 @@ public interface UserService {
     */
    UserDTO updateUser(UserDTO userDTO) throws FoodDeliveryManagementException;
 
+    UserDetails loadUserByUsername(String userName);
 }
