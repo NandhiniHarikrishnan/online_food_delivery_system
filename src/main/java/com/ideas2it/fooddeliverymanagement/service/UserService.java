@@ -1,5 +1,6 @@
 package com.ideas2it.fooddeliverymanagement.service;
 
+import com.ideas2it.fooddeliverymanagement.dto.OrderDTO;
 import com.ideas2it.fooddeliverymanagement.dto.UserDTO;
 import com.ideas2it.fooddeliverymanagement.util.exception.FoodDeliveryManagementException;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -33,7 +34,8 @@ public interface UserService {
     */
    UserDTO getUser(int userId) throws FoodDeliveryManagementException;
 
-   /**
+
+    /**
     * This function checks if the user exists in the database or not
     *
     * @param userId The userId of the user whose existence is to be checked.
@@ -66,7 +68,30 @@ public interface UserService {
     * @return UserDTO
     * @throws FoodDeliveryManagementException
     */
-   UserDTO updateUser(UserDTO userDTO) throws FoodDeliveryManagementException;
+   UserDTO updateUser(UserDTO userDTO, int userId) throws FoodDeliveryManagementException;
 
+    /**
+     * Check if the email exists in the database.
+     *
+     * @param email The email address to check.
+     * @return A boolean value.
+     */
+
+    /**
+     * Given a username, return a UserDetails object that represents the user.
+     * The UserDetails object is a Spring Security interface that represents a user. It has a number of methods that return
+     * information about the user
+     *
+     * @param userName The username of the user to load.
+     * @return A UserDetails object.
+     */
     UserDetails loadUserByUsername(String userName);
+
+    /**
+     * This function returns a list of order details for a given user id
+     *
+     * @param userId The userId of the user whose order details are to be fetched.
+     * @return List of OrderDTO objects
+     */
+    List<OrderDTO> getOrderDetails(int userId) throws FoodDeliveryManagementException;
 }

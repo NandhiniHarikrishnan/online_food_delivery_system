@@ -1,8 +1,11 @@
 package com.ideas2it.fooddeliverymanagement.service.impl;
 
 import com.ideas2it.fooddeliverymanagement.dto.AddressDTO;
+import com.ideas2it.fooddeliverymanagement.dto.OrderDTO;
 import com.ideas2it.fooddeliverymanagement.dto.RoleDTO;
 import com.ideas2it.fooddeliverymanagement.dto.UserDTO;
+import com.ideas2it.fooddeliverymanagement.mapper.OrderMapper;
+import com.ideas2it.fooddeliverymanagement.model.Order;
 import com.ideas2it.fooddeliverymanagement.util.exception.FoodDeliveryManagementException;
 import com.ideas2it.fooddeliverymanagement.mapper.UserMapper;
 import com.ideas2it.fooddeliverymanagement.model.Address;
@@ -75,7 +78,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             }
             user.setRoles(roles);
             user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-
             savedUser = UserMapper.convertUserDTO(userRepository.save(user));
 
             if (savedUser != null) {
@@ -136,7 +138,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
      *{@inheritDoc}
      */
     @Override
-    public UserDTO updateUser(UserDTO userDTO) throws FoodDeliveryManagementException {
+    public UserDTO updateUser(UserDTO userDTO, int userId) throws FoodDeliveryManagementException {
         List<Address> addresses = new ArrayList<>();
         User user = UserMapper.convertToUser(userDTO);
 
@@ -162,30 +164,53 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return userRepository.existsById(userId);
     }
 
+
     /**
-     * Check weather the email is already exist or not
+     * It checks if the email exists in the database
      *
-     * @param email
-     * @return true if the user is existed
+     * @param email The email address of the user.
+     * @return A boolean value.
      */
     private boolean isEmailExist(String email){
-        User user = userRepository.findByEmail(email);
-        return user != null;
+        User existingUser = userRepository.findByEmail(email);
+        return existingUser != null;
     }
 
+    /**
+     * It takes a username as a parameter, finds the user in the database, and returns a UserDetails object with the user's
+     * name, password, and roles
+     *
+     * @param userName The name of the user.
+     * @return A UserDetails object.
+     */
     @Override
-    public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
-        Collection<SimpleGrantedAuthority> authorities = null;
-        User user = (userRepository.findByName(name));
+    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        User user = (userRepository.findByName(userName));
 
         if (user == null) {
-            throw  new UsernameNotFoundException(Constants.USER_NOT_FOUND + name);
+            throw  new UsernameNotFoundException(Constants.USER_NOT_FOUND + userName);
         }
 
         for (Role role : user.getRoles()) {
-           authorities = new ArrayList<>();
             authorities.add(new SimpleGrantedAuthority(role.getName()));
         }
         return new org.springframework.security.core.userdetails.User(user.getName(), user.getPassword(), authorities);
+    }
+
+    /**
+     *{@inheritDoc}
+     */
+    @Override
+    public List<OrderDTO> getOrderDetails(int userId) throws FoodDeliveryManagementException {
+        User existingUser = userRepository.findById(userId).get();
+        List<OrderDTO> existingOrders = null;
+        if (!existingUser.getOrders().isEmpty()) {
+            for (Order order : existingUser.getOrders()) {
+                existingOrders.add(OrderMapper.convertOrderDTO(order));
+            }
+            return existingOrders;
+        }
+        throw new FoodDeliveryManagementException(Constants.NO_ORDER_DETAILS_FOUND,HttpStatus.NOT_FOUND);
     }
 }

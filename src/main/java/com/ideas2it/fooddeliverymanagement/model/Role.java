@@ -3,11 +3,10 @@ package com.ideas2it.fooddeliverymanagement.model;
 import lombok.Getter;
 import lombok.Setter;
 
-import lombok.ToString;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,18 +16,17 @@ import java.util.List;
  *
  * @author - dilip.n
  * @version - 1.0
- * @since - 2022-16-10
+ * @since - 2022-12-16
  */
 @Entity
 @Getter
 @Setter
 @Where(clause = "is_deleted = false")
 public class Role extends BaseModel {
-    @NotNull
+
+    @NotEmpty
     private String name;
 
-    @NotNull
-    @Column(columnDefinition="varchar(20) unique")
     private String code;
 
     @ManyToMany(mappedBy = "roles")

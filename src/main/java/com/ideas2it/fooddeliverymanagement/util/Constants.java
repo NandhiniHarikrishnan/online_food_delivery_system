@@ -1,6 +1,13 @@
 package com.ideas2it.fooddeliverymanagement.util;
 
 
+/**
+ * This class contains all the constants used in the project
+ *
+ * @author - dilip.n
+ * @version - 1.0
+ * @since - 2022-12-17
+ */
 public class Constants {
     public static final String REGEX_FOR_NAME = "^[a-zA-Z0-9]([._-](?![._-])|[a-zA-Z0-9]){1,18}[a-zA-Z0-9]$";
     public static final String REGEX_FOR_PHONE_NUMBER = "^[6-9]{1}[0-9]{9}";
@@ -40,4 +47,10 @@ public class Constants {
     public static final String ONLY_ALPHANUMERIC_SPACE = "only alphanumerics and space are allowed";
     public static final String NOT_NULL_OR_EMPTY_ADDRESS = "Address should not be null or empty, Please give valid address";
 
+    public static final String NO_ORDER_DETAILS_FOUND = "No Order Found Please Make A Order";
+    public static final String MENTION_AREA = "Please Mention Area";
+    public static final String INVALID_USERNAME_OR_PASSWORD = "Invalid userName Or Password";
+    public static final String ROLE_ALREADY_EXIST = "Role Already Exist";
+    public static final String PLEASE_MENTION_PASSWORD = "Please Mention password";
+    public static final String PASSWORD_ALREADY_EXIST = "Password already exist";
 }

@@ -9,6 +9,7 @@ import lombok.ToString;
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +35,7 @@ public class UserDTO {
     @Email(message = Constants.INVALID_EMAIL)
     private String email;
 
+    @NotEmpty(message = Constants.PLEASE_MENTION_PASSWORD)
     private String password;
 
     private List<AddressDTO> addresses = new ArrayList<>();

@@ -1,15 +1,17 @@
 package com.ideas2it.fooddeliverymanagement.controller;
 
 import com.ideas2it.fooddeliverymanagement.dto.AddressDTO;
+import com.ideas2it.fooddeliverymanagement.dto.OrderDTO;
 import com.ideas2it.fooddeliverymanagement.dto.UserDTO;
+import com.ideas2it.fooddeliverymanagement.util.Constants;
 import com.ideas2it.fooddeliverymanagement.util.exception.FoodDeliveryManagementException;
 import com.ideas2it.fooddeliverymanagement.model.AuthenticationRequest;
-import com.ideas2it.fooddeliverymanagement.model.AuthenticationResponse;
+import com.ideas2it.fooddeliverymanagement.dto.AuthenticationResponse;
 import com.ideas2it.fooddeliverymanagement.service.AddressService;
 import com.ideas2it.fooddeliverymanagement.service.UserService;
 import com.ideas2it.fooddeliverymanagement.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -99,9 +101,9 @@ public class UserController {
      * @return UserDTO
      * @throws FoodDeliveryManagementException
      */
-    @PutMapping("/")
-    public UserDTO updateUser(@RequestBody UserDTO userDTO) throws FoodDeliveryManagementException  {
-        return userService.updateUser(userDTO);
+    @PutMapping("/{userId}")
+    public UserDTO updateUser(@RequestBody UserDTO userDTO, @PathVariable int userId) throws FoodDeliveryManagementException  {
+        return userService.updateUser(userDTO, userId);
     }
 
     /**
@@ -166,22 +168,43 @@ public class UserController {
         return addressService.getAllAddress();
     }
 
+    /**
+     * It takes in a username and password, authenticates the user, generates a JWT token and returns it
+     *
+     * @param authenticationRequest This is the request object that contains the username and password.
+     * @return A JWT token
+     * @throws FoodDeliveryManagementException if username and password mismatch
+     */
     @PostMapping("/authentication")
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
+    public AuthenticationResponse createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws FoodDeliveryManagementException {
         final UserDetails userDetails;
-        final String jwt;
+        System.out.println(authenticationRequest.getUserName());
+        final String jsonToken;
 
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(authenticationRequest.getUserName(),
                             authenticationRequest.getPassword()));
         } catch (BadCredentialsException badCredentialsException) {
-            throw new Exception("Incorrect username or password", badCredentialsException);
+            throw new FoodDeliveryManagementException(Constants.INVALID_USERNAME_OR_PASSWORD, HttpStatus.BAD_REQUEST);
         }
 
         userDetails = userService.loadUserByUsername(authenticationRequest.getUserName());
-        jwt = jwtTokenUtil.generateToken(userDetails);
 
-        return ResponseEntity.ok(new AuthenticationResponse(jwt));
+        jsonToken = jwtTokenUtil.generateToken(userDetails);
+
+        return new AuthenticationResponse(jsonToken);
+    }
+
+    /**
+     * This function is used to get the order details of a particular user
+     *
+     * @param userId The userId of the user whose order details are to be fetched.
+     * @return List of OrderDTO
+     * @throws FoodDeliveryManagementException
+     */
+    @GetMapping("/getOrderDetails/{userId}")
+    public List<OrderDTO> getOrderDetails(@PathVariable int userId) throws FoodDeliveryManagementException {
+        return userService.getOrderDetails(userId);
     }
 }

@@ -46,20 +46,25 @@ public class RoleServiceImpl implements RoleService {
         Role role = UserMapper.convertToRole(newRole);
         List<User> users;
 
-        if (!newRole.getUserDTOS().isEmpty()) {
-            users = new ArrayList<>();
-            for (UserDTO userDTO : newRole.getUserDTOS()) {
-                users.add(userMapper.convertToUser(userDTO));
+        if (isRoleExist(role.getName())) {
+            throw new FoodDeliveryManagementException(Constants.ROLE_ALREADY_EXIST, HttpStatus.FOUND);
+        } else {
+            if (!newRole.getUserDTOS().isEmpty()) {
+                users = new ArrayList<>();
+                for (UserDTO userDTO : newRole.getUserDTOS()) {
+                    users.add(userMapper.convertToUser(userDTO));
+                }
+                role.setUsers(users);
             }
-            role.setUsers(users);
-        }
-        role.setCode(generateCode());
-        Optional<RoleDTO> savedRole = Optional.ofNullable(UserMapper.convertToRoleDTO(roleRepository.save(role)));
+            role.setCode(generateCode());
+            Optional<RoleDTO> savedRole = Optional.ofNullable(UserMapper.convertToRoleDTO(roleRepository.save(role)));
 
-        if (savedRole.isPresent()) {
-            return savedRole.get();
+            if (savedRole.isPresent()) {
+                return savedRole.get();
+            }
+            throw new FoodDeliveryManagementException(Constants.ROLE_NOT_ADDED, HttpStatus.UNPROCESSABLE_ENTITY);
         }
-        throw new FoodDeliveryManagementException(Constants.ROLE_NOT_ADDED,HttpStatus.UNPROCESSABLE_ENTITY);
+
 
     }
 
@@ -113,5 +118,18 @@ public class RoleServiceImpl implements RoleService {
     private String generateCode() {
         long roleCount = roleRepository.count();
         return "ROLE-0"+ (++roleCount);
+    }
+
+    /**
+     * It checks if a role with the given name exists in the database
+     *
+     * @param roleName The name of the role to be created.
+     * @return A boolean value.
+     */
+    private boolean isRoleExist(String roleName) {
+        Role existingRole = roleRepository.findByName(roleName);
+
+        return existingRole != null;
+
     }
 }

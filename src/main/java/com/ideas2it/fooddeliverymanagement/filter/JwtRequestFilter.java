@@ -16,12 +16,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+
 /**
- * Filter the JWT token
+ * It's a filter that intercepts every request and checks if there's a JWT in the Authorization header. If there is, it
+ * validates the token and sets the authentication in the context, to specify that the current user is authenticated
  *
- * @version 1.0
- * @Since 10 Dec 2022
- * @Author Dilip.
+ * @author - dilip.n
+ * @version - 1.0
+ * @since - 2022-12-20
  */
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
@@ -35,13 +37,11 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     }
 
     /**
-     * Filter the JWT token by getting request in the header.
+     * If the request has a valid JWT, then set the authentication in the security context
      *
-     * @param - request
-     * @param - response
-     * @param - Chain
-     * @throws - ServletException
-     * @throws - IOException
+     * @param request The request object.
+     * @param response The response object that is passed to the filter.
+     * @param Chain This is the filter chain that is used to send the request and response to the next filter in the chain.
      */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain Chain)
