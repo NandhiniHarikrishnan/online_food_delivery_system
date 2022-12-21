@@ -29,6 +29,7 @@ public class OrderController {
 
     /**
      * Used to assign order for customer.
+     * get customer id from user table and assign the order for specified customer
      *
      * @param orderDTO order details from user
      * @return placed order with id
