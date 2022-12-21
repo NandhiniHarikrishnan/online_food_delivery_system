@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
  * @version 1.0
  * @since Dec 12 2022
  */
+
+
 @RestController
 @RequestMapping("/order")
 public class OrderController {
@@ -50,11 +52,12 @@ public class OrderController {
      */
     @GetMapping("/{id}")
     public OrderDTO getOrderDetails(@PathVariable("id") int orderId) throws FoodDeliveryManagementException {
-        return orderService.DisplayOrderDetailsById(orderId);
+        return orderService.getOrderDetails(orderId);
     }
 
     /**
-     * Used to assign delivery boy
+     * assignDelivery method used to assign delivery boy by pass the order id.
+     * check the available delivery list who is available then assign order.
      *
      * @param orderId to assign delivery boy for this order
      * @return assigned delivery boy id
