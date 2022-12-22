@@ -1,3 +1,7 @@
+/*
+ * Copyright 2022 Ideas2IT Technologies. All rights reserved.
+ * IDEAS2IT PROPRIETARY/CONFIDENTIAL.
+ */
 package com.ideas2it.fooddeliverymanagement.service.impl;
 
 import com.ideas2it.fooddeliverymanagement.repository.RestaurantFoodRepository;
@@ -22,11 +26,7 @@ public class RestaurantFoodServiceImpl implements RestaurantFoodService {
     }
 
     /**
-     * getPrice method is used to get the price from restaurant.
-     *
-     * @param foodId to select food
-     * @param restaurantId to select restaurant
-     * @return price for food in specified restaurant
+     * {@inheritDoc}
      */
     @Override
     public float getPrice(int foodId, int restaurantId) {

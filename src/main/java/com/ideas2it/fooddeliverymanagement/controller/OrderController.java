@@ -1,3 +1,7 @@
+/*
+ * Copyright 2022 Ideas2IT Technologies. All rights reserved.
+ * IDEAS2IT PROPRIETARY/CONFIDENTIAL.
+ */
 package com.ideas2it.fooddeliverymanagement.controller;
 
 import com.ideas2it.fooddeliverymanagement.dto.OrderDTO;
@@ -10,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 /**
  * Food Delivery Application
- * Used to assign order and assign delivery boy.
+ * Used to place the order by customer and assign delivery boy by admin.
  *
  * @author Devaraj
  * @version 1.0
@@ -31,7 +35,8 @@ public class OrderController {
 
     /**
      * Used to assign order for customer.
-     * get customer id from user table and assign the order for specified customer
+     * get customer id from user table if present assign the order for specified customer
+     * else it throws customer id not found exception and handle by FoodDeliveryManagementException.
      *
      * @param orderDTO order details from user
      * @return placed order with id
@@ -44,7 +49,8 @@ public class OrderController {
     }
 
     /**
-     * Used to show order detail by order id
+     * Used to show order detail by order id,if order id is not there
+     * throws order id not found exception and handle by FoodDeliveryManagementException
      *
      * @param orderId get order detail
      * @return order detail for mentioned id
@@ -56,8 +62,10 @@ public class OrderController {
     }
 
     /**
-     * assignDelivery method used to assign delivery boy by pass the order id.
-     * check the available delivery list who is available then assign order.
+     * Used to assign delivery boy by pass the order id.
+     * check the available delivery boy list who is available
+     * then assign delivery boy for that order
+     * it can be done by only admin role.
      *
      * @param orderId to assign delivery boy for this order
      * @return assigned delivery boy id

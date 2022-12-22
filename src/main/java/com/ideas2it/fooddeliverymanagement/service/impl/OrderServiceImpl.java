@@ -1,3 +1,7 @@
+/*
+ * Copyright 2022 Ideas2IT Technologies. All rights reserved.
+ * IDEAS2IT PROPRIETARY/CONFIDENTIAL.
+ */
 package com.ideas2it.fooddeliverymanagement.service.impl;
 
 import com.ideas2it.fooddeliverymanagement.dto.OrderDTO;
@@ -54,12 +58,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
-     * assignOrder method used to create an order by user
-     *
-     * @param orderDTO pass customer id and order dto to assign order
-     * @param customerId to customer id and assign
-     * @return assigned order detail
-     * @throws FoodDeliveryManagementException if customer id not there
+     * {@inheritDoc}
      */
     @Override
     public OrderDTO assignOrder(OrderDTO orderDTO, int customerId) throws FoodDeliveryManagementException {
@@ -82,11 +81,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
-     * view order detail by call getOrderDetails shows the orderDetails
-     *
-     * @param orderId pass id to get order details
-     * @return order detail for specified id
-     * @throws FoodDeliveryManagementException if order id not there
+     * {@inheritDoc}
      */
     @Override
     public OrderDTO getOrderDetails(int orderId)throws FoodDeliveryManagementException {
@@ -98,12 +93,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
-     * assignDelivery method is used to assign delivery boy
-     * check the delivery boy available status then assign the delivery boy for that order.
-     *
-     * @param orderId assign order by order id
-     * @return assigned delivery id
-     * @throws FoodDeliveryManagementException if order id not match
+     * {@inheritDoc}
      */
     @Override
     public OrderDTO assignDelivery(int orderId) throws FoodDeliveryManagementException {
