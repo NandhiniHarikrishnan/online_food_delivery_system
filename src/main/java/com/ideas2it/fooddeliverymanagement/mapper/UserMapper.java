@@ -1,3 +1,7 @@
+/*
+ * Copyright 2022 Ideas2IT Technologies. All rights reserved.
+ * IDEAS2IT PROPRIETARY/CONFIDENTIAL.
+ */
 package com.ideas2it.fooddeliverymanagement.mapper;
 
 import com.ideas2it.fooddeliverymanagement.dto.AddressDTO;
@@ -22,6 +26,12 @@ import java.util.List;
  * @since - 2022-12-10
  */
 public class UserMapper {
+    /**
+     * It converts a UserDTO to a User, and also converts the UserDTO's addresses and roles to addresses and roles
+     *
+     * @param userDTO The DTO object that we want to convert to a User object.
+     * @return A User object
+     */
     public static User convertUser(UserDTO userDTO) {
         User user = convertToUser(userDTO);
         List<Address> addresses = new ArrayList<>();
@@ -45,6 +55,13 @@ public class UserMapper {
         return user;
     }
 
+    /**
+     * It converts a User object to a UserDTO object, and also converts the User's Address and Role objects to AddressDTO
+     * and RoleDTO objects, respectively
+     *
+     * @param user The user object that we want to convert to a UserDTO object.
+     * @return A UserDTO object
+     */
     public static UserDTO convertUserDTO(User user) {
         UserDTO userDTO = convertToUserDTO(user);
         List<AddressDTO> addresses = new ArrayList<>();
@@ -69,6 +86,12 @@ public class UserMapper {
         return userDTO;
     }
 
+    /**
+     * It converts an Address object to an AddressDTO object
+     *
+     * @param address The address object that needs to be converted to an addressDTO object.
+     * @return AddressDTO
+     */
     public static AddressDTO convertAddressDTO(Address address) {
         AddressDTO addressDTO = new AddressDTO();
         User user = address.getUser();
@@ -98,24 +121,44 @@ public class UserMapper {
         return addressDTO;
     }
 
+    /**
+     * It converts a UserDTO object to a User object
+     *
+     * @param userDTO The DTO object that we want to convert to a User object.
+     * @return A User object
+     */
     public static User convertToUser(UserDTO userDTO) {
         User user = new User();
 
         user.setId(userDTO.getId());
+        user.setUserName(userDTO.getUserName());
         user.setId(userDTO.getId());
         user.setName(userDTO.getName());
         user.setEmail(userDTO.getEmail());
         return user;
     }
 
+    /**
+     * It converts a User object to a UserDTO object
+     *
+     * @param user The user object that we want to convert to a UserDTO object.
+     * @return A UserDTO object
+     */
     public static UserDTO convertToUserDTO(User user) {
         UserDTO userDTO = new UserDTO();
 
         userDTO.setId(user.getId());
         userDTO.setEmail(user.getEmail());
+        userDTO.setUserName(user.getUserName());
         userDTO.setName(user.getName());
         return userDTO;
     }
+    /**
+     * It converts an AddressDTO object to an Address object
+     *
+     * @param addressDTO The DTO object that is to be converted to an entity object.
+     * @return Address object
+     */
     public static Address convertAddress(AddressDTO addressDTO) {
         Address address = new Address();
         RestaurantDTO restaurantDTO;
@@ -140,6 +183,12 @@ public class UserMapper {
         return address;
     }
 
+    /**
+     * It converts a RoleDTO object to a Role object
+     *
+     * @param roleDTO The DTO object that we want to convert to a Role object.
+     * @return A Role object
+     */
     public static Role convertToRole(RoleDTO roleDTO) {
         Role role = new Role();
 
@@ -149,6 +198,12 @@ public class UserMapper {
         return role;
     }
 
+    /**
+     * It converts a Role object to a RoleDTO object
+     *
+     * @param role The role object that is to be converted to a roleDTO object.
+     * @return A RoleDTO object
+     */
     public static RoleDTO convertToRoleDTO(Role role) {
         RoleDTO roleDTO = new RoleDTO();
         List<UserDTO> userDTOS = new ArrayList<>();

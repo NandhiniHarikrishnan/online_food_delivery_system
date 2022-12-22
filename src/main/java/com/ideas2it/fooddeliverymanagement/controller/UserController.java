@@ -1,3 +1,7 @@
+/*
+ * Copyright 2022 Ideas2IT Technologies. All rights reserved.
+ * IDEAS2IT PROPRIETARY/CONFIDENTIAL.
+ */
 package com.ideas2it.fooddeliverymanagement.controller;
 
 import com.ideas2it.fooddeliverymanagement.dto.AddressDTO;
@@ -102,7 +106,7 @@ public class UserController {
      * @throws FoodDeliveryManagementException
      */
     @PutMapping("/{userId}")
-    public UserDTO updateUser(@RequestBody UserDTO userDTO, @PathVariable int userId) throws FoodDeliveryManagementException  {
+    public UserDTO updateUser(@Valid @RequestBody UserDTO userDTO, @PathVariable int userId) throws FoodDeliveryManagementException  {
         return userService.updateUser(userDTO, userId);
     }
 
@@ -178,7 +182,6 @@ public class UserController {
     @PostMapping("/authentication")
     public AuthenticationResponse createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws FoodDeliveryManagementException {
         final UserDetails userDetails;
-        System.out.println(authenticationRequest.getUserName());
         final String jsonToken;
 
         try {

@@ -1,3 +1,7 @@
+/*
+ * Copyright 2022 Ideas2IT Technologies. All rights reserved.
+ * IDEAS2IT PROPRIETARY/CONFIDENTIAL.
+ */
 package com.ideas2it.fooddeliverymanagement.dto;
 
 import com.ideas2it.fooddeliverymanagement.util.Constants;
@@ -23,7 +27,7 @@ public class RoleDTO {
 
     private int id;
 
-    @Pattern(regexp = Constants.REGEX_FOR_NAME)
+    @Pattern(regexp = Constants.REGEX_FOR_NAME, message = Constants.INVALID_NAME)
     private String name;
 
     private String code;

@@ -1,3 +1,7 @@
+/*
+ * Copyright 2022 Ideas2IT Technologies. All rights reserved.
+ * IDEAS2IT PROPRIETARY/CONFIDENTIAL.
+ */
 package com.ideas2it.fooddeliverymanagement.repository;
 
 import com.ideas2it.fooddeliverymanagement.model.Role;
@@ -15,5 +19,11 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RoleRepository extends JpaRepository<Role, Integer> {
 
+    /**
+     * Find a role by its name.
+     *
+     * @param roleName The name of the role to find.
+     * @return A Role object
+     */
     Role findByName(String roleName);
 }
