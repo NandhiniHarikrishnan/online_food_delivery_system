@@ -1,9 +1,13 @@
 package com.ideas2it.fooddeliverymanagement.dto;
 
+import com.ideas2it.fooddeliverymanagement.util.Constants;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.util.List;
 
 /**
@@ -19,7 +23,10 @@ import java.util.List;
 @NoArgsConstructor
 public class FoodDTO {
     private int id;
+    @NotNull(message = Constants.NOT_NULL_OR_EMPTY_NAME)
+    @Pattern(regexp = Constants.REGEX_FOR_FOOD, message = Constants.ONLY_ALPHANUMERIC_SPACE)
     private String name;
+    @Pattern(regexp = Constants.REGEX_FOR_FOOD)
     private String description;
     private boolean isAvailable;
     private String weight;

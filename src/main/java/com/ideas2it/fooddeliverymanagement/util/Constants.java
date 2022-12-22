@@ -30,7 +30,7 @@ public class Constants {
     public static final String USER_NOT_ADDED = "User Not Added";
     public static final String USER_NOT_FOUND = "User Not Found";
     public static final String DETAILS_NOT_UPDATED = "Details Not Updated";
-    public static final String NO_RECORD_FOUND = "No record Found";
+    public static final String NO_RECORD_FOUND = "No record Found ";
     public static final String RESTAURANT_NOT_FOUND = "Restaurant Not Found";
     public static final String RESTAURANT_NOT_ADDED = "Restaurant Not Added";
     public static final String RESTAURANT_NOT_UPDATED = "Restaurant Not Updated";
@@ -39,7 +39,7 @@ public class Constants {
     public static final String CATEGORY_NOT_ADDED = "Category Not Added";
     public static final String CATEGORY_NOT_UPDATED = "Category Not Updated";
     public static final String CATEGORY_NOT_DELETED = "Category Not Deleted";
-    public static final String DELETED_SUCCESSFULLY = "Deleted Successfully";
+    public static final String DELETED_SUCCESSFULLY = "Deleted Successfully ";
     public static final String REGEX_FOR_CATEGORY = "[^\\s][a-zA-Z\\s]*";
     public static final String ONLY_ALPHABETS_SPACE = "only alphabets and space are allowed";
     public static final String NOT_NULL_OR_EMPTY_NAME = "Name should not be null or empty, Please give valid name";
@@ -55,4 +55,8 @@ public class Constants {
     public static final String ROLE_ALREADY_EXIST = "Role Already Exist";
     public static final String PLEASE_MENTION_PASSWORD = "Please Mention password";
     public static final String PASSWORD_ALREADY_EXIST = "Password already exist";
+    public static final String REGEX_FOR_CUISINE = "[^\\s][a-zA-Z\\s]*";
+    public static final String REGEX_FOR_FOOD = "[^\\s][0-9a-zA-Z\\s]*";
+    public static final String CUISINE_NOT_ADDED = "Cuisine not added";
+
 }

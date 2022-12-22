@@ -11,7 +11,7 @@ import javax.validation.constraints.Pattern;
 import java.util.List;
 
 /**
- * A DTO class for RestaurantDTO.
+ * A DTO class for Restaurant.
  *
  * @author Jeevanantham
  * @version 1.0 13-DEC-2022

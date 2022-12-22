@@ -21,10 +21,31 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CuisineRepository extends JpaRepository<Cuisine, Integer> {
 
+    /**
+     * <p>
+     * To generate the cuisine code as per the count of the cuisine
+     * </p>
+     *
+     * @return a category code
+     */
     @Query(value = "select count(id) from cuisine" , nativeQuery = true)
     Long getCuisineCount();
 
+    /**
+     * <p>
+     * To soft delete the cuisine for the given cuisine id.
+     * </p>
+     *
+     */
     @Modifying
     @Query("update Cuisine set isDeleted = true where id = :id")
     void deleteById(@Param("id")int id);
+
+    /**
+     * <p>
+     * To find by name in cuisine
+     * </p>
+     *
+     */
+    Cuisine findByName(String name);
 }

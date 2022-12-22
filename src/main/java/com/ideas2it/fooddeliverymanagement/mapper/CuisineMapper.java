@@ -21,12 +21,6 @@ import java.util.stream.Collectors;
 @Component
 public class CuisineMapper {
 
-    /**
-     * It converts a Cuisine object to a CuisineDTO object.
-     *
-     * @param cuisine The Cuisine object that we want to convert to a CuisineDTO object.
-     * @return A CuisineDTO object
-     */
     public static CuisineDTO convertCuisineDTO(Cuisine cuisine) {
         List<Restaurant> restaurants;
         CuisineDTO cuisineDTO = new CuisineDTO();

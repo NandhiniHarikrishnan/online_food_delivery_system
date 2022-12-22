@@ -32,7 +32,7 @@ public class FoodMapper {
     public static FoodDTO convertIntoDTO(Food food) {
         Category category;
         List<RestaurantFood> restaurantFoods;
-        List<RestaurantFoodDTO> restaurantFoodsDTO = null;
+        List<RestaurantFoodDTO> restaurantFoodsDTO;
         FoodDTO foodDTO = new FoodDTO();
         if (null != food) {
             foodDTO.setId(food.getId());
