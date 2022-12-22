@@ -1,3 +1,7 @@
+/*
+ * Copyright 2022 Ideas2IT Technologies. All rights reserved.
+ * IDEAS2IT PROPRIETARY/CONFIDENTIAL.
+ */
 package com.ideas2it.fooddeliverymanagement.service.impl;
 
 import com.ideas2it.fooddeliverymanagement.dto.RoleDTO;
@@ -56,11 +60,12 @@ public class RoleServiceImpl implements RoleService {
                 }
                 role.setUsers(users);
             }
+            role.setName(newRole.getName().toUpperCase());
             role.setCode(generateCode());
-            Optional<RoleDTO> savedRole = Optional.ofNullable(UserMapper.convertToRoleDTO(roleRepository.save(role)));
+            RoleDTO savedRole = UserMapper.convertToRoleDTO(roleRepository.save(role));
 
-            if (savedRole.isPresent()) {
-                return savedRole.get();
+            if (savedRole != null) {
+                return savedRole;
             }
             throw new FoodDeliveryManagementException(Constants.ROLE_NOT_ADDED, HttpStatus.UNPROCESSABLE_ENTITY);
         }

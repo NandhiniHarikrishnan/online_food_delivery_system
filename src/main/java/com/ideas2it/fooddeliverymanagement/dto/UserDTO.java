@@ -1,15 +1,16 @@
+/*
+ * Copyright 2022 Ideas2IT Technologies. All rights reserved.
+ * IDEAS2IT PROPRIETARY/CONFIDENTIAL.
+ */
 package com.ideas2it.fooddeliverymanagement.dto;
 
 import com.ideas2it.fooddeliverymanagement.util.Constants;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
-import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,10 +33,13 @@ public class UserDTO {
     @Pattern(regexp = Constants.REGEX_FOR_NAME, message = Constants.INVALID_NAME)
     private String name;
 
+    @Pattern(regexp = Constants.REGEX_FOR_USERNAME, message = Constants.INVALID_USERNAME)
+    private String userName;
+
     @Email(message = Constants.INVALID_EMAIL)
     private String email;
 
-    @NotEmpty(message = Constants.PLEASE_MENTION_PASSWORD)
+    @NotBlank(message = Constants.PLEASE_MENTION_PASSWORD)
     private String password;
 
     private List<AddressDTO> addresses = new ArrayList<>();

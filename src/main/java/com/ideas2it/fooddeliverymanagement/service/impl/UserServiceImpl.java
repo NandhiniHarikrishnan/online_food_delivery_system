@@ -1,3 +1,7 @@
+/*
+ * Copyright 2022 Ideas2IT Technologies. All rights reserved.
+ * IDEAS2IT PROPRIETARY/CONFIDENTIAL.
+ */
 package com.ideas2it.fooddeliverymanagement.service.impl;
 
 import com.ideas2it.fooddeliverymanagement.dto.AddressDTO;
@@ -40,12 +44,9 @@ import java.util.Optional;
  */
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {
-    private final UserRepository userRepository;
-
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
+    private final UserRepository userRepository;
     private final RoleService roleService;
-
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository,
@@ -59,24 +60,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
      */
     @Override
     public UserDTO addUser(UserDTO userDTO) throws FoodDeliveryManagementException {
-        List<Role> roles = new ArrayList<>();
         UserDTO savedUser;
         User user = UserMapper.convertUser(userDTO);
         if (isEmailExist(user.getEmail())) {
             throw new FoodDeliveryManagementException(Constants.EMAIL_ALREADY_EXIST,HttpStatus.NOT_ACCEPTABLE);
-        } else {
-            if (userDTO.getRoles().isEmpty()) {
-                for (RoleDTO roleDTO: roleService.getAllRoles()){
-                    if (roleDTO.getName().equals("CUSTOMER")){
-                        roles.add(UserMapper.convertToRole(roleDTO));
-                    }
-                }
-            } else {
-                for (RoleDTO role : userDTO.getRoles()) {
-                    roles.add(UserMapper.convertToRole(roleService.getRole(role.getId())));
-                }
-            }
-            user.setRoles(roles);
+        } else if (isUserNameExist(userDTO.getUserName())) {
+            throw new FoodDeliveryManagementException(Constants.USER_NAME_EXIST,HttpStatus.FOUND);
+        }else {
+            user.setRoles(getRoles(userDTO));
             user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
             savedUser = UserMapper.convertUserDTO(userRepository.save(user));
 
@@ -140,20 +131,35 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public UserDTO updateUser(UserDTO userDTO, int userId) throws FoodDeliveryManagementException {
         List<Address> addresses = new ArrayList<>();
+        User existingUser = userRepository.findById(userId).get();
         User user = UserMapper.convertToUser(userDTO);
 
-        for (AddressDTO addressDTO : userDTO.getAddresses()) {
-            Address address = UserMapper.convertAddress(addressDTO);
-            address.setUser(user);
-            addresses.add(address);
-        }
-        user.setAddresses(addresses);
-        UserDTO updatedUser = UserMapper.convertUserDTO(userRepository.save(user));
+        if (isEmailExist(user.getEmail())) {
+            throw new FoodDeliveryManagementException(Constants.EMAIL_ALREADY_EXIST,HttpStatus.NOT_ACCEPTABLE);
+        } else if (isUserNameExist(userDTO.getUserName())) {
+            throw new FoodDeliveryManagementException(Constants.USER_NAME_EXIST,HttpStatus.FOUND);
+        }else {
+            for (AddressDTO addressDTO : userDTO.getAddresses()) {
+                Address address = UserMapper.convertAddress(addressDTO);
+                address.setUser(user);
+                addresses.add(address);
+            }
 
-       if (updatedUser != null) {
-           return updatedUser;
-       }
-        throw new FoodDeliveryManagementException(Constants.DETAILS_NOT_UPDATED,HttpStatus.UNPROCESSABLE_ENTITY);
+            if (null == userDTO.getPassword()) {
+                user.setPassword(existingUser.getPassword());
+            } else {
+                user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+            }
+
+            user.setAddresses(addresses);
+            user.setRoles(getRoles(userDTO));
+            UserDTO updatedUser = UserMapper.convertUserDTO(userRepository.save(user));
+
+            if (updatedUser != null) {
+                return updatedUser;
+            }
+            throw new FoodDeliveryManagementException(Constants.DETAILS_NOT_UPDATED, HttpStatus.UNPROCESSABLE_ENTITY);
+        }
 
     }
     /**
@@ -172,8 +178,19 @@ public class UserServiceImpl implements UserService, UserDetailsService {
      * @return A boolean value.
      */
     private boolean isEmailExist(String email){
-        User existingUser = userRepository.findByEmail(email);
-        return existingUser != null;
+        User existingUserByEmail = userRepository.findByEmail(email);
+        return existingUserByEmail != null;
+    }
+
+    /**
+     * > It checks if a user with the given user_name exists in the database
+     *
+     * @param userName The user_name of the user to be created.
+     * @return A boolean value.
+     */
+    private boolean isUserNameExist(String userName) {
+        User existingUserByUserName = userRepository.findByUserName(userName);
+        return existingUserByUserName != null;
     }
 
     /**
@@ -186,7 +203,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        User user = (userRepository.findByName(userName));
+        User user = (userRepository.findByUserName(userName));
 
         if (user == null) {
             throw  new UsernameNotFoundException(Constants.USER_NOT_FOUND + userName);
@@ -195,7 +212,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         for (Role role : user.getRoles()) {
             authorities.add(new SimpleGrantedAuthority(role.getName()));
         }
-        return new org.springframework.security.core.userdetails.User(user.getName(), user.getPassword(), authorities);
+        return new org.springframework.security.core.userdetails.User(user.getUserName(), user.getPassword(), authorities);
     }
 
     /**
@@ -212,5 +229,28 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             return existingOrders;
         }
         throw new FoodDeliveryManagementException(Constants.NO_ORDER_DETAILS_FOUND,HttpStatus.NOT_FOUND);
+    }
+
+    /**
+     * It takes a userDTO as an argument and returns a list of roles
+     *
+     * @param userDTO The userDTO object that is passed to the method.
+     * @return A list of roles.
+     */
+    private List<Role> getRoles(UserDTO userDTO) throws FoodDeliveryManagementException {
+        List<Role> roles = new ArrayList<>();
+
+        if (userDTO.getRoles().isEmpty()) {
+            for (RoleDTO roleDTO: roleService.getAllRoles()){
+                if (roleDTO.getName().equals("CUSTOMER")){
+                    roles.add(UserMapper.convertToRole(roleDTO));
+                }
+            }
+        } else {
+            for (RoleDTO role : userDTO.getRoles()) {
+                roles.add(UserMapper.convertToRole(roleService.getRole(role.getId())));
+            }
+        }
+        return roles;
     }
 }

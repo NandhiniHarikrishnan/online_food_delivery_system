@@ -1,3 +1,7 @@
+/*
+ * Copyright 2022 Ideas2IT Technologies. All rights reserved.
+ * IDEAS2IT PROPRIETARY/CONFIDENTIAL.
+ */
 package com.ideas2it.fooddeliverymanagement.securityConfiguration;
 
 import com.ideas2it.fooddeliverymanagement.filter.JwtRequestFilter;
@@ -16,7 +20,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
- * Perform Authentication and authorization
+ * Is used to configure the security of the application and Perform Authentication, authorization
  *
  * @version 1.0
  * @Since 20 Dec 2022

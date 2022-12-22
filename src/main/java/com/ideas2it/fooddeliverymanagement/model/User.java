@@ -1,3 +1,7 @@
+/*
+ * Copyright 2022 Ideas2IT Technologies. All rights reserved.
+ * IDEAS2IT PROPRIETARY/CONFIDENTIAL.
+ */
 package com.ideas2it.fooddeliverymanagement.model;
 
 import lombok.Getter;
@@ -6,7 +10,7 @@ import lombok.Setter;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,13 +28,16 @@ import java.util.List;
 @Where(clause = "is_deleted = false")
 public class User extends BaseModel{
 
-    @NotEmpty
+    @NotNull
     private String name;
 
-    @NotEmpty
+    @NotNull
+    private String userName;
+
+    @NotNull
     private String email;
 
-    @NotEmpty
+    @NotNull
     private String password;
 
     private String status;

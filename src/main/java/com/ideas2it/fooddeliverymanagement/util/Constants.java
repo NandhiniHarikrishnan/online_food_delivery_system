@@ -1,3 +1,7 @@
+/*
+ * Copyright 2022 Ideas2IT Technologies. All rights reserved.
+ * IDEAS2IT PROPRIETARY/CONFIDENTIAL.
+ */
 package com.ideas2it.fooddeliverymanagement.util;
 
 
@@ -9,7 +13,7 @@ package com.ideas2it.fooddeliverymanagement.util;
  * @since - 2022-12-17
  */
 public class Constants {
-    public static final String REGEX_FOR_NAME = "^[a-zA-Z0-9]([._-](?![._-])|[a-zA-Z0-9]){1,18}[a-zA-Z0-9]$";
+    public static final String REGEX_FOR_NAME = "^[a-zA-Z]([.](?![.])|[a-zA-Z]){1,18}[a-zA-Z]$";
     public static final String REGEX_FOR_PHONE_NUMBER = "^[6-9]{1}[0-9]{9}";
     public static final String REGEX_FOR_PINCODE = "^[1-9][0-9]{5}$";
     public static final String INVALID_NAME = "Invalid Name";
@@ -54,9 +58,17 @@ public class Constants {
     public static final String INVALID_USERNAME_OR_PASSWORD = "Invalid userName Or Password";
     public static final String ROLE_ALREADY_EXIST = "Role Already Exist";
     public static final String PLEASE_MENTION_PASSWORD = "Please Mention password";
+<<<<<<< Updated upstream
     public static final String PASSWORD_ALREADY_EXIST = "Password already exist";
     public static final String REGEX_FOR_CUISINE = "[^\\s][a-zA-Z\\s]*";
     public static final String REGEX_FOR_FOOD = "[^\\s][0-9a-zA-Z\\s]*";
     public static final String CUISINE_NOT_ADDED = "Cuisine not added";
 
+=======
+    public static final String REGEX_FOR_USERNAME = "^[a-zA-Z0-9]([._-](?![._-])|[a-zA-Z0-9]){1,18}[a-zA-Z0-9]$";
+    public static final String INVALID_USERNAME = "Please Enter valid Name";
+    public static final String USER_NAME_EXIST = "User Name Already Exist";
+    public static final String INVAILD_PINCODE = "Invalid PinCode";
+    public static final String INVALID_PHONE_NUMBER = "Invalid PhoneNumber";
+>>>>>>> Stashed changes
 }

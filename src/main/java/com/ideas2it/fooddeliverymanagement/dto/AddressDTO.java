@@ -1,3 +1,7 @@
+/*
+ * Copyright 2022 Ideas2IT Technologies. All rights reserved.
+ * IDEAS2IT PROPRIETARY/CONFIDENTIAL.
+ */
 package com.ideas2it.fooddeliverymanagement.dto;
 
 import com.ideas2it.fooddeliverymanagement.util.Constants;
@@ -5,7 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
 
@@ -23,28 +27,28 @@ public class AddressDTO {
 
     private int id;
 
-    @NotEmpty(message = Constants.MENTION_PLOT_NUMBER)
+    @NotBlank(message = Constants.MENTION_PLOT_NUMBER)
     private String plotNumber;
 
-    @NotEmpty(message = Constants.MENTION_STREET_NAME)
+    @NotBlank(message = Constants.MENTION_STREET_NAME)
     private String street;
 
-    @NotEmpty(message = Constants.MENTION_CITY_NAME)
+    @NotBlank(message = Constants.MENTION_CITY_NAME)
     private String city;
 
-    @NotEmpty(message = Constants.MENTION_DISTRICT_NAME)
+    @NotBlank(message = Constants.MENTION_DISTRICT_NAME)
     private String district;
 
-    @NotEmpty(message = Constants.MENTION_STATE_NAME)
+    @NotBlank(message = Constants.MENTION_STATE_NAME)
     private String state;
 
-    @NotEmpty(message = Constants.MENTION_AREA)
+    @NotBlank(message = Constants.MENTION_AREA)
     private String area;
 
-    @Pattern(regexp = Constants.REGEX_FOR_PINCODE)
+    @Pattern(regexp = Constants.REGEX_FOR_PINCODE, message = Constants.INVAILD_PINCODE)
     private long pinCode;
 
-    @Pattern(regexp = Constants.REGEX_FOR_PHONE_NUMBER)
+    @Pattern(regexp = Constants.REGEX_FOR_PHONE_NUMBER, message = Constants.INVALID_PHONE_NUMBER)
     private long phoneNumber;
 
     private UserDTO user;
