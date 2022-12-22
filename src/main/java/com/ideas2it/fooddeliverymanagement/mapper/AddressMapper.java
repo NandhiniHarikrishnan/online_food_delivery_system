@@ -24,6 +24,7 @@ public class AddressMapper {
             addressDTO.setId(address.getId());
             addressDTO.setPlotNumber(address.getPlotNumber());
             addressDTO.setStreet(address.getStreet());
+            addressDTO.setArea(address.getArea());
             addressDTO.setCity(address.getCity());
             addressDTO.setDistrict(address.getDistrict());
             addressDTO.setState(address.getState());

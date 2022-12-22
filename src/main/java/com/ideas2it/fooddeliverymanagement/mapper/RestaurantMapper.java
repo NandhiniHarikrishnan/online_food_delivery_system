@@ -101,7 +101,6 @@ public class RestaurantMapper {
             restaurantFoodDTOs = restaurantDTO.getRestaurantFoods();
             if (null != restaurantFoodDTOs) {
                 for (RestaurantFoodDTO restaurantFoodDTO : restaurantFoodDTOs) {
-                    //restaurantFoodDTO.setRestaurant(null);
                     restaurantFoods.add(restaurantFoodMapper.convertIntoEntity(restaurantFoodDTO));
                 }
                 restaurant.setRestaurantFoods(restaurantFoods);

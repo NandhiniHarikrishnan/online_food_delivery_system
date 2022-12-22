@@ -1,6 +1,9 @@
+/*
+ * Copyright 2022 Ideas2IT Technologies. All rights reserved.
+ * IDEAS2IT PROPRIETARY/CONFIDENTIAL.
+ */
 package com.ideas2it.fooddeliverymanagement.repository;
 
-import com.ideas2it.fooddeliverymanagement.dto.RestaurantDetailDTO;
 import com.ideas2it.fooddeliverymanagement.util.exception.FoodDeliveryManagementException;
 import com.ideas2it.fooddeliverymanagement.model.Restaurant;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -62,6 +65,6 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Integer>
      * @return - the list of filtered restaurants
      * @throws FoodDeliveryManagementException - if there is no restaurant based on the given cuisine
      */
-    @Query("select distinct r from Restaurant r join fetch r.cuisine c where c.name = :cuisine")
+    @Query("select restaurant from Restaurant restaurant join fetch restaurant.cuisine cuisine where cuisine.name = :cuisine")
     List<Restaurant> searchRestaurantByCuisine(@Param("cuisine") String cuisine);
 }
