@@ -58,17 +58,12 @@ public class Constants {
     public static final String INVALID_USERNAME_OR_PASSWORD = "Invalid userName Or Password";
     public static final String ROLE_ALREADY_EXIST = "Role Already Exist";
     public static final String PLEASE_MENTION_PASSWORD = "Please Mention password";
-<<<<<<< Updated upstream
-    public static final String PASSWORD_ALREADY_EXIST = "Password already exist";
     public static final String REGEX_FOR_CUISINE = "[^\\s][a-zA-Z\\s]*";
     public static final String REGEX_FOR_FOOD = "[^\\s][0-9a-zA-Z\\s]*";
     public static final String CUISINE_NOT_ADDED = "Cuisine not added";
-
-=======
     public static final String REGEX_FOR_USERNAME = "^[a-zA-Z0-9]([._-](?![._-])|[a-zA-Z0-9]){1,18}[a-zA-Z0-9]$";
     public static final String INVALID_USERNAME = "Please Enter valid Name";
     public static final String USER_NAME_EXIST = "User Name Already Exist";
     public static final String INVAILD_PINCODE = "Invalid PinCode";
     public static final String INVALID_PHONE_NUMBER = "Invalid PhoneNumber";
->>>>>>> Stashed changes
 }
