@@ -1,3 +1,7 @@
+/*
+ * Copyright 2022 Ideas2IT Technologies. All rights reserved.
+ * IDEAS2IT PROPRIETARY/CONFIDENTIAL.
+ */
 package com.ideas2it.fooddeliverymanagement.service.impl;
 
 import com.ideas2it.fooddeliverymanagement.dto.CategoryDTO;
@@ -25,7 +29,6 @@ import java.util.Optional;
  */
 @Service
 public class CategoryServiceImpl implements CategoryService {
-
 
     private final CategoryRepository categoryRepository;
 

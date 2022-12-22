@@ -21,7 +21,7 @@ import java.util.List;
 @RequestMapping("/restaurant")
 public class RestaurantController {
 
-    private RestaurantService restaurantService;
+    private final RestaurantService restaurantService;
 
     @Autowired
     public RestaurantController(RestaurantService restaurantService) {

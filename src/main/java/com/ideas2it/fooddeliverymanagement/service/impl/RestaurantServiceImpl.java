@@ -1,3 +1,7 @@
+/*
+ * Copyright 2022 Ideas2IT Technologies. All rights reserved.
+ * IDEAS2IT PROPRIETARY/CONFIDENTIAL.
+ */
 package com.ideas2it.fooddeliverymanagement.service.impl;
 
 import com.ideas2it.fooddeliverymanagement.dto.*;
@@ -26,7 +30,7 @@ import java.util.stream.Collectors;
 @Service
 public class RestaurantServiceImpl implements RestaurantService {
 
-    private RestaurantRepository restaurantRepository;
+    private final RestaurantRepository restaurantRepository;
 
     @Autowired
     public RestaurantServiceImpl(RestaurantRepository restaurantRepository) {

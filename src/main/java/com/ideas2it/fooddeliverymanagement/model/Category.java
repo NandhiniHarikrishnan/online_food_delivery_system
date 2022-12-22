@@ -1,6 +1,9 @@
+/*
+ * Copyright 2022 Ideas2IT Technologies. All rights reserved.
+ * IDEAS2IT PROPRIETARY/CONFIDENTIAL.
+ */
 package com.ideas2it.fooddeliverymanagement.model;
 
-import lombok.ToString;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
@@ -16,7 +19,6 @@ import java.util.List;
  */
 @Entity
 @Where(clause = "is_deleted = false")
-@ToString
 public class Category extends BaseModel {
 
     @NotNull
