@@ -1,3 +1,13 @@
+/*
+ * Copyright 2022 Ideas2IT Technologies. All rights reserved.
+ * IDEAS2IT PROPRIETARY/CONFIDENTIAL.
+ *
+ * An online food ordering system allows customer to view the menu
+ * of the restaurant by searching it based on the location,food category
+ * and cuisine, an Admin assign the delivery boy to the order based on
+ * their availability.
+ *
+ */
 package com.ideas2it.fooddeliverymanagement;
 
 import org.springframework.boot.SpringApplication;

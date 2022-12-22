@@ -1,3 +1,7 @@
+/*
+ * Copyright 2022 Ideas2IT Technologies. All rights reserved.
+ * IDEAS2IT PROPRIETARY/CONFIDENTIAL.
+ */
 package com.ideas2it.fooddeliverymanagement.mapper;
 
 import com.ideas2it.fooddeliverymanagement.dto.CuisineDTO;
@@ -16,9 +20,9 @@ import java.util.stream.Collectors;
  * </p
  *
  * @author Jeevanantham
- * @version 1.0 14-DEC-2022
+ * @version 1.0
+ * @Since 16-DEC-2022
  */
-@Component
 public class CuisineMapper {
 
     public static CuisineDTO convertCuisineDTO(Cuisine cuisine) {

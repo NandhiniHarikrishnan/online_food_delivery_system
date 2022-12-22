@@ -1,3 +1,7 @@
+/*
+ * Copyright 2022 Ideas2IT Technologies. All rights reserved.
+ * IDEAS2IT PROPRIETARY/CONFIDENTIAL.
+ */
 package com.ideas2it.fooddeliverymanagement.controller;
 
 import com.ideas2it.fooddeliverymanagement.dto.FoodDTO;
@@ -8,6 +12,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * A controller class that handles requests for the /food endpoint.
+ * @version - 1.0
+ * @since - 2022-12-14
+ */
 @RestController
 @RequestMapping("/food")
 public class FoodController {
@@ -25,13 +34,13 @@ public class FoodController {
      * food details
      * </p>
      *
-     * @param value contains information about food table it will search
+     * @param keyword contains information about food table it will search
      * @return updated food details
      * @throws FoodDeliveryManagementException - if the restaurant is not found
      */
     @GetMapping("/search/")
-    public List<FoodDTO> searchFoods(@RequestParam String value) throws FoodDeliveryManagementException {
-        return foodService.searchFood(value);
+    public List<FoodDTO> searchFoods(@RequestParam String keyword) throws FoodDeliveryManagementException {
+        return foodService.searchFood(keyword);
     }
 
     /**
@@ -54,7 +63,7 @@ public class FoodController {
      * </p>
      *
      * @param foodDTO contains information about food
-     * @param id      food id to be update
+     * @param id      food id to be updated
      * @return updated food details
      * @throws FoodDeliveryManagementException - if the restaurant is not found
      */
@@ -79,6 +88,16 @@ public class FoodController {
         return foodService.deleteFoodById(id);
     }
 
+    /**
+     * <p>
+     * whenever a search a food by category
+     * food details
+     * </p>
+     *
+     * @param name contains information about food table and category table it will search
+     * @return updated food details
+     * @throws FoodDeliveryManagementException - if the restaurant is not found
+     */
     @GetMapping("/search-by-category/")
     public List<FoodDTO> searchFoodByCategory(@RequestParam String name) throws FoodDeliveryManagementException {
         return foodService.searchFoodByCategory(name);

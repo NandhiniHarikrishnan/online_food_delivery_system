@@ -1,3 +1,7 @@
+/*
+ * Copyright 2022 Ideas2IT Technologies. All rights reserved.
+ * IDEAS2IT PROPRIETARY/CONFIDENTIAL.
+ */
 package com.ideas2it.fooddeliverymanagement.controller;
 
 import com.ideas2it.fooddeliverymanagement.dto.CuisineDTO;
@@ -11,6 +15,8 @@ import java.util.List;
 
 /**
  * This class is a controller that handles requests for the `/cuisines` endpoint
+ * @version - 1.0
+ * @since - 2022-12-14
  */
 @RestController
 @RequestMapping("/cuisine")
