@@ -3,6 +3,7 @@ package com.ideas2it.fooddeliverymanagement.service.impl;
 import com.ideas2it.fooddeliverymanagement.dto.CategoryDTO;
 import com.ideas2it.fooddeliverymanagement.dto.FoodDTO;
 import com.ideas2it.fooddeliverymanagement.dto.RestaurantFoodDTO;
+import com.ideas2it.fooddeliverymanagement.util.Constants;
 import com.ideas2it.fooddeliverymanagement.util.exception.FoodDeliveryManagementException;
 import com.ideas2it.fooddeliverymanagement.mapper.FoodMapper;
 import com.ideas2it.fooddeliverymanagement.model.Food;
@@ -17,6 +18,14 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * <p>
+ * This class is a service that provides access to the `Food` entity
+ * </p>
+ *
+ * @author Jeevanantham
+ * @version 1.0 13-DEC-2022
+ */
 @Service
 @Slf4j
 public class FoodServiceImpl implements FoodService {
@@ -31,12 +40,12 @@ public class FoodServiceImpl implements FoodService {
     /**
      *  {@inheritDoc}
      */
-    public List<FoodDTO> searchFood(String value) throws FoodDeliveryManagementException {
-        List<Food> foods = foodRepository.searchFood(value);
-        if (!foods.isEmpty() && foods != null) {
+    public List<FoodDTO> searchFood(String keyword) throws FoodDeliveryManagementException {
+        List<Food> foods = foodRepository.searchFood(keyword);
+        if (!foods.isEmpty()) {
             return FoodMapper.convertIntoFoodsDTO(foods);
         } else {
-            throw new FoodDeliveryManagementException("food not found with this :" + value, HttpStatus.NOT_FOUND);
+            throw new FoodDeliveryManagementException(Constants.NO_RECORD_FOUND + keyword, HttpStatus.NOT_FOUND);
         }
     }
 
@@ -45,10 +54,10 @@ public class FoodServiceImpl implements FoodService {
      */
     public String deleteFoodById(int id) throws FoodDeliveryManagementException{
         if (!foodRepository.existsById(id)){
-            throw new FoodDeliveryManagementException("NOT_FOUND"+ id, HttpStatus.NOT_FOUND);
+            throw new FoodDeliveryManagementException(Constants.NO_RECORD_FOUND+ id, HttpStatus.NOT_FOUND);
         }
         foodRepository.deleteById(id);
-        return "SuccessFull Deleted given Id" +id;
+        return Constants.DELETED_SUCCESSFULLY +id;
     }
 
     /**
@@ -74,7 +83,7 @@ public class FoodServiceImpl implements FoodService {
                     foodRepository.save(FoodMapper.convertIntoEntity(existingFoodDTO)));
         }
         else {
-            throw new FoodDeliveryManagementException("NOT_FOUND" + id, HttpStatus.NOT_FOUND);
+            throw new FoodDeliveryManagementException(Constants.NO_RECORD_FOUND + id, HttpStatus.NOT_FOUND);
         }
     }
 
@@ -83,10 +92,20 @@ public class FoodServiceImpl implements FoodService {
      */
     public FoodDTO getFoodById(int id) throws FoodDeliveryManagementException {
         Optional<Food> optionalFood = foodRepository.findById(id);
-        if(!optionalFood.isPresent()) {
-            throw new FoodDeliveryManagementException(id + " id NOT_FOUND", HttpStatus.NOT_FOUND);
+        if(optionalFood.isEmpty()) {
+            throw new FoodDeliveryManagementException(Constants.NO_RECORD_FOUND + id, HttpStatus.NOT_FOUND);
         }
         return FoodMapper.convertIntoDTO(optionalFood.get());
+    }
+
+    @Override
+    public List<FoodDTO> searchFoodByCategory(String name) throws FoodDeliveryManagementException {
+        List<Food> foods = foodRepository.searchFoodByCategory(name);
+        if (!foods.isEmpty()) {
+            return FoodMapper.convertIntoFoodsDTO(foods);
+        } else {
+            throw new FoodDeliveryManagementException(Constants.NO_RECORD_FOUND + name, HttpStatus.NOT_FOUND);
+        }
     }
 }
 

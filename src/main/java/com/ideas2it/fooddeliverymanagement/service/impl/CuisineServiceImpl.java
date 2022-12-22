@@ -2,6 +2,7 @@ package com.ideas2it.fooddeliverymanagement.service.impl;
 
 import com.ideas2it.fooddeliverymanagement.dto.CuisineDTO;
 import com.ideas2it.fooddeliverymanagement.dto.RestaurantDTO;
+import com.ideas2it.fooddeliverymanagement.util.Constants;
 import com.ideas2it.fooddeliverymanagement.util.exception.FoodDeliveryManagementException;
 import com.ideas2it.fooddeliverymanagement.mapper.CuisineMapper;
 import com.ideas2it.fooddeliverymanagement.model.Cuisine;
@@ -37,19 +38,14 @@ public class CuisineServiceImpl implements CuisineService {
     /**
      * {@inheritDoc}
      */
-    public CuisineDTO createCuisine(CuisineDTO cuisineDTO) {
-        cuisineDTO.setCode(generateCode());
-        return CuisineMapper.convertCuisineDTO(cuisineRepository.save(CuisineMapper.convertCuisine(cuisineDTO)));
-    }
-
-    /**
-     * It generates a unique code for a cuisine
-     *
-     * @return A String
-     */
-    private String generateCode() {
-        long code = cuisineRepository.getCuisineCount();
-        return "CUI-"+ (++code);
+    public CuisineDTO createCuisine(CuisineDTO cuisineDTO) throws FoodDeliveryManagementException{
+        if(null == cuisineRepository.findByName(cuisineDTO.getName())){
+            cuisineDTO.setCode(generateCode(cuisineDTO));
+            return CuisineMapper.convertCuisineDTO(cuisineRepository.save(CuisineMapper.convertCuisine(cuisineDTO)));
+        }
+        else {
+            throw new FoodDeliveryManagementException(Constants.CUISINE_NOT_ADDED, HttpStatus.NOT_FOUND);
+        }
     }
 
     /**
@@ -58,7 +54,7 @@ public class CuisineServiceImpl implements CuisineService {
     public List<CuisineDTO> getCuisines() throws FoodDeliveryManagementException {
         List<Cuisine> cuisines = cuisineRepository.findAll();
         if(cuisines.isEmpty()) {
-            throw new FoodDeliveryManagementException("NOT_FOUND", HttpStatus.NOT_FOUND);
+            throw new FoodDeliveryManagementException(Constants.NO_RECORD_FOUND, HttpStatus.NOT_FOUND);
         }
         return CuisineMapper.convertCuisinesDTO(cuisines);
     }
@@ -69,7 +65,7 @@ public class CuisineServiceImpl implements CuisineService {
     public CuisineDTO getCuisineById(int id) throws FoodDeliveryManagementException {
         Optional<Cuisine>  optionalCuisine = cuisineRepository.findById(id);
         if(!optionalCuisine.isPresent()) {
-            throw new FoodDeliveryManagementException(id + " id NOT_FOUND", HttpStatus.NOT_FOUND);
+            throw new FoodDeliveryManagementException(Constants.DELETED_SUCCESSFULLY + id, HttpStatus.NOT_FOUND);
         }
         return CuisineMapper.convertCuisineDTO(optionalCuisine.get());
     }
@@ -91,7 +87,7 @@ public class CuisineServiceImpl implements CuisineService {
                     cuisineRepository.save(CuisineMapper.convertCuisine(existingCuisineDTO)));
         }
         else {
-            throw new FoodDeliveryManagementException("NOT_FOUND" + id, HttpStatus.NOT_FOUND);
+            throw new FoodDeliveryManagementException(Constants.NO_RECORD_FOUND + id, HttpStatus.NOT_FOUND);
         }
     }
 
@@ -100,9 +96,19 @@ public class CuisineServiceImpl implements CuisineService {
      */
     public String deleteCuisineById(int id) throws FoodDeliveryManagementException {
        if (!cuisineRepository.existsById(id)){
-           throw new FoodDeliveryManagementException("NOT_FOUND"+ id, HttpStatus.NOT_FOUND);
+           throw new FoodDeliveryManagementException(Constants.NO_RECORD_FOUND+ id, HttpStatus.NOT_FOUND);
        }
         cuisineRepository.deleteById(id);
-        return "SuccessFull Deleted given Id" +id;
+        return Constants.DELETED_SUCCESSFULLY +id;
+    }
+
+    /**
+     * It generates a unique code for a cuisine
+     *
+     * @return A String code
+     */
+    private String generateCode(CuisineDTO cuisineDTO) {
+        long code = cuisineRepository.getCuisineCount();
+        return cuisineDTO.getName().substring(0,3).toUpperCase()+ (++code);
     }
 }

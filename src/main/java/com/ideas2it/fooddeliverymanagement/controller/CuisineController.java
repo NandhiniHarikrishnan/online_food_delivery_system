@@ -5,8 +5,6 @@ import com.ideas2it.fooddeliverymanagement.util.exception.FoodDeliveryManagement
 import com.ideas2it.fooddeliverymanagement.service.CuisineService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,8 +33,8 @@ public class CuisineController {
      * @throws FoodDeliveryManagementException - if the restaurant is not found
      */
     @PostMapping("/")
-    public ResponseEntity<CuisineDTO> addCuisine(@RequestBody CuisineDTO cuisineDTO) {
-        return new ResponseEntity<>(cuisineService.createCuisine(cuisineDTO), HttpStatus.CREATED);
+    public CuisineDTO addCuisine(@RequestBody CuisineDTO cuisineDTO) throws FoodDeliveryManagementException{
+        return cuisineService.createCuisine(cuisineDTO);
     }
 
     /**
@@ -48,8 +46,8 @@ public class CuisineController {
      * @throws FoodDeliveryManagementException - if the restaurant is not found
      */
     @GetMapping("/")
-    public ResponseEntity<List<CuisineDTO>> getCuisines() throws FoodDeliveryManagementException {
-        return new ResponseEntity<>(cuisineService.getCuisines(), HttpStatus.OK);
+    public List<CuisineDTO> getCuisines() throws FoodDeliveryManagementException {
+        return cuisineService.getCuisines();
     }
 
     /**
@@ -61,8 +59,8 @@ public class CuisineController {
      * @throws FoodDeliveryManagementException - if the cuisine is not found
      */
     @GetMapping("/{id}")
-    public ResponseEntity<CuisineDTO> getCuisineById(@PathVariable int id) throws FoodDeliveryManagementException {
-        return new ResponseEntity<>(cuisineService.getCuisineById(id), HttpStatus.OK);
+    public CuisineDTO getCuisineById(@PathVariable int id) throws FoodDeliveryManagementException {
+        return cuisineService.getCuisineById(id);
     }
 
     /**
@@ -76,9 +74,9 @@ public class CuisineController {
      * @return  updated cuisine details
      */
     @PutMapping("/{id}")
-    public ResponseEntity<CuisineDTO> updateCuisineById(
+    public CuisineDTO updateCuisineById(
             @RequestBody CuisineDTO cuisineDTO, @PathVariable int id) throws FoodDeliveryManagementException {
-        return new ResponseEntity<>(cuisineService.updateCuisineById(cuisineDTO, id), HttpStatus.OK);
+        return cuisineService.updateCuisineById(cuisineDTO, id);
     }
 
     /**
@@ -91,8 +89,8 @@ public class CuisineController {
      *
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteCuisineById(
+    public String deleteCuisineById(
             @PathVariable int id) throws FoodDeliveryManagementException {
-        return new ResponseEntity<>(cuisineService.deleteCuisineById(id), HttpStatus.OK);
+        return cuisineService.deleteCuisineById(id);
     }
 }

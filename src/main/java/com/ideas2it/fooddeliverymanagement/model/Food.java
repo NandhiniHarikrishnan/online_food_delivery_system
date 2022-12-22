@@ -1,8 +1,6 @@
 package com.ideas2it.fooddeliverymanagement.model;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
+import org.hibernate.annotations.*;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;

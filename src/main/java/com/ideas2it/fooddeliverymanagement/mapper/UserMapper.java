@@ -1,9 +1,11 @@
 package com.ideas2it.fooddeliverymanagement.mapper;
 
 import com.ideas2it.fooddeliverymanagement.dto.AddressDTO;
+import com.ideas2it.fooddeliverymanagement.dto.RestaurantDTO;
 import com.ideas2it.fooddeliverymanagement.dto.RoleDTO;
 import com.ideas2it.fooddeliverymanagement.dto.UserDTO;
 import com.ideas2it.fooddeliverymanagement.model.Address;
+import com.ideas2it.fooddeliverymanagement.model.Restaurant;
 import com.ideas2it.fooddeliverymanagement.model.Role;
 import com.ideas2it.fooddeliverymanagement.model.User;
 import org.springframework.stereotype.Component;
@@ -71,6 +73,7 @@ public class UserMapper {
         AddressDTO addressDTO = new AddressDTO();
         User user = address.getUser();
         UserDTO userDTO = null;
+        Restaurant restaurant;
 
         if (user != null) {
             userDTO = convertToUserDTO(user);
@@ -85,6 +88,12 @@ public class UserMapper {
         addressDTO.setState(address.getState());
         addressDTO.setStreet(address.getStreet());
         addressDTO.setUser(userDTO);
+
+        restaurant = address.getRestaurant();
+        if (null != restaurant) {
+            restaurant.setAddresses(null);
+            addressDTO.setRestaurantDTO(RestaurantMapper.convertRestaurantDTO(restaurant));
+        }
 
         return addressDTO;
     }
@@ -109,7 +118,7 @@ public class UserMapper {
     }
     public static Address convertAddress(AddressDTO addressDTO) {
         Address address = new Address();
-
+        RestaurantDTO restaurantDTO;
         if (addressDTO != null) {
             address.setId(addressDTO.getId());
             address.setCity(addressDTO.getCity());
@@ -121,6 +130,12 @@ public class UserMapper {
             address.setPhoneNumber(addressDTO.getPhoneNumber());
             address.setState(addressDTO.getState());
             address.setPhoneNumber(addressDTO.getPhoneNumber());
+
+            restaurantDTO = addressDTO.getRestaurantDTO();
+            if (null != restaurantDTO) {
+                restaurantDTO.setAddresses(null);
+                address.setRestaurant(RestaurantMapper.convertRestaurant(restaurantDTO));
+            }
         }
         return address;
     }

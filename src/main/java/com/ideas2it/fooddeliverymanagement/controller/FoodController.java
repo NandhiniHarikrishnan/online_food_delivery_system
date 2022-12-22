@@ -1,12 +1,9 @@
 package com.ideas2it.fooddeliverymanagement.controller;
 
 import com.ideas2it.fooddeliverymanagement.dto.FoodDTO;
-import com.ideas2it.fooddeliverymanagement.util.exception.FoodDeliveryManagementException;
 import com.ideas2it.fooddeliverymanagement.service.FoodService;
-
+import com.ideas2it.fooddeliverymanagement.util.exception.FoodDeliveryManagementException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,12 +26,12 @@ public class FoodController {
      * </p>
      *
      * @param value contains information about food table it will search
-     * @return  updated food details
+     * @return updated food details
      * @throws FoodDeliveryManagementException - if the restaurant is not found
      */
-    @GetMapping("/search/{value}")
-    public ResponseEntity<List<FoodDTO>> searchFoods(@PathVariable("value") String value) throws FoodDeliveryManagementException {
-        return new ResponseEntity<>(foodService.searchFood(value), HttpStatus.OK);
+    @GetMapping("/search/")
+    public List<FoodDTO> searchFoods(@RequestParam String value) throws FoodDeliveryManagementException {
+        return foodService.searchFood(value);
     }
 
     /**
@@ -46,8 +43,8 @@ public class FoodController {
      * @throws FoodDeliveryManagementException - if the food is not found
      */
     @GetMapping("/{id}")
-    public ResponseEntity<FoodDTO> getFoodById(@PathVariable int id) throws FoodDeliveryManagementException {
-        return new ResponseEntity<>(foodService.getFoodById(id), HttpStatus.OK);
+    public FoodDTO getFoodById(@PathVariable int id) throws FoodDeliveryManagementException {
+        return foodService.getFoodById(id);
     }
 
     /**
@@ -57,14 +54,14 @@ public class FoodController {
      * </p>
      *
      * @param foodDTO contains information about food
-     * @param id  food id to be update
-     * @return  updated food details
+     * @param id      food id to be update
+     * @return updated food details
      * @throws FoodDeliveryManagementException - if the restaurant is not found
      */
     @PutMapping("/{id}")
-    public ResponseEntity<FoodDTO> updateFoodById(
+    public FoodDTO updateFoodById(
             @RequestBody FoodDTO foodDTO, @PathVariable int id) throws FoodDeliveryManagementException {
-        return new ResponseEntity<>(foodService.updateFoodById(foodDTO, id), HttpStatus.OK);
+        return foodService.updateFoodById(foodDTO, id);
     }
 
     /**
@@ -72,13 +69,18 @@ public class FoodController {
      * whenever a user wants to use cancel the food
      * </p>
      *
-     * @param id  soft delete rating for the food
+     * @param id soft delete rating for the food
      * @return String given delete msg
      * @throws FoodDeliveryManagementException - if the restaurant is not found
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteFoodById(
+    public String deleteFoodById(
             @PathVariable int id) throws FoodDeliveryManagementException {
-        return new ResponseEntity<>(foodService.deleteFoodById(id), HttpStatus.OK);
+        return foodService.deleteFoodById(id);
+    }
+
+    @GetMapping("/search-by-category/")
+    public List<FoodDTO> searchFoodByCategory(@RequestParam String name) throws FoodDeliveryManagementException {
+        return foodService.searchFoodByCategory(name);
     }
 }

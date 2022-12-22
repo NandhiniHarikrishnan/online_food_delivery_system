@@ -6,7 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- * A DTO class for RestaurantFoodDTO.
+ * A DTO class for RestaurantFood.
  *
  * @author Jeevanantham
  * @version 1.0 13-DEC-2022

@@ -51,7 +51,7 @@ public class RestaurantMapper {
             if (null != addresses) {
                 for (Address address : addresses) {
                     address.setRestaurant(null);
-                    addressDTOs.add(AddressMapper.convertAddressDTO(address));
+                    addressDTOs.add(UserMapper.convertAddressDTO(address));
                 }
                 restaurantDTO.setAddresses(addressDTOs);
             }
@@ -94,7 +94,7 @@ public class RestaurantMapper {
             addressDTOs = restaurantDTO.getAddresses();
             if (null != addressDTOs) {
                 for (AddressDTO addressDTO : addressDTOs) {
-                    addresses.add(AddressMapper.convertAddress(addressDTO));
+                    addresses.add(UserMapper.convertAddress(addressDTO));
                 }
                 restaurant.setAddresses(addresses);
             }
