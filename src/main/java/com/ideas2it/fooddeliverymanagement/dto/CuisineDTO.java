@@ -1,11 +1,13 @@
+/*
+ * Copyright 2022 Ideas2IT Technologies. All rights reserved.
+ * IDEAS2IT PROPRIETARY/CONFIDENTIAL.
+ */
 package com.ideas2it.fooddeliverymanagement.dto;
 
 import com.ideas2it.fooddeliverymanagement.util.Constants;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
-
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.util.List;
@@ -14,7 +16,8 @@ import java.util.List;
  * A DTO class for Cuisine.
  *
  * @author Jeevanantham
- * @version 1.0 13-DEC-2022
+ * @version 1.0
+ * @Since 15-DEC-2022
  */
 @Getter
 @Setter

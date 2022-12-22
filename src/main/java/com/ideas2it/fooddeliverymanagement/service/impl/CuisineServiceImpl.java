@@ -1,3 +1,7 @@
+/*
+ * Copyright 2022 Ideas2IT Technologies. All rights reserved.
+ * IDEAS2IT PROPRIETARY/CONFIDENTIAL.
+ */
 package com.ideas2it.fooddeliverymanagement.service.impl;
 
 import com.ideas2it.fooddeliverymanagement.dto.CuisineDTO;
@@ -22,7 +26,8 @@ import java.util.Optional;
  * </p>
  *
  * @author Jeevanantham
- * @version 1.0 13-DEC-2022
+ * @version 1.0
+ * @Since 13-DEC-2022
  */
 @Service
 public class CuisineServiceImpl implements CuisineService {
