@@ -7,6 +7,7 @@ package com.ideas2it.fooddeliverymanagement.mapper;
 import com.ideas2it.fooddeliverymanagement.dto.OrderDTO;
 import com.ideas2it.fooddeliverymanagement.dto.OrderDetailDTO;
 import com.ideas2it.fooddeliverymanagement.model.*;
+import com.ideas2it.fooddeliverymanagement.util.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,15 +32,16 @@ public class OrderMapper {
     public static Order convertOrder(OrderDTO orderDTO) {
         Order order = new Order();
         List<OrderDetail> orderDetails = new ArrayList<>();
-        List<OrderDetailDTO> orders = orderDTO.getOrderDetail();
+        List<OrderDetailDTO> orderDetailDTOS = orderDTO.getOrderDetail();
 
-        if (!orders.isEmpty()) {
-            for (OrderDetailDTO orderDTOs : orders) {
-                orderDetails.add(convertOrderDetail(orderDTOs));
+        if (!orderDetailDTOS.isEmpty()) {
+            for (OrderDetailDTO orderDetailDTO : orderDetailDTOS) {
+                orderDetails.add(convertOrderDetail(orderDetailDTO));
             }
         }
 
-        order.setStatus("ordered");
+        order.setStatus(Constants.ORDERED);
+        order.setCustomer(UserMapper.convertToUser(orderDTO.getCustomer()));
         order.setDateOfOrder(orderDTO.getDateOfOrder());
         order.setTotalPrice(orderDTO.getTotalPrice());
         order.setRestaurant(RestaurantMapper.convertRestaurant(orderDTO.getRestaurant()));
@@ -68,6 +70,7 @@ public class OrderMapper {
         List<OrderDetail> orderDetail = order.getOrderDetails();
         orderDTO.setId(order.getId());
         orderDTO.setStatus(order.getStatus());
+        orderDTO.setCustomer(UserMapper.convertUserDTO(order.getCustomer()));
         orderDTO.setTotalPrice(order.getTotalPrice());
         orderDTO.setDateOfOrder(order.getDateOfOrder());
         if (!orderDetail.isEmpty()) {

@@ -22,11 +22,10 @@ public interface OrderService {
      * once selected it shows total price of order to the customer.
      *
      * @param orderDTO pass customer id and order dto to assign order
-     * @param customerId to customer id and assign
      * @return assigned order detail
      * @throws FoodDeliveryManagementException if customer id not there
      */
-    OrderDTO assignOrder(OrderDTO orderDTO,int customerId) throws FoodDeliveryManagementException;
+    OrderDTO assignOrder(OrderDTO orderDTO) throws FoodDeliveryManagementException;
 
     /**
      * view order details with specified order id once order is placed then view the
@@ -46,5 +45,5 @@ public interface OrderService {
      * @return assigned delivery id
      * @throws FoodDeliveryManagementException if order id not match
      */
-    OrderDTO assignDelivery(int orderId) throws FoodDeliveryManagementException;
+    OrderDTO assignDeliveryPerson(int orderId) throws FoodDeliveryManagementException;
 }
