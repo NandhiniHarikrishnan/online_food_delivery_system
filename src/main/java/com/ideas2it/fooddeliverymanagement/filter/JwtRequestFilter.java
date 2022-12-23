@@ -41,9 +41,10 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     }
 
     /**
-     * If the request has a valid JWT, then set the authentication in the security context
+     * It will get the JSON Web token via request and validate the token
+     * then set the authentication in the security context
      *
-     * @param request The request object.
+     * @param request The request object which contain JSON Web token.
      * @param response The response object that is passed to the filter.
      * @param Chain This is the filter chain that is used to send the request and response to the next filter in the chain.
      */

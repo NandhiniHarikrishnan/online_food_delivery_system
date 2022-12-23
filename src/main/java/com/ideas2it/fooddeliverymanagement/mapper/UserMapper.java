@@ -19,13 +19,14 @@ import java.util.List;
 
 @Component
 /**
- * It converts a UserDTO to a User and vice versa
+ * It converts a data transfer object to a model object and vice versa.
  *
  * @author - dilip.n
  * @version - 1.0
  * @since - 2022-12-10
  */
 public class UserMapper {
+
     /**
      * It converts a UserDTO to a User, and also converts the UserDTO's addresses and roles to addresses and roles
      *

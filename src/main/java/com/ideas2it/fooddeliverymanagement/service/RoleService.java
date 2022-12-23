@@ -43,7 +43,7 @@ public interface RoleService {
      * @return RoleDTO
      * @throws FoodDeliveryManagementException
      */
-    RoleDTO deleteRole(int roleId) throws FoodDeliveryManagementException;
+    String deleteRole(int roleId) throws FoodDeliveryManagementException;
 
     /**
      * This function returns a list of all the roles in the system

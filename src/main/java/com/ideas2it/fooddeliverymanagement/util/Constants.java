@@ -6,7 +6,8 @@ package com.ideas2it.fooddeliverymanagement.util;
 
 
 /**
- * This class contains all the constants used in the project
+ * This class contains all the constants like String messages and
+ * regex they static and final used in the project.
  *
  * @author - dilip.n
  * @version - 1.0
@@ -52,7 +53,6 @@ public class Constants {
     public static final String NOT_NULL_OR_EMPTY_ADDRESS = "Address should not be null or empty, Please give valid address";
     public static final String RESTAURANT_EXIST = "Given restaurant with same address is already exist in the table";
     public static final String CATEGORY_EXIST = "Given category is already exist in the table";
-
     public static final String NO_ORDER_DETAILS_FOUND = "No Order Found Please Make A Order";
     public static final String MENTION_AREA = "Please Mention Area";
     public static final String INVALID_USERNAME_OR_PASSWORD = "Invalid userName Or Password";
@@ -72,4 +72,7 @@ public class Constants {
     public static final String ORDER_ID_NOT_FOUND = "Order id not found";
     public static final String DELIVERY_BOYS_ARE_BUSY = "Delivery boys are busy";
     public static final String DELIVERY = "DELIVERY";
+    public static final String CUSTOMER_ROLE = "CUSTOMER";
+    public static final String SECRET_CODE = "secret";
+
 }

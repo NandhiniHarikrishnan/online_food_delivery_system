@@ -26,7 +26,13 @@ import javax.validation.Valid;
 import java.util.List;
 
 /**
- * It exposes endpoints for the user to perform CRUD operations on the user and address entities
+ * It exposes endpoints for the user to perform create, read, update and delete (CURD)
+ * also get-users
+ * Any one can add there details and easily register.
+ * Except creating new user no one can directly access any url without valid credential
+ * It exposes endpoints for the address to perform create, read, update and delete (CURD)
+ * also get-addresses
+ * Also generate the jwt token if the user-name and password matches.
  *
  * @author - dilip.n
  * @version - 1.0
@@ -52,10 +58,11 @@ public class UserController {
         this.authenticationManager = authenticationManager;
     }
     /**
-     * It takes a User object as a parameter to add the user, and returns the saved UserDTO object
+     * It takes a new user object and valid there fields and then add in database.
+     * If the user is added successfully it will return the saved user in the form of JSON
      *
      * @param userDTO This is the object that will be sent in the request body.
-     * @return UserDTO
+     * @return saved user
      * @throws FoodDeliveryManagementException
      */
     @PostMapping("/")
@@ -64,33 +71,34 @@ public class UserController {
     }
 
     /**
-     * It returns a User object, which is in database that contains the user's information
+     * Fetch the user information based on the user ID which is passed in the url.
      *
-     * @param userId The path variable that will be used to get the userId from the URL.
-     * @return UserDTO
+     * @param id The path variable that will be used to get the userId from the URL.
+     * @return the user object in the form of JSON
      * @throws FoodDeliveryManagementException
      */
-    @GetMapping("/{userId}")
-    public UserDTO getUser(@PathVariable("userId") int userId)  throws FoodDeliveryManagementException {
-        return userService.getUser(userId);
+    @GetMapping("/{id}")
+    public UserDTO getUser(@PathVariable("id") int id)  throws FoodDeliveryManagementException {
+        return userService.getUser(id);
     }
 
     /**
-     * It deletes a user from the database by getting userId.
+     * It deletes the user from the database by getting userId.
+     * If user is deleted it return successful String message.
      *
-     * @param userId The id of the user to be deleted.
-     * @return UserDTO
+     * @param id The id of the user to be deleted.
+     * @return String message
      * @throws FoodDeliveryManagementException
      */
-    @DeleteMapping("/{userId}")
-    public UserDTO deleteUser(@PathVariable("userId") int userId) throws FoodDeliveryManagementException  {
-        return userService.deleteUser(userId);
+    @DeleteMapping("/{id}")
+    public String deleteUser(@PathVariable("id") int id) throws FoodDeliveryManagementException  {
+        return userService.deleteUser(id);
     }
 
     /**
-     * It returns the list of user in database.
+     * It gets user's record in database
      *
-     * @return user's
+     * @return user's in the form of JSON
      * @throws FoodDeliveryManagementException
      */
     @GetMapping("/")
@@ -99,27 +107,29 @@ public class UserController {
     }
 
     /**
-     * This function is used to update the user details
+     * Before updating the user it will validate the user fields once the validation complete
+     * it will update the user details.
      *
      * @param userDTO The user object that needs to be updated.
-     * @return UserDTO
+     * @return updated user in the form of JSON.
      * @throws FoodDeliveryManagementException
      */
-    @PutMapping("/{userId}")
-    public UserDTO updateUser(@Valid @RequestBody UserDTO userDTO, @PathVariable int userId) throws FoodDeliveryManagementException  {
-        return userService.updateUser(userDTO, userId);
+    @PutMapping("/{id}")
+    public UserDTO updateUser(@Valid @RequestBody UserDTO userDTO, @PathVariable int id) throws FoodDeliveryManagementException  {
+        return userService.updateUser(userDTO, id);
     }
 
     /**
-     * It takes in a userId and an addressDTO and returns a saved addressDTO
+     * It will validate the address fields and add the address to the particular
+     * user by getting user ID
      *
      * @param userId The userId of the user to whom the address is to be added.
      * @param addressDTO This is the object that is sent by the user.
-     * @return the saved AddressDTO
+     * @return the saved AddressDTO in the form of JSON
      * @throws FoodDeliveryManagementException
      */
-    @PostMapping("/addAddress/{userId}")
-    public AddressDTO addAddress(@PathVariable int userId, @RequestBody AddressDTO addressDTO) throws FoodDeliveryManagementException  {
+    @PostMapping("/address/{user-id}")
+    public AddressDTO addAddress(@Valid @PathVariable("user-id") int userId, @RequestBody AddressDTO addressDTO) throws FoodDeliveryManagementException  {
         return addressService.addAddress(addressDTO, userId);
     }
 
@@ -131,53 +141,54 @@ public class UserController {
      * @return the deleted AddressDTO
      * @throws FoodDeliveryManagementException
      */
-    @DeleteMapping("/deleteAddress/{userId}/{addressId}")
-    public AddressDTO deleteAddress(@PathVariable int userId, @PathVariable int addressId) throws FoodDeliveryManagementException  {
+    @DeleteMapping("/address/{user-id}/{address-id}")
+    public String deleteAddress(@PathVariable("user-id") int userId, @PathVariable("address-id") int addressId) throws FoodDeliveryManagementException  {
         return addressService.deleteAddress(userId, addressId);
     }
 
     /**
-     * It updates the address of the user.
+     * It will validate the fields of the address and then update the address
      *
      * @param userId The userId of the user whose address is to be updated.
      * @param addressDTO This is the object that contains the address details.
      * @return AddressDTO
      * @throws FoodDeliveryManagementException
      */
-    @PutMapping("/updateAddress/{userId}")
-    public AddressDTO updatedAddress(@PathVariable int userId, @RequestBody AddressDTO addressDTO) throws FoodDeliveryManagementException {
+    @PutMapping("/address/{user-id}")
+    public AddressDTO updatedAddress(@Valid @PathVariable("user-id") int userId, @RequestBody AddressDTO addressDTO) throws FoodDeliveryManagementException {
         return addressService.updateAddress(userId,addressDTO);
     }
 
     /**
-     * Get the address by addressId with the given addressId
+     * Fetch the address with the help of address ID which is passed in the url
      *
      * @param addressId The id of the address to be fetched.
-     * @return the existing AddressDTO
+     * @return the addressDTO object in the form of JSON
      * @throws FoodDeliveryManagementException
      */
-    @GetMapping("/address/{addressId}")
-    public AddressDTO getAddress(@PathVariable int addressId) throws FoodDeliveryManagementException {
+    @GetMapping("/address/{address-id}")
+    public AddressDTO getAddress(@PathVariable("address-id") int addressId) throws FoodDeliveryManagementException {
         return addressService.getAddress(addressId);
     }
 
     /**
-     * It returns a list of all the addresses in the database
+     * It fetches the addresses in the database.
      *
-     * @return List of AddressDTO
+     * @return addresses in the form of JSON.
      * @throws FoodDeliveryManagementException
      */
-    @GetMapping("/getAllAddresses")
+    @GetMapping("/get-addresses")
     public List<AddressDTO> getAllAddresses() throws FoodDeliveryManagementException {
         return addressService.getAllAddress();
     }
 
     /**
      * It takes in a username and password, authenticates the user, generates a JWT token and returns it
+     * If the username and password are not matches it will throw the exception.
      *
      * @param authenticationRequest This is the request object that contains the username and password.
-     * @return A JWT token
-     * @throws FoodDeliveryManagementException if username and password mismatch
+     * @return A JSON Web token
+     * @throws FoodDeliveryManagementException if username and password mismatch.
      */
     @PostMapping("/authentication")
     public AuthenticationResponse createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws FoodDeliveryManagementException {
@@ -200,14 +211,14 @@ public class UserController {
     }
 
     /**
-     * This function is used to get the order details of a particular user
+     * This function is used to get the order details of a particular user.
      *
      * @param userId The userId of the user whose order details are to be fetched.
      * @return List of OrderDTO
      * @throws FoodDeliveryManagementException
      */
-    @GetMapping("/getOrderDetails/{userId}")
-    public List<OrderDTO> getOrderDetails(@PathVariable int userId) throws FoodDeliveryManagementException {
+    @GetMapping("/get-order-details/{user-id}")
+    public List<OrderDTO> getOrderDetails(@PathVariable("user-id") int userId) throws FoodDeliveryManagementException {
         return userService.getOrderDetails(userId);
     }
 }
