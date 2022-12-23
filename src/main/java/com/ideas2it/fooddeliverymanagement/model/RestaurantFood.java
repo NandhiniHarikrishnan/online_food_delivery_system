@@ -24,7 +24,7 @@ import javax.validation.constraints.NotNull;
 @Where(clause = "is_deleted = false")
 public class RestaurantFood extends BaseModel {
 
-    @ManyToOne(cascade = {CascadeType.MERGE,CascadeType.PERSIST})
+    @ManyToOne
     private Restaurant restaurant;
 
     @ManyToOne(cascade = {CascadeType.MERGE,CascadeType.PERSIST})

@@ -33,8 +33,7 @@ public class Restaurant extends BaseModel {
     @OneToMany(mappedBy = "restaurant",cascade = CascadeType.ALL)
     private List<Address> addresses;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
+    @ManyToOne
     private Cuisine cuisine;
 
     public Restaurant() {

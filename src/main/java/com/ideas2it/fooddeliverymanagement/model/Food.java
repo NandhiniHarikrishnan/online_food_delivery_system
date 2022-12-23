@@ -40,8 +40,7 @@ public class Food extends BaseModel {
     @NotNull
     private String weight;
 
-    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private Category category;
 
     @OneToMany(mappedBy = "food",cascade = CascadeType.ALL)

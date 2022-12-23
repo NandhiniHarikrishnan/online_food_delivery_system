@@ -43,7 +43,6 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryDTO addCategory(CategoryDTO categoryDTO) throws FoodDeliveryManagementException {
         CategoryDTO createdCategoryDTO;
-        System.out.println(categoryRepository.findByName(categoryDTO.getName()));
         if (null == categoryRepository.findByName(categoryDTO.getName())) {
             categoryDTO.setCode(generateCategoryCode(categoryDTO));
             createdCategoryDTO = CategoryMapper.convertIntoDTO(categoryRepository

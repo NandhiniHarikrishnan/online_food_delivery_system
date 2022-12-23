@@ -19,6 +19,6 @@ public class OrderDetail extends BaseModel {
 
     private float price;
     private int quantity;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private Food food;
 }
