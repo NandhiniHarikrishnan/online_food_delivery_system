@@ -8,7 +8,6 @@ import com.ideas2it.fooddeliverymanagement.dto.CuisineDTO;
 import com.ideas2it.fooddeliverymanagement.dto.RestaurantDTO;
 import com.ideas2it.fooddeliverymanagement.model.Cuisine;
 import com.ideas2it.fooddeliverymanagement.model.Restaurant;
-import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,15 +15,24 @@ import java.util.stream.Collectors;
 
 /**
  * <p>
- * Handles the converting process from entity to DTO for cuisine.
- * </p
+ * Class that used to convert the CuisineDto object to entity object
+ * and vice versa
+ * </p>
  *
  * @author Jeevanantham
  * @version 1.0
- * @Since 16-DEC-2022
+ * @since 16-DEC-2022
  */
 public class CuisineMapper {
 
+    /**
+     * <p>
+     * It converts a Cuisine object to a CuisineDTO object
+     * <p>
+     *
+     * @param cuisine The cuisine object that needs to be converted to CuisineDTO.
+     * @return A list of CuisineDTO objects
+     */
     public static CuisineDTO convertCuisineDTO(Cuisine cuisine) {
         List<Restaurant> restaurants;
         CuisineDTO cuisineDTO = new CuisineDTO();
@@ -42,7 +50,9 @@ public class CuisineMapper {
     }
 
     /**
+     * <p>
      * It converts a CuisineDTO object to a Cuisine object.
+     * <p>
      *
      * @param cuisineDTO The DTO object that we want to convert to a Cuisine object.
      * @return A Cuisine object
@@ -68,7 +78,9 @@ public class CuisineMapper {
     }
 
     /**
+     * <p>
      * It converts a list of Cuisine objects to a list of CuisineDTO objects.
+     * <p>
      *
      * @param cuisines The list of cuisines to be converted.
      * @return A list of CuisineDTO objects.

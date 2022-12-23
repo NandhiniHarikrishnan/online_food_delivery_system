@@ -9,10 +9,13 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 /**
+ * <p>
  * FoodRepository interface has the methods to handle food's operations
+ * <p>
  *
  * @author - jeevanantham K
  * @version - 1.0
+ * @since 16-DEC-2022
  */
 @Repository
 public interface FoodRepository extends JpaRepository<Food, Integer> {
@@ -36,7 +39,7 @@ public interface FoodRepository extends JpaRepository<Food, Integer> {
      * @param name - an input for which food by category will be filtered
      * @return - the list of filtered category
      */
-    @Query("select f from Food f join fetch f.category c where c.name =:name")
+    @Query("select f from Food f join f.category c where c.name =:name")
     List<Food> searchFoodByCategory(@Param("name") String name);
 }
 

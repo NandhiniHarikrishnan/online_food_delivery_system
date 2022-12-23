@@ -6,7 +6,10 @@ import com.ideas2it.fooddeliverymanagement.util.exception.FoodDeliveryManagement
 import java.util.List;
 
 /**
- * It performs create, read, update, delete (CRUD) for the address
+ * <p>
+ * Interface that contains methods
+ * create, search, update and delete a cuisine
+ * </p>
  *
  * @author - jeevanantham
  * @version - 1.0
@@ -15,8 +18,9 @@ import java.util.List;
 public interface CuisineService {
 
     /**
-     * Create a new cuisine
-     *
+     * <p>
+     * Create a new cuisine in database
+     * <p>
      * @param cuisineDTO The cuisine object that you want to create.
      * @return A CuisineDTO object.
      * @throws FoodDeliveryManagementException - when the cuisineId is null, throw custom
@@ -25,7 +29,9 @@ public interface CuisineService {
     CuisineDTO createCuisine(CuisineDTO cuisineDTO) throws FoodDeliveryManagementException;
 
     /**
+     * <p>
      * This function returns a list of all the cuisines available in the system
+     * <p>
      *
      * @return A list of CuisineDTO objects.
      * @throws FoodDeliveryManagementException - when the map objects is null, throw custom
@@ -34,32 +40,38 @@ public interface CuisineService {
     List<CuisineDTO> getCuisines() throws FoodDeliveryManagementException;
 
     /**
+     * <p>
      * This function returns a CuisineDTO object with the given id
+     * <p>
      *
      * @param id The id of the cuisine to be fetched.
      * @return CuisineDTO
-     * @throws FoodDeliveryManagementException - when the Id is null, throw custom
+     * @throws FoodDeliveryManagementException - when the id is null, throw custom
      *                            exception to controller
      */
     CuisineDTO getCuisineById(int id) throws FoodDeliveryManagementException;
 
     /**
+     * <p>
      * Update a cuisine by id
+     * <p>
      *
      * @param cuisineDTO This is the cuisine object that you want to update.
      * @param id         The id of the cuisine to be updated.
      * @return CuisineDTO
-     * @throws FoodDeliveryManagementException- when the Id is null, throw custom
+     * @throws FoodDeliveryManagementException- when the id is null, throw custom
      *                            exception to controller
      */
     CuisineDTO updateCuisineById(CuisineDTO cuisineDTO, int id) throws FoodDeliveryManagementException;
 
     /**
+     * <p>
      * This function deletes a cuisine from the database based on the cuisine id
+     * <p>
      *
      * @param id The id of the cuisine to be deleted.
      * @return String
-     * @throws FoodDeliveryManagementException - when the Id is null, throw custom
+     * @throws FoodDeliveryManagementException - when the id is null, throw custom
      *                               exception to controller
      */
     String deleteCuisineById(int id) throws FoodDeliveryManagementException;
