@@ -23,6 +23,8 @@ import java.util.Optional;
 
 /**
  * It performs create, read, delete for the role
+ * It stores only the persistent object in database, and it returns persistent object,
+ * so it use mapper class to convert the object dto to persistent and vice versa.
  * Throws custom exception if the role is not present in database.
  *
  * @author - dilip.n
@@ -90,12 +92,13 @@ public class RoleServiceImpl implements RoleService {
      *{@inheritDoc}
      */
     @Override
-    public RoleDTO deleteRole(int roleId) throws FoodDeliveryManagementException {
+    public String deleteRole(int roleId) throws FoodDeliveryManagementException {
         Optional<Role> existingRole = roleRepository.findById(roleId);
 
         if (existingRole.isPresent()) {
             existingRole.get().setDelete(true);
-            return UserMapper.convertToRoleDTO(roleRepository.save(existingRole.get()));
+            UserMapper.convertToRoleDTO(roleRepository.save(existingRole.get()));
+            return Constants.DELETED_SUCCESSFULLY;
         }
         throw new FoodDeliveryManagementException(Constants.ROLE_NOT_DELETED,HttpStatus.UNPROCESSABLE_ENTITY);
     }
@@ -118,7 +121,7 @@ public class RoleServiceImpl implements RoleService {
     /**
      * It generates a unique code for a role
      *
-     * @return A String
+     * @return code as a string.
      */
     private String generateCode() {
         long roleCount = roleRepository.count();
@@ -126,10 +129,10 @@ public class RoleServiceImpl implements RoleService {
     }
 
     /**
-     * It checks if a role with the given name exists in the database
+     * It checks if a role with the given name in the database
      *
      * @param roleName The name of the role to be created.
-     * @return A boolean value.
+     * @return true if the object is present.
      */
     private boolean isRoleExist(String roleName) {
         Role existingRole = roleRepository.findByName(roleName);

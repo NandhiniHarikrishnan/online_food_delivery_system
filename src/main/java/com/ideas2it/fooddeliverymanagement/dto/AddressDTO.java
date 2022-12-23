@@ -4,6 +4,7 @@
  */
 package com.ideas2it.fooddeliverymanagement.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ideas2it.fooddeliverymanagement.util.Constants;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +15,9 @@ import javax.validation.constraints.Pattern;
 
 
 /**
- * Contains all the fields of the Address entity
+ * Contains all the fields of the Address entity id, plotNumber, street,
+ * city, district, state, area, pinCode, phoneNumber, user, restaurant.
+ * The fields of the address doesn't allow any null or empty value.
  *
  * @author - dilip.n
  * @version - 1.0

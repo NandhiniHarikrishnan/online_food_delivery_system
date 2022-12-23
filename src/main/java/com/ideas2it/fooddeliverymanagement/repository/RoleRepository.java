@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 /**
- * Creating a repository for the Role class.
+ * Repository for the Role class.
  *
  * @author - dilip.n
  * @version - 1.0

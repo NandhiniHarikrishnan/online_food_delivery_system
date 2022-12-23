@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 
 
 /**
- * Creating a repository for the User class.
+ * Repository for the User class.
  *
  * @author - dilip.n
  * @version - 1.0
@@ -21,9 +21,9 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
 
     /**
-     * Find a user by their user name.
+     * Find a user by their user-name.
      *
-     * @param userName The user name of the user to find.
+     * @param userName The user-name of the user to find.
      * @return A User object
      */
     User findByUserName(String userName);

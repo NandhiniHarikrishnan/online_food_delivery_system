@@ -24,6 +24,8 @@ import java.util.Optional;
 /**
  * It performs basic CRUD operation to the address
  * It throws custom exception if the data is not present in the database
+ * It stores only the persistent object in database, and it returns persistent object,
+ * so it use mapper class to convert the object dto to persistent and vice versa.
  *
  * @author - dilip.n
  * @version - 1.0
@@ -89,7 +91,7 @@ public class AddressServiceImpl implements AddressService {
      *{@inheritDoc}
      */
     @Override
-    public AddressDTO deleteAddress(int userID, int addressId) throws FoodDeliveryManagementException {
+    public String deleteAddress(int userID, int addressId) throws FoodDeliveryManagementException {
         if(userService.isExist(userID)) {
             User user = UserMapper.convertUser(userService.getUser(userID));
 
@@ -97,7 +99,8 @@ public class AddressServiceImpl implements AddressService {
                 if (address.getId() == addressId) {
                     address.setDelete(true);
                     address.setUser(user);
-                    return UserMapper.convertAddressDTO(addressRepository.save(address));
+                    UserMapper.convertAddressDTO(addressRepository.save(address));
+                    return Constants.DELETED_SUCCESSFULLY;
                 }
             }
         }

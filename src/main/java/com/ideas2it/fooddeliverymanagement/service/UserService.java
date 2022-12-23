@@ -55,7 +55,7 @@ public interface UserService {
     * @return UserDTO
     * @throws FoodDeliveryManagementException
     */
-   UserDTO deleteUser(int userId) throws FoodDeliveryManagementException;
+   String deleteUser(int userId) throws FoodDeliveryManagementException;
 
    /**
     * This function returns a list of all users in the database

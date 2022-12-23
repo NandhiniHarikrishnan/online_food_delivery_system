@@ -21,6 +21,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 /**
  * Is used to configure the security of the application and Perform Authentication, authorization
+ * Based on the authority it will give the access to the url.
  *
  * @version 1.0
  * @Since 20 Dec 2022
@@ -68,12 +69,12 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST,"/user/authentication").permitAll()
                 .antMatchers(HttpMethod.POST, "/user/").permitAll()
                 .antMatchers(HttpMethod.POST, "/role/").permitAll()
-                .antMatchers(HttpMethod.GET, "/user/userId", "/user/address/{addressId}").hasAnyAuthority("CUSTOMER", "ADMIN")
-                .antMatchers(HttpMethod.GET, "/user/", "/user/getAllAddresses").hasAuthority("ADMIN")
-                .antMatchers(HttpMethod.GET, "/user/getOrderDetails/{userId}").hasAnyAuthority("CUSTOMER", "ADMIN")
-                .antMatchers(HttpMethod.DELETE, "/user/{userId}", "/user/deleteAddress/{userId}").hasAnyAuthority("CUSTOMER", "ADMIN")
-                .antMatchers(HttpMethod.PUT, "/user/", "/user/updateAddress/{userId}").hasAnyAuthority("CUSTOMER", "ADMIN")
-                .antMatchers(HttpMethod.POST, "/user/addAddress/{userId}").hasAnyAuthority("CUSTOMER", "ADMIN")
+                .antMatchers(HttpMethod.GET, "/user/id", "/user/address/{id}").hasAnyAuthority("CUSTOMER", "ADMIN")
+                .antMatchers(HttpMethod.GET, "/user/", "/user/get-addresses").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.GET, "/user/get-order-details/{user-id}").hasAnyAuthority("CUSTOMER", "ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/user/{id}", "/user/address/{user-id}").hasAnyAuthority("CUSTOMER", "ADMIN")
+                .antMatchers(HttpMethod.PUT, "/user/", "/user/address/{user-id}").hasAnyAuthority("CUSTOMER", "ADMIN")
+                .antMatchers(HttpMethod.POST, "/user/address/{user-id}").hasAnyAuthority("CUSTOMER", "ADMIN")
                 .antMatchers(HttpMethod.GET, "/restaurant/search/").hasAnyAuthority("CUSTOMER", "ADMIN")
                 .antMatchers(HttpMethod.POST, "/restaurant/").hasAuthority("ADMIN")
                 .antMatchers(HttpMethod.GET, "/restaurant/", "/restaurant/{id}").hasAuthority("ADMIN")
@@ -81,9 +82,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/restaurant/search-by-location/").hasAnyAuthority("ADMIN", "CUSTOMER")
                 .antMatchers(HttpMethod.GET, "/restaurant/search-by-cuisine/").hasAnyAuthority("ADMIN", "CUSTOMER")
                 .antMatchers(HttpMethod.PUT, "/restaurant/{id}").hasAuthority("ADMIN")
-                .antMatchers(HttpMethod.PUT, "/order/{customerId}").hasAnyAuthority("ADMIN", "CUSTOMER")
+                .antMatchers(HttpMethod.POST, "/order/").hasAnyAuthority("ADMIN", "CUSTOMER")
                 .antMatchers(HttpMethod.GET, "/order/{id}").hasAnyAuthority("ADMIN", "CUSTOMER")
-                .antMatchers(HttpMethod.PUT, "/order/assignDelivery/{id}").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.PUT, "/order/{id}").hasAuthority("ADMIN")
                 .antMatchers(HttpMethod.GET, "/food/search/").hasAnyAuthority("ADMIN", "CUSTOMER")
                 .antMatchers(HttpMethod.GET, "/food/search-by-category/").hasAnyAuthority("ADMIN", "CUSTOMER")
                 .antMatchers(HttpMethod.GET, "/food/{id}").hasAuthority("ADMIN")

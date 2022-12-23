@@ -14,12 +14,14 @@ import javax.validation.Valid;
 import java.util.List;
 
 /**
- * It exposes endpoints for adding, getting and deleting roles
- * The url path to enter is /role after it perform based on the url-path
+ * It exposes endpoints for add, get, getAllRoles and delete role
+ * The admin have the one and only authority of creat, get, getAllRoles and delete
+ * After the complete validation only it allow to create new role and also for update
+ * The url path to enter is role after it perform based on the url-path
  *
  * @author - dilip.n
  * @version - 1.0
- * @since - 2022-10-16
+ * @since - 2022-12-18
  */
 @RestController
 @RequestMapping("/role")
@@ -34,10 +36,11 @@ public class RoleController {
 
 
     /**
-     * This function is used to add a new role to the database
+     * This function is used to add a new role to the database.
+     * It validates the fields of the role.
      *
-     * @param roleDTO This is the object that is passed to the method.
-     * @return RoleDTO
+     * @param roleDTO it is a new role which is trying to add in database
+     * @return the saved role in database in the form of JSON
      * @throws FoodDeliveryManagementException
      */
     @PostMapping("/")
@@ -46,33 +49,33 @@ public class RoleController {
     }
 
     /**
-     * Get the role with the given roleId
+     * Fetch the role which is present in the database with the help of the ID.
      *
-     * @param roleId The id of the role to be fetched.
-     * @return A RoleDTO object
+     * @param id The id of the role to be fetched.
+     * @return the particular role if present
      * @throws FoodDeliveryManagementException
      */
-    @GetMapping("/{roleId}")
-    public RoleDTO getRole(@PathVariable int roleId) throws FoodDeliveryManagementException {
-        return roleService.getRole(roleId);
+    @GetMapping("/{id}")
+    public RoleDTO getRole(@PathVariable int id) throws FoodDeliveryManagementException {
+        return roleService.getRole(id);
     }
 
     /**
-     * It deletes a role from the database with the given roleId.
+     * It deletes a role from the database with the given roleId in path variable.
      *
-     * @param roleId The id of the role to be deleted.
-     * @return RoleDTO
+     * @param id The id of the role to be deleted.
+     * @return the successful message if the role is deleted in the database else it throws custom exception.
      * @throws FoodDeliveryManagementException
      */
-    @DeleteMapping("/{roleId}")
-    public RoleDTO deleteRole(@PathVariable int roleId) throws FoodDeliveryManagementException {
-        return roleService.deleteRole(roleId);
+    @DeleteMapping("/{id}")
+    public String deleteRole(@PathVariable int id) throws FoodDeliveryManagementException {
+        return roleService.deleteRole(id);
     }
 
     /**
-     * It returns a list of all the roles in the database
+     * It gets all the records about roles present in the database.
      *
-     * @return List of RoleDTO
+     * @return the roles as a JSON format
      * @throws FoodDeliveryManagementException
      */
     @GetMapping("/")

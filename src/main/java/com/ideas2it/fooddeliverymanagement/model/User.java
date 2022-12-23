@@ -15,7 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A User is a person who can create a filed like name, email, addresses, roles, orders,.
+ * A User is a person who can create a filed like name, username, password, email,
+ * addresses, roles, orders,.
  *
  * @author - dilip.n
  * @version - 1.0

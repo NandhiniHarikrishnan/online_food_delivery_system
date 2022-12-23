@@ -55,7 +55,7 @@ public interface AddressService {
      * @return AddressDTO
      * @throws FoodDeliveryManagementException
      */
-    AddressDTO deleteAddress(int userID, int addressId) throws FoodDeliveryManagementException;
+    String deleteAddress(int userID, int addressId) throws FoodDeliveryManagementException;
 
     /**
      * It returns a list of all the addresses in the database

@@ -37,6 +37,8 @@ import java.util.Optional;
 /**
  * It performs create, read, update, delete (CRUD) operation for the user
  * Throw's custom exception if the user is not present in the database
+ * It stores only the persistent object in database, and it returns persistent object,
+ * so it use mapper class to convert the object dto to persistent and vice versa.
  *
  * @author - dilip.n
  * @version - 1.0
@@ -96,7 +98,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
      *{@inheritDoc}
      */
     @Override
-    public UserDTO deleteUser(int userId) throws FoodDeliveryManagementException  {
+    public String deleteUser(int userId) throws FoodDeliveryManagementException  {
         Optional<User> user = userRepository.findById(userId);
 
         if(user.isPresent()) {
@@ -105,7 +107,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             }
             user.get().getRoles().clear();
             user.get().setDelete(true);
-            return UserMapper.convertUserDTO(userRepository.save(user.get()));
+            UserMapper.convertUserDTO(userRepository.save(user.get()));
+            return Constants.DELETED_SUCCESSFULLY;
+
         }
         throw new FoodDeliveryManagementException(Constants.USER_NOT_FOUND,HttpStatus.NOT_FOUND);
     }
@@ -155,7 +159,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             user.setRoles(getRoles(userDTO));
             UserDTO updatedUser = UserMapper.convertUserDTO(userRepository.save(user));
 
-            if (updatedUser != null) {
+            if (null != updatedUser) {
                 return updatedUser;
             }
             throw new FoodDeliveryManagementException(Constants.DETAILS_NOT_UPDATED, HttpStatus.UNPROCESSABLE_ENTITY);
@@ -242,7 +246,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
         if (userDTO.getRoles().isEmpty()) {
             for (RoleDTO roleDTO: roleService.getAllRoles()){
-                if (roleDTO.getName().equals("CUSTOMER")){
+                if (roleDTO.getName().equals(Constants.CUSTOMER_ROLE)){
                     roles.add(UserMapper.convertToRole(roleDTO));
                 }
             }

@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 /**
- * Creating a repository for the User address.
+ * Repository for the User address.
  *
  * @author - dilip.n
  * @version - 1.0

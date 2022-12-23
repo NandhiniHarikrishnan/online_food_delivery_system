@@ -16,7 +16,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Data transfer object that contains the user's id, name, email, and a list of addresses.
+ * Data transfer object that contains the user id, name, user-name, email,
+ * password and addresses.
+ * Each and every field must be validated.
  *
  * @author - dilip.n
  * @version - 1.0

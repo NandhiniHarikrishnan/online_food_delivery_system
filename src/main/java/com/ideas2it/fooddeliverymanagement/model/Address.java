@@ -17,8 +17,9 @@ import javax.validation.constraints.NotNull;
 
 
 /**
- * The Address class is an entity class that contains primary key field named addressId, plotNumber
- * street, city, district, state, pinCode, phoneNumber, user, restaurant.
+ * The Address class is an entity class that contains primary key field addressId, plotNumber
+ * street, city, district, state, area, pinCode, phoneNumber, user, restaurant.
+ * It is an address entity which is object-oriented.
  *
  * @author - dilip.n
  * @version - 1.0

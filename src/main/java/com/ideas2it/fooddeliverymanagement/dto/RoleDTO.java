@@ -4,6 +4,7 @@
  */
 package com.ideas2it.fooddeliverymanagement.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ideas2it.fooddeliverymanagement.util.Constants;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * It's a DTO that represents a role
+ * Contain the fields of the role id, name, code, user's.
+ * The name field in role must be in the regex pattern.
  *
  * @author - dilip.n
  * @version - 1.0

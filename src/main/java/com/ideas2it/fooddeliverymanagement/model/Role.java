@@ -16,8 +16,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * It is a role entity that contains id, name, code, user's.
  * A Role can be assigned to many Users, and a User can have many Roles
- * It contains id, name, code, user's.
+ * Role code always unique.
  *
  * @author - dilip.n
  * @version - 1.0
