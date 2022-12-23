@@ -13,7 +13,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * A controller class that handles requests for the /food endpoint.
+ * <p>
+ * A controller class that handles requests for the /food endpoint
+ * and passes the request to the service to get results from the database
+ * and then sends to the client as response
+ * <p>
+ *
+ * @author Jeevanantham
  * @version - 1.0
  * @since - 2022-12-14
  */
@@ -30,8 +36,7 @@ public class FoodController {
 
     /**
      * <p>
-     * whenever a search a food and also
-     * food details
+     * whenever a search a food and also food details
      * </p>
      *
      * @param keyword contains information about food table it will search
@@ -58,8 +63,7 @@ public class FoodController {
 
     /**
      * <p>
-     * whenever a admin edit a food and also
-     * food details
+     * whenever a admin edit a food and also food details
      * </p>
      *
      * @param foodDTO contains information about food
@@ -75,7 +79,7 @@ public class FoodController {
 
     /**
      * <p>
-     * whenever a user wants to use cancel the food
+     * whenever a user wants to use remove the food
      * </p>
      *
      * @param id soft delete rating for the food

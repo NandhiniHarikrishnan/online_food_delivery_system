@@ -15,7 +15,8 @@ import org.springframework.stereotype.Repository;
  *
  * @author Jeevanantham
  *
- * @version 1.0 14-DEC-2022
+ * @version 1.0
+ * @since 14-DEC-2022
  *
  */
 @Repository
@@ -43,9 +44,11 @@ public interface CuisineRepository extends JpaRepository<Cuisine, Integer> {
 
     /**
      * <p>
-     * To find by name in cuisine
-     * </p>
+     * Find a Cuisine by its name.
+     * <p>
      *
+     * @param name The name of the method.
+     * @return A Cuisine object
      */
     Cuisine findByName(String name);
 }

@@ -18,19 +18,23 @@ import java.util.List;
 
 /**
  * <p>
- * Handles the converting process from entity to DTO for Restaurant.
- * </p
+ * Class that used to convert the restaurantDto object to entity object
+ * and vice versa
+ * </p>
  *
  * @author Jeevanantham
  * @version 1.0
- * @Since 13-DEC-2022
+ * @since 16-DEC-2022
  */
 public class RestaurantMapper {
 
     /**
+     * <p>
      * It converts a Restaurant object into a RestaurantDTO object.
+     * <p>
      *
-     * @param restaurant The restaurant object that needs to be converted into a restaurantDTO object.
+     * @param restaurant The restaurant object that needs to be converted
+     *                  into a restaurantDTO object.
      * @return A RestaurantDTO object
      */
     public static RestaurantDTO convertRestaurantDTO(Restaurant restaurant) {
@@ -72,7 +76,9 @@ public class RestaurantMapper {
     }
 
     /**
+     * <p>
      * It converts a RestaurantDTO object into a Restaurant object
+     * <p>
      *
      * @param restaurantDTO The DTO object that we want to convert into an entity object.
      * @return A Restaurant object
@@ -114,7 +120,9 @@ public class RestaurantMapper {
     }
 
     /**
-     * > This function converts a list of restaurants into a list of restaurant DTOs
+     * <p>
+     * This function converts a list of restaurants into a list of restaurant DTOs
+     * <p>
      *
      * @param restaurants The list of restaurants that we want to convert into a list of RestaurantDTOs.
      * @return A list of RestaurantDTO objects.

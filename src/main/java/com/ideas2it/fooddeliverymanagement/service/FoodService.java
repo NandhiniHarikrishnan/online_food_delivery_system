@@ -6,7 +6,9 @@ import com.ideas2it.fooddeliverymanagement.util.exception.FoodDeliveryManagement
 import java.util.List;
 
 /**
- * It performs create, read, update, delete (CRUD) for the address
+ * <p>
+ * In this interface contains create, search, update and delete operations business logic in food entity
+ * </p>
  *
  * @author - jeevanantham
  * @version - 1.0
@@ -15,16 +17,21 @@ import java.util.List;
 public interface FoodService {
 
     /**
+     * <p>
      * It searches for food items in the database based on the value passed as a parameter
+     * <p>
      *
      * @param value The value to be searched.
      * @return List of FoodDTO objects
-     * @throws FoodDeliveryManagementException - if the food is not found
+     * @throws FoodDeliveryManagementException - when the search keyword is null, throw custom
+     *                               exception to controller
      */
     List<FoodDTO> searchFood(String value) throws FoodDeliveryManagementException;
 
     /**
+     * <p>
      * This function deletes a food item from the database based on the id of the food item
+     * <p>
      *
      * @param id The id of the food item to be deleted.
      * @return String
@@ -34,8 +41,9 @@ public interface FoodService {
     String deleteFoodById(int id) throws FoodDeliveryManagementException;
 
     /**
+     * <p>
      * It updates the food item with the given id.
-     *
+     * <p>
      * @param foodDTO This is the food object that you want to update.
      * @param id The id of the food item to be updated.
      * @return FoodDTO
@@ -45,7 +53,9 @@ public interface FoodService {
     FoodDTO updateFoodById(FoodDTO foodDTO, int id) throws FoodDeliveryManagementException;
 
     /**
+     * <p>
      * This function returns a foodDTO object with the given id
+     * <p>
      *
      * @param id The id of the food to be fetched.
      * @return CuisineDTO
@@ -55,11 +65,14 @@ public interface FoodService {
     FoodDTO getFoodById(int id) throws FoodDeliveryManagementException;
 
     /**
+     * <p>
      * It searches for food items in the database based on the value passed as a parameter
+     * <p>
      *
      * @param name The value to be searched.
      * @return List of FoodDTO based on category objects
-     * @throws FoodDeliveryManagementException - if the food is not found
+     * @throws FoodDeliveryManagementException - when the search keyword is null, throw custom
+     *                               exception to controller
      */
     List<FoodDTO> searchFoodByCategory(String name) throws FoodDeliveryManagementException;
 }

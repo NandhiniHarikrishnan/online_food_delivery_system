@@ -29,7 +29,7 @@ import java.util.Optional;
  *
  * @author Jeevanantham
  * @version 1.0
- * @Since 13-DEC-2022
+ * @since 13-DEC-2022
  */
 @Service
 @Slf4j
@@ -103,7 +103,9 @@ public class FoodServiceImpl implements FoodService {
         return FoodMapper.convertIntoDTO(optionalFood.get());
     }
 
-    @Override
+    /**
+     *  {@inheritDoc}
+     */
     public List<FoodDTO> searchFoodByCategory(String name) throws FoodDeliveryManagementException {
         List<Food> foods = foodRepository.searchFoodByCategory(name);
         if (!foods.isEmpty()) {

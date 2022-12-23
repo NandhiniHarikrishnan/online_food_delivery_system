@@ -14,7 +14,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
+ * <p>
  * This class is a controller that handles requests for the `/cuisines` endpoint
+ * and passes the request to the service to get results from the database
+ * and then sends to the client as response
+ *  <p>
+ *
+ * @author Jeevanantham
  * @version - 1.0
  * @since - 2022-12-14
  */
@@ -78,6 +84,7 @@ public class CuisineController {
      * @param cuisineDTO contains information about cuisine
      * @param id  cuisine id to be update
      * @return  updated cuisine details
+     * @throws FoodDeliveryManagementException - if the cuisine is not found
      */
     @PutMapping("/{id}")
     public CuisineDTO updateCuisineById(
@@ -92,7 +99,7 @@ public class CuisineController {
      *
      * @param id  soft delete rating for the cuisine
      * @return String given delete msg
-     *
+     * @throws FoodDeliveryManagementException - if the cuisine is not found
      */
     @DeleteMapping("/{id}")
     public String deleteCuisineById(
