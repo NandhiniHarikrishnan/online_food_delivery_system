@@ -8,9 +8,9 @@ import com.ideas2it.fooddeliverymanagement.dto.OrderDTO;
 import com.ideas2it.fooddeliverymanagement.dto.OrderDetailDTO;
 import com.ideas2it.fooddeliverymanagement.model.Role;
 import com.ideas2it.fooddeliverymanagement.model.User;
+import com.ideas2it.fooddeliverymanagement.util.Constants;
 import com.ideas2it.fooddeliverymanagement.util.exception.FoodDeliveryManagementException;
 import com.ideas2it.fooddeliverymanagement.mapper.OrderMapper;
-import com.ideas2it.fooddeliverymanagement.mapper.UserMapper;
 import com.ideas2it.fooddeliverymanagement.model.Order;
 import com.ideas2it.fooddeliverymanagement.repository.OrderRepository;
 import com.ideas2it.fooddeliverymanagement.repository.RoleRepository;
@@ -61,7 +61,7 @@ public class OrderServiceImpl implements OrderService {
      * {@inheritDoc}
      */
     @Override
-    public OrderDTO assignOrder(OrderDTO orderDTO, int customerId) throws FoodDeliveryManagementException {
+    public OrderDTO assignOrder(OrderDTO orderDTO) throws FoodDeliveryManagementException {
         float totalPrice = 0;
         int restaurantId = orderDTO.getRestaurant().getId();
         List<OrderDetailDTO> orderDetailDTOS = new ArrayList<>();
@@ -76,7 +76,6 @@ public class OrderServiceImpl implements OrderService {
         orderDTO.setOrderDetail(orderDetailDTOS);
         orderDTO.setTotalPrice(totalPrice);
         Order order = OrderMapper.convertOrder(orderDTO);
-        order.setCustomer(UserMapper.convertToUser(userService.getUser(customerId)));
         return OrderMapper.convertOrderDTO(orderRepository.save(order));
     }
 
@@ -96,26 +95,31 @@ public class OrderServiceImpl implements OrderService {
      * {@inheritDoc}
      */
     @Override
-    public OrderDTO assignDelivery(int orderId) throws FoodDeliveryManagementException {
+    public OrderDTO assignDeliveryPerson(int orderId) throws FoodDeliveryManagementException {
         Role deliveryRole = null;
         byte count = 0;
         Order order = orderRepository.findById(orderId).get();
-        List<Role> roles = roleRepository.findAll();
-        for(Role role : roles) {
-            if(role.getName().equals("delivery")) {
-                deliveryRole = role;
+        if (null != order) {
+            List<Role> roles = roleRepository.findAll();
+            for (Role role : roles) {
+                if (role.getName().equals(Constants.DELIVERY)) {
+                    deliveryRole = role;
+                }
+            }
+            for (User user : deliveryRole.getUsers()) {
+                if (count == 0 && user.getStatus() == null) {
+                    user.setStatus(Constants.ASSIGNED);
+                    order.setDelivery(user);
+                    order.setStatus(Constants.DELIVERED);
+                    count++;
+                }
             }
         }
-        for (User user : deliveryRole.getUsers()) {
-            if (count == 0 && user.getStatus().equals(null)) {
-                user.setStatus("Assigned");
-                order.setDeliveryId(user.getId());
-                order.setStatus("Delivered");
-                count++;
-            }
+        else {
+            throw  new FoodDeliveryManagementException(Constants.ORDER_ID_NOT_FOUND, HttpStatus.NOT_FOUND);
         }
         if (count == 0) {
-            throw new FoodDeliveryManagementException("Delivery boys are busy", HttpStatus.NOT_ACCEPTABLE);
+            throw new FoodDeliveryManagementException(Constants.DELIVERY_BOYS_ARE_BUSY, HttpStatus.NOT_ACCEPTABLE);
         }
         return OrderMapper.convertOrderDTO(orderRepository.save(order));
     }

@@ -66,4 +66,10 @@ public class Constants {
     public static final String USER_NAME_EXIST = "User Name Already Exist";
     public static final String INVAILD_PINCODE = "Invalid PinCode";
     public static final String INVALID_PHONE_NUMBER = "Invalid PhoneNumber";
+    public static final String ORDERED = "ordered";
+    public static final String ASSIGNED = "Assigned";
+    public static final String DELIVERED = "Delivered";
+    public static final String ORDER_ID_NOT_FOUND = "Order id not found";
+    public static final String DELIVERY_BOYS_ARE_BUSY = "Delivery boys are busy";
+    public static final String DELIVERY = "DELIVERY";
 }
