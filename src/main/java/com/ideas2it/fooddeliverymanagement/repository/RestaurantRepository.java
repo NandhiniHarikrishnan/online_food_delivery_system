@@ -13,7 +13,8 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 /**
- * A repository for the Restaurant class.
+ * A repository for the Restaurant which extends JpaRepository to perform
+ * CRUD operation for Restaurant.
  *
  * @author - Naganandhini
  * @version - 1.0
@@ -23,12 +24,13 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Integer>
 
     /**
      * <p>
-     * To search the restaurant.
+     * To fetch the list of restaurant based on it's name/keyword. if there is no restaurant
+     * for the given name it will return empty list.
      * </p>
      *
      * @param keyword - an input for which restaurant will be filtered
      * @return - the list of filtered restaurants
-     * @throws FoodDeliveryManagementException - if there is no restaurant based on the given keyword
+     * @throws FoodDeliveryManagementException - if there is no restaurant based on the given name/keyword
      */
     @Query("select r from Restaurant r where r.name like %:keyword%")
     List<Restaurant> searchRestaurant(@Param("keyword") String keyword);
@@ -46,25 +48,25 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Integer>
 
     /**
      * <p>
-     * To search the restaurant based on it's location.
+     * To fetch the list of restaurant based on it's location. if there is no restaurant
+     * for the given location it will return empty list.
      * </p>
      *
      * @param location - the location for which restaurant will be filtered
      * @return - the list of filtered restaurants
-     * @throws FoodDeliveryManagementException - if there is no restaurant based on the given location
      */
-    @Query("select restaurant from Restaurant restaurant join fetch restaurant.addresses address where address.city = :location")
+    @Query("select restaurant from Restaurant restaurant join restaurant.addresses address where address.city = :location")
     List<Restaurant> searchRestaurantByLocation(@Param("location") String location);
 
     /**
      * <p>
-     * To search the restaurant based on it's cuisine.
+     * To fetch the list of restaurant based on it's cuisine. if there is no restaurant
+     * for the given cuisine it will return empty list.
      * </p>
      *
      * @param cuisine - the cuisine for which restaurant will be filtered
      * @return - the list of filtered restaurants
-     * @throws FoodDeliveryManagementException - if there is no restaurant based on the given cuisine
      */
-    @Query("select restaurant from Restaurant restaurant join fetch restaurant.cuisine cuisine where cuisine.name = :cuisine")
+    @Query("select restaurant from Restaurant restaurant join restaurant.cuisine cuisine where cuisine.name = :cuisine")
     List<Restaurant> searchRestaurantByCuisine(@Param("cuisine") String cuisine);
 }

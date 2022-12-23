@@ -87,5 +87,4 @@ public class ApplicationExceptionHandler {
         ErrorResponseDTO errorResponse = new ErrorResponseDTO(HttpStatus.FORBIDDEN, exception.getMessage());
         return new ResponseEntity<> (errorResponse, HttpStatus.FORBIDDEN);
     }
-
 }

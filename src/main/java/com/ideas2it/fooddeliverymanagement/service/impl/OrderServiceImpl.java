@@ -86,7 +86,7 @@ public class OrderServiceImpl implements OrderService {
     public OrderDTO getOrderDetails(int orderId)throws FoodDeliveryManagementException {
         Optional<Order> order = orderRepository.findById(orderId);
         if (order.isEmpty()) {
-            throw new FoodDeliveryManagementException("NOT_FOUND", HttpStatus.NOT_FOUND);
+            throw new FoodDeliveryManagementException(Constants.NO_ORDER_DETAILS_FOUND, HttpStatus.NOT_FOUND);
         }
         return OrderMapper.convertOrderDTO(order.get());
     }

@@ -25,12 +25,12 @@ public class Order extends BaseModel {
     @ManyToOne
     private User delivery;
     private float totalPrice;
-    @OneToMany(targetEntity = OrderDetail.class, cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "order_id")
     private List<OrderDetail> orderDetails;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private User customer;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private Restaurant restaurant;
 }
 
