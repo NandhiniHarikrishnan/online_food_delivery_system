@@ -28,7 +28,7 @@ public class Order extends BaseModel {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "order_id")
     private List<OrderDetail> orderDetails;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private User customer;
     @ManyToOne
     private Restaurant restaurant;
