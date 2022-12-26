@@ -22,5 +22,4 @@ public class OrderDetailDTO {
         private float price;
         private int quantity;
         private FoodDTO food;
-
 }

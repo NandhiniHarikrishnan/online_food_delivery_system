@@ -6,8 +6,9 @@ package com.ideas2it.fooddeliverymanagement.mapper;
 
 import com.ideas2it.fooddeliverymanagement.dto.OrderDTO;
 import com.ideas2it.fooddeliverymanagement.dto.OrderDetailDTO;
-import com.ideas2it.fooddeliverymanagement.model.*;
 import com.ideas2it.fooddeliverymanagement.util.Constants;
+import com.ideas2it.fooddeliverymanagement.model.Order;
+import com.ideas2it.fooddeliverymanagement.model.OrderDetail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,6 +79,9 @@ public class OrderMapper {
                 orderDetailDTOS.add(convertOrderDetailDTO(orders));
             }
         }
+        orderDTO.setId(order.getId());
+        orderDTO.setStatus(order.getStatus());
+        orderDTO.setDateOfOrder(order.getDateOfOrder());
         orderDTO.setOrderDetail(orderDetailDTOS);
         orderDTO.setRestaurant(RestaurantMapper.convertRestaurantDTO(order.getRestaurant()));
         return orderDTO;
