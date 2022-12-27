@@ -71,7 +71,7 @@ public class OrderMapper {
         List<OrderDetail> orderDetail = order.getOrderDetails();
         orderDTO.setId(order.getId());
         orderDTO.setStatus(order.getStatus());
-        orderDTO.setCustomer(UserMapper.convertUserDTO(order.getCustomer()));
+        orderDTO.setCustomer(UserMapper.convertToUserDTO(order.getCustomer()));
         orderDTO.setTotalPrice(order.getTotalPrice());
         orderDTO.setDateOfOrder(order.getDateOfOrder());
         if (!orderDetail.isEmpty()) {

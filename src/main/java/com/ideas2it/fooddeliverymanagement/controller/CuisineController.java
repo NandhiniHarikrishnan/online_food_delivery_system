@@ -5,7 +5,7 @@
 package com.ideas2it.fooddeliverymanagement.controller;
 
 import com.ideas2it.fooddeliverymanagement.dto.CuisineDTO;
-import com.ideas2it.fooddeliverymanagement.util.exception.FoodDeliveryManagementException;
+import com.ideas2it.fooddeliverymanagement.exception.FoodDeliveryManagementException;
 import com.ideas2it.fooddeliverymanagement.service.CuisineService;
 
 import org.springframework.beans.factory.annotation.Autowired;

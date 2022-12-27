@@ -5,7 +5,7 @@
 package com.ideas2it.fooddeliverymanagement.service;
 
 import com.ideas2it.fooddeliverymanagement.dto.OrderDTO;
-import com.ideas2it.fooddeliverymanagement.util.exception.FoodDeliveryManagementException;
+import com.ideas2it.fooddeliverymanagement.exception.FoodDeliveryManagementException;
 
 /**
  * OrderService is used to assign order and assign delivery boy

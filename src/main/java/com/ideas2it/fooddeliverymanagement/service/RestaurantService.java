@@ -2,9 +2,13 @@ package com.ideas2it.fooddeliverymanagement.service;
 
 import com.ideas2it.fooddeliverymanagement.dto.RestaurantDTO;
 import com.ideas2it.fooddeliverymanagement.dto.RestaurantDetailDTO;
-import com.ideas2it.fooddeliverymanagement.util.exception.FoodDeliveryManagementException;
+import com.ideas2it.fooddeliverymanagement.exception.FoodDeliveryManagementException;
+import com.ideas2it.fooddeliverymanagement.exception.ResourceExistException;
+import com.ideas2it.fooddeliverymanagement.exception.ResourceNotFoundException;
+import com.ideas2it.fooddeliverymanagement.model.Restaurant;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Perform create, read, update, delete (CRUD),search operation for the restaurant.
@@ -23,10 +27,11 @@ public interface RestaurantService {
      *
      * @param restaurantDTO - the restaurant values to be created
      * @return - the created restaurant
-     * @throws FoodDeliveryManagementException - if the restaurant name with same address
-     *                                           is already exist in the category table.
+     * @throws ResourceExistException - if the restaurant name with same address
+     *                                  is already exist in the restaurant table.
+     *         FoodDeliveryManagementException - if the restaurant is not added.
      */
-    RestaurantDTO addRestaurant(RestaurantDTO restaurantDTO) throws FoodDeliveryManagementException;
+    RestaurantDTO addRestaurant(RestaurantDTO restaurantDTO) throws FoodDeliveryManagementException, ResourceExistException;
 
     /**
      * <p>
@@ -34,9 +39,9 @@ public interface RestaurantService {
      * </p>
      *
      * @return - the list of existing restaurants
-     * @throws FoodDeliveryManagementException - if there is no restaurants in the restaurant table
+     *          - the empty list if there is no restaurants in the table.
      */
-    List<RestaurantDetailDTO> getRestaurants() throws FoodDeliveryManagementException;
+    List<RestaurantDetailDTO> getRestaurants();
 
     /**
      * <p>
@@ -46,9 +51,9 @@ public interface RestaurantService {
      *
      * @param id - a restaurant id for which the restaurant to be returned
      * @return   - the restaurant if the restaurant id is found
-     * @throws FoodDeliveryManagementException - if the restaurant is not found for the given id
+     * @throws ResourceNotFoundException - if the restaurant is not found for the given id
      */
-    RestaurantDetailDTO getRestaurantById(int id) throws FoodDeliveryManagementException;
+    RestaurantDetailDTO getRestaurantById(int id) throws ResourceNotFoundException;
 
     /**
      * <p>
@@ -58,9 +63,9 @@ public interface RestaurantService {
      *
      * @param id - a restaurant id to be soft deleted
      * @return  - the success message if restaurant is deleted successfully
-     * @throws FoodDeliveryManagementException - if the restaurant is not found for the given id
+     * @throws ResourceNotFoundException - if the restaurant is not found for the given id
      */
-    String deleteRestaurantById(int id) throws FoodDeliveryManagementException;
+    Optional<Restaurant> deleteRestaurantById(int id) throws ResourceNotFoundException;
 
     /**
      * <p>
@@ -71,10 +76,10 @@ public interface RestaurantService {
      * @param  id - a restaurant id to be updated
      * @param restaurantDTO - the restaurant to be updated
      * @return - the updated restaurant
-     * @throws FoodDeliveryManagementException - if the restaurant is not found for the given id
-     *                                         - if the restaurant is not updated
+     * @throws ResourceNotFoundException - if the restaurant is not found for the given id
+     *         FoodDeliveryManagementException - if the restaurant is not updated
      */
-    RestaurantDTO updateRestaurant(RestaurantDTO restaurantDTO, int id) throws FoodDeliveryManagementException;
+    RestaurantDTO updateRestaurant(RestaurantDTO restaurantDTO, int id) throws FoodDeliveryManagementException, ResourceNotFoundException;
 
     /**
      * <p>
@@ -83,9 +88,9 @@ public interface RestaurantService {
      *
      * @param keyword - an input for which restaurant will be filtered
      * @return - the list of filtered restaurants
-     * @throws FoodDeliveryManagementException - if there is no restaurants based on the given name/keyword
+     *         - the empty list if there is no restaurants based on the given name/keyword
      */
-    List<RestaurantDetailDTO> searchRestaurant(String keyword) throws FoodDeliveryManagementException;
+    List<RestaurantDetailDTO> searchRestaurant(String keyword);
 
     /**
      * <p>
@@ -94,9 +99,9 @@ public interface RestaurantService {
      *
      * @param location - the location for which restaurant will be filtered
      * @return - the list of filtered restaurants
-     * @throws FoodDeliveryManagementException - if there is no restaurants based on the given location
+     *         - the empty list if there is no restaurants based on the given location
      */
-    List<RestaurantDetailDTO> searchRestaurantByLocation(String location) throws FoodDeliveryManagementException;
+    List<RestaurantDetailDTO> searchRestaurantByLocation(String location);
 
     /**
      * <p>
@@ -104,8 +109,8 @@ public interface RestaurantService {
      * </p>
      *
      * @param cuisine - the cuisine for which restaurant will be filtered
-     * @return - the list of filtered restaurants
-     * @throws FoodDeliveryManagementException - if there is no restaurants based on the given cuisine
+     * @return - the list of filtered restaurants,
+     *         - the empty list if there is no restaurants based on the given cuisine
      */
-    List<RestaurantDetailDTO> searchRestaurantByCuisine(String cuisine) throws FoodDeliveryManagementException;
+    List<RestaurantDetailDTO> searchRestaurantByCuisine(String cuisine);
 }

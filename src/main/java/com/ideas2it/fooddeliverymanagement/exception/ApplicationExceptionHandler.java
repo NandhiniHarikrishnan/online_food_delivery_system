@@ -2,7 +2,7 @@
  * Copyright 2022 Ideas2IT Technologies. All rights reserved.
  * IDEAS2IT PROPRIETARY/CONFIDENTIAL.
  */
-package com.ideas2it.fooddeliverymanagement.util.exception;
+package com.ideas2it.fooddeliverymanagement.exception;
 
 import com.ideas2it.fooddeliverymanagement.dto.ErrorResponseDTO;
 import org.springframework.http.HttpStatus;
@@ -12,6 +12,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.security.SignatureException;
 import java.util.HashMap;
@@ -39,8 +40,36 @@ public class ApplicationExceptionHandler {
      */
     @ExceptionHandler(FoodDeliveryManagementException.class)
     public ResponseEntity<ErrorResponseDTO> handleEmployeeManagementException(FoodDeliveryManagementException exception) {
-        ErrorResponseDTO errorResponse = new ErrorResponseDTO(exception.getStatus(),exception.getMessage());
-        return new ResponseEntity<> (errorResponse, exception.getStatus());
+        ErrorResponseDTO errorResponse = new ErrorResponseDTO(HttpStatus.INTERNAL_SERVER_ERROR,exception.getMessage());
+        return new ResponseEntity<> (errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    /**
+     * <p>
+     * To handle the ResourceNotFoundException.
+     * </p>
+     *
+     * @param exception - an exception to be handled
+     * @return - the error message with respective status and code
+     */
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<ErrorResponseDTO> handleResourceNotFoundException(ResourceNotFoundException exception) {
+        ErrorResponseDTO errorResponse = new ErrorResponseDTO(HttpStatus.NOT_FOUND,exception.getMessage());
+        return new ResponseEntity<> (errorResponse, HttpStatus.NOT_FOUND);
+    }
+
+    /**
+     * <p>
+     * To handle the ResourceExistException.
+     * </p>
+     *
+     * @param exception - an exception to be handled
+     * @return - the error message with respective status and code
+     */
+    @ExceptionHandler(ResourceExistException.class)
+    public ResponseEntity<ErrorResponseDTO> handleResourceExistException(ResourceExistException exception) {
+        ErrorResponseDTO errorResponse = new ErrorResponseDTO(HttpStatus.CONFLICT,exception.getMessage());
+        return new ResponseEntity<> (errorResponse, HttpStatus.CONFLICT);
     }
 
     /**
@@ -52,11 +81,10 @@ public class ApplicationExceptionHandler {
      * @return - the error message with respective status
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public Map<String,String> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
+    public ResponseEntity<Map<String,String>> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
         Map<String,String> errorResponse = new HashMap<>();
         exception.getBindingResult().getFieldErrors().forEach(error -> errorResponse.put(error.getField(), error.getDefaultMessage()));
-        return errorResponse;
+        return new ResponseEntity<> (errorResponse, HttpStatus.BAD_REQUEST);
 
     }
 
@@ -86,5 +114,20 @@ public class ApplicationExceptionHandler {
     public ResponseEntity<ErrorResponseDTO> handleSignatureException(SignatureException exception) {
         ErrorResponseDTO errorResponse = new ErrorResponseDTO(HttpStatus.FORBIDDEN, exception.getMessage());
         return new ResponseEntity<> (errorResponse, HttpStatus.FORBIDDEN);
+    }
+
+    /**
+     * <p>
+     * To handle the MethodArgumentTypeMismatchException.
+     * </p>
+     *
+     * @param exception - an exception to be handled
+     * @return - the error message with respective status
+     */
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<ErrorResponseDTO> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException exception) {
+        ErrorResponseDTO errorResponse = new ErrorResponseDTO(HttpStatus.BAD_REQUEST, exception.getMessage());
+        return new ResponseEntity<> (errorResponse, HttpStatus.BAD_REQUEST);
     }
 }

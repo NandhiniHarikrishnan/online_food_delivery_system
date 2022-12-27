@@ -7,7 +7,7 @@ package com.ideas2it.fooddeliverymanagement.service.impl;
 import com.ideas2it.fooddeliverymanagement.dto.CategoryDTO;
 import com.ideas2it.fooddeliverymanagement.dto.FoodDTO;
 import com.ideas2it.fooddeliverymanagement.util.Constants;
-import com.ideas2it.fooddeliverymanagement.util.exception.FoodDeliveryManagementException;
+import com.ideas2it.fooddeliverymanagement.exception.FoodDeliveryManagementException;
 import com.ideas2it.fooddeliverymanagement.mapper.CategoryMapper;
 import com.ideas2it.fooddeliverymanagement.model.Category;
 import com.ideas2it.fooddeliverymanagement.repository.CategoryRepository;

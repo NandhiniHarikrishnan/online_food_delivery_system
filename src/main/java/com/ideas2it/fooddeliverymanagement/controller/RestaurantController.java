@@ -2,13 +2,19 @@ package com.ideas2it.fooddeliverymanagement.controller;
 
 import com.ideas2it.fooddeliverymanagement.dto.RestaurantDTO;
 import com.ideas2it.fooddeliverymanagement.dto.RestaurantDetailDTO;
-import com.ideas2it.fooddeliverymanagement.util.exception.FoodDeliveryManagementException;
+import com.ideas2it.fooddeliverymanagement.exception.FoodDeliveryManagementException;
+import com.ideas2it.fooddeliverymanagement.exception.ResourceExistException;
+import com.ideas2it.fooddeliverymanagement.exception.ResourceNotFoundException;
+import com.ideas2it.fooddeliverymanagement.model.Restaurant;
 import com.ideas2it.fooddeliverymanagement.service.RestaurantService;
+import com.ideas2it.fooddeliverymanagement.util.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * It exposes endpoints for the admin to perform CRUD and search operations on the restaurant.
@@ -36,11 +42,12 @@ public class RestaurantController {
      *
      * @param restaurantDTO - the restaurant values to be created
      * @return - the created restaurant
-     * @throws FoodDeliveryManagementException - if the restaurant name with same address
-     *                                           is already exist in the category table.
+     * @throws ResourceExistException - if the restaurant name with same address
+     *                                           is already exist in the restaurant table.
+     *         FoodDeliveryManagementException - if the restaurant is not added.
      */
     @PostMapping("/")
-    private RestaurantDTO addRestaurant(@Valid @RequestBody RestaurantDTO restaurantDTO) throws FoodDeliveryManagementException{
+    private RestaurantDTO addRestaurant(@Valid @RequestBody RestaurantDTO restaurantDTO) throws FoodDeliveryManagementException, ResourceExistException {
         return restaurantService.addRestaurant(restaurantDTO);
     }
 
@@ -50,10 +57,10 @@ public class RestaurantController {
      * </p>
      *
      * @return - the list of existing restaurants
-     * @throws FoodDeliveryManagementException - if there is no restaurants in the restaurant table
+     *          - the empty list if there is no restaurants in the table.
      */
     @GetMapping("/")
-    private List<RestaurantDetailDTO> getRestaurants() throws FoodDeliveryManagementException {
+    private List<RestaurantDetailDTO> getRestaurants() {
         return restaurantService.getRestaurants();
     }
 
@@ -65,10 +72,10 @@ public class RestaurantController {
      *
      * @param id - a restaurant id for which the restaurant to be returned
      * @return   - the restaurant if the restaurant id is found
-     * @throws FoodDeliveryManagementException - if the restaurant is not found for the given id
+     * @throws ResourceNotFoundException - if the restaurant is not found for the given id
      */
     @GetMapping("/{id}")
-    private RestaurantDetailDTO getRestaurantById(@PathVariable int id) throws FoodDeliveryManagementException {
+    private RestaurantDetailDTO getRestaurantById(@PathVariable int id) throws ResourceNotFoundException {
         return restaurantService.getRestaurantById(id);
     }
 
@@ -80,11 +87,15 @@ public class RestaurantController {
      *
      * @param id - a restaurant id to be soft deleted
      * @return  - the success message if restaurant is deleted successfully
-     * @throws FoodDeliveryManagementException - if the restaurant is not found for the given id
+     * @throws ResourceNotFoundException - if the restaurant is not found for the given id
+     *         FoodDeliveryManagementException - if the restaurant is deleted successfully.
      */
     @DeleteMapping("/{id}")
-    private String deleteRestaurantById(@PathVariable int id) throws FoodDeliveryManagementException {
-        return restaurantService.deleteRestaurantById(id);
+    private void deleteRestaurantById(@PathVariable int id) throws FoodDeliveryManagementException,ResourceNotFoundException {
+        Optional<Restaurant> restaurant = restaurantService.deleteRestaurantById(id);
+        if(!restaurant.isPresent()) {
+            throw new FoodDeliveryManagementException(Constants.DELETED_SUCCESSFULLY, HttpStatus.NO_CONTENT);
+        }
     }
 
     /**
@@ -96,12 +107,12 @@ public class RestaurantController {
      * @param  id - a restaurant id to be updated
      * @param restaurantDTO - the restaurant to be updated
      * @return - the updated restaurant
-     * @throws FoodDeliveryManagementException - if the restaurant is not found for the given id
-     *                                         - if the restaurant is not updated
+     * @throws ResourceNotFoundException - if the restaurant is not found for the given id
+     *         FoodDeliveryManagementException - if the restaurant is not updated
      */
     @PutMapping("/{id}")
     private RestaurantDTO updateRestaurant(@RequestBody RestaurantDTO restaurantDTO, @PathVariable int id)
-            throws FoodDeliveryManagementException {
+            throws FoodDeliveryManagementException,ResourceNotFoundException {
         return restaurantService.updateRestaurant(restaurantDTO, id);
     }
 
@@ -112,10 +123,10 @@ public class RestaurantController {
      *
      * @param keyword - an input for which restaurant will be filtered
      * @return - the list of filtered restaurants
-     * @throws FoodDeliveryManagementException - if there is no restaurants based on the given name/keyword
+     *         - the empty list if there is no restaurants based on the given name/keyword
      */
     @GetMapping("/search/")
-    private List<RestaurantDetailDTO> searchRestaurant(@RequestParam String keyword) throws FoodDeliveryManagementException {
+    private List<RestaurantDetailDTO> searchRestaurant(@RequestParam("keyword") String keyword) throws FoodDeliveryManagementException {
         return restaurantService.searchRestaurant(keyword);
     }
 
@@ -126,10 +137,10 @@ public class RestaurantController {
      *
      * @param location - the location for which restaurant will be filtered
      * @return - the list of filtered restaurants
-     * @throws FoodDeliveryManagementException - if there is no restaurants based on the given location
+     *         - the empty list if there is no restaurants based on the given location
      */
     @GetMapping("/search-by-location/")
-    private List<RestaurantDetailDTO> searchRestaurantByLocation(@RequestParam String location) throws FoodDeliveryManagementException {
+    private List<RestaurantDetailDTO> searchRestaurantByLocation(@RequestParam("location") String location) throws FoodDeliveryManagementException {
         return restaurantService.searchRestaurantByLocation(location);
     }
 
@@ -140,10 +151,10 @@ public class RestaurantController {
      *
      * @param cuisine - the cuisine for which restaurant will be filtered
      * @return - the list of filtered restaurants
-     * @throws FoodDeliveryManagementException - if there is no restaurants based on the given cuisine
+     *         - the empty list if there is no restaurants based on the given cuisine
      */
     @GetMapping("/search-by-cuisine/")
-    private List<RestaurantDetailDTO> searchRestaurantByCuisine(@RequestParam String cuisine) throws FoodDeliveryManagementException {
+    private List<RestaurantDetailDTO> searchRestaurantByCuisine(@RequestParam("cuisine") String cuisine) {
         return restaurantService.searchRestaurantByCuisine(cuisine);
     }
 }

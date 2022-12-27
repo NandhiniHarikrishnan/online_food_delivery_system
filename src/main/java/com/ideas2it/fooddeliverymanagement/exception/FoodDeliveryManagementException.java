@@ -2,7 +2,7 @@
  * Copyright 2022 Ideas2IT Technologies. All rights reserved.
  * IDEAS2IT PROPRIETARY/CONFIDENTIAL.
  */
-package com.ideas2it.fooddeliverymanagement.util.exception;
+package com.ideas2it.fooddeliverymanagement.exception;
 
 import org.springframework.http.HttpStatus;
 
@@ -22,6 +22,10 @@ public class FoodDeliveryManagementException extends Exception {
     public FoodDeliveryManagementException(String message, HttpStatus status) {
         super(message);
         this.status = status;
+    }
+
+    public FoodDeliveryManagementException(String message) {
+        super(message);
     }
 
     public HttpStatus getStatus() {
