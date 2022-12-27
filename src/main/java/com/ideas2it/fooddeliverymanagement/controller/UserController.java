@@ -8,7 +8,7 @@ import com.ideas2it.fooddeliverymanagement.dto.AddressDTO;
 import com.ideas2it.fooddeliverymanagement.dto.OrderDTO;
 import com.ideas2it.fooddeliverymanagement.dto.UserDTO;
 import com.ideas2it.fooddeliverymanagement.util.Constants;
-import com.ideas2it.fooddeliverymanagement.util.exception.FoodDeliveryManagementException;
+import com.ideas2it.fooddeliverymanagement.exception.FoodDeliveryManagementException;
 import com.ideas2it.fooddeliverymanagement.model.AuthenticationRequest;
 import com.ideas2it.fooddeliverymanagement.dto.AuthenticationResponse;
 import com.ideas2it.fooddeliverymanagement.service.AddressService;
@@ -177,7 +177,7 @@ public class UserController {
      * @return addresses in the form of JSON.
      * @throws FoodDeliveryManagementException
      */
-    @GetMapping("/get-addresses")
+    @GetMapping("/addresses")
     public List<AddressDTO> getAllAddresses() throws FoodDeliveryManagementException {
         return addressService.getAllAddress();
     }
@@ -217,7 +217,7 @@ public class UserController {
      * @return List of OrderDTO
      * @throws FoodDeliveryManagementException
      */
-    @GetMapping("/get-order-details/{user-id}")
+    @GetMapping("/order-details/{user-id}")
     public List<OrderDTO> getOrderDetails(@PathVariable("user-id") int userId) throws FoodDeliveryManagementException {
         return userService.getOrderDetails(userId);
     }

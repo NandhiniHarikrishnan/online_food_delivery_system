@@ -23,5 +23,4 @@ public class FoodDeliveryManagementApplication {
 	public static void main(String[] args) {
 			SpringApplication.run(FoodDeliveryManagementApplication.class, args);
 	}
-
 }

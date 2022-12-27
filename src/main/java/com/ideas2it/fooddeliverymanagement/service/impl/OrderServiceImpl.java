@@ -9,7 +9,7 @@ import com.ideas2it.fooddeliverymanagement.dto.OrderDetailDTO;
 import com.ideas2it.fooddeliverymanagement.model.Role;
 import com.ideas2it.fooddeliverymanagement.model.User;
 import com.ideas2it.fooddeliverymanagement.util.Constants;
-import com.ideas2it.fooddeliverymanagement.util.exception.FoodDeliveryManagementException;
+import com.ideas2it.fooddeliverymanagement.exception.FoodDeliveryManagementException;
 import com.ideas2it.fooddeliverymanagement.mapper.OrderMapper;
 import com.ideas2it.fooddeliverymanagement.model.Order;
 import com.ideas2it.fooddeliverymanagement.repository.OrderRepository;

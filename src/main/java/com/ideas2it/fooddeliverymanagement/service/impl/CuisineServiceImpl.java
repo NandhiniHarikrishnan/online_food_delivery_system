@@ -7,7 +7,7 @@ package com.ideas2it.fooddeliverymanagement.service.impl;
 import com.ideas2it.fooddeliverymanagement.dto.CuisineDTO;
 import com.ideas2it.fooddeliverymanagement.dto.RestaurantDTO;
 import com.ideas2it.fooddeliverymanagement.util.Constants;
-import com.ideas2it.fooddeliverymanagement.util.exception.FoodDeliveryManagementException;
+import com.ideas2it.fooddeliverymanagement.exception.FoodDeliveryManagementException;
 import com.ideas2it.fooddeliverymanagement.mapper.CuisineMapper;
 import com.ideas2it.fooddeliverymanagement.model.Cuisine;
 import com.ideas2it.fooddeliverymanagement.repository.CuisineRepository;
